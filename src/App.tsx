@@ -5,18 +5,13 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
-import { AuthProvider } from "@/contexts/AuthContext";
 import MainLayout from "@/components/layout/MainLayout";
-import Login from "./pages/Login";
 import Index from "./pages/Index";
-import Employees from "./pages/Employees";
-import Trainings from "./pages/Trainings";
-import MedicalExams from "./pages/MedicalExams";
-import Incidents from "./pages/Incidents";
-import Equipment from "./pages/Equipment";
+import Flights from "./pages/Flights";
+import Passengers from "./pages/Passengers";
+import Staff from "./pages/Staff";
+import Vehicles from "./pages/Vehicles";
 import Reports from "./pages/Reports";
-import Organization from "./pages/Organization";
-import Documents from "./pages/Documents";
 import Settings from "./pages/Settings";
 import Users from "./pages/Users";
 import Logs from "./pages/Logs";
@@ -28,30 +23,26 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider>
       <LanguageProvider>
-        <AuthProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <MainLayout>
               <Routes>
-                <Route path="/login" element={<Login />} />
-                <Route path="/" element={<MainLayout><Index /></MainLayout>} />
-                <Route path="/employees" element={<MainLayout><Employees /></MainLayout>} />
-                <Route path="/trainings" element={<MainLayout><Trainings /></MainLayout>} />
-                <Route path="/medical" element={<MainLayout><MedicalExams /></MainLayout>} />
-                <Route path="/incidents" element={<MainLayout><Incidents /></MainLayout>} />
-                <Route path="/equipment" element={<MainLayout><Equipment /></MainLayout>} />
-                <Route path="/reports" element={<MainLayout><Reports /></MainLayout>} />
-                <Route path="/organization" element={<MainLayout><Organization /></MainLayout>} />
-                <Route path="/documents" element={<MainLayout><Documents /></MainLayout>} />
-                <Route path="/settings" element={<MainLayout><Settings /></MainLayout>} />
-                <Route path="/users" element={<MainLayout><Users /></MainLayout>} />
-                <Route path="/logs" element={<MainLayout><Logs /></MainLayout>} />
+                <Route path="/" element={<Index />} />
+                <Route path="/flights" element={<Flights />} />
+                <Route path="/passengers" element={<Passengers />} />
+                <Route path="/staff" element={<Staff />} />
+                <Route path="/vehicles" element={<Vehicles />} />
+                <Route path="/reports" element={<Reports />} />
+                <Route path="/settings" element={<Settings />} />
+                <Route path="/users" element={<Users />} />
+                <Route path="/logs" element={<Logs />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
-            </BrowserRouter>
-          </TooltipProvider>
-        </AuthProvider>
+            </MainLayout>
+          </BrowserRouter>
+        </TooltipProvider>
       </LanguageProvider>
     </ThemeProvider>
   </QueryClientProvider>

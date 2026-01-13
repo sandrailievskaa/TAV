@@ -3,17 +3,14 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import {
   LayoutDashboard,
+  Plane,
   Users,
-  GraduationCap,
-  Stethoscope,
-  AlertTriangle,
-  HardHat,
+  UserCog,
+  Car,
   FileBarChart,
   Settings,
   Shield,
   ScrollText,
-  FileText,
-  Building2,
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react';
@@ -30,17 +27,14 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
 
   const navItems = [
     { icon: LayoutDashboard, label: t.nav.dashboard, path: '/' },
-    { icon: Users, label: t.nav.employees, path: '/employees' },
-    { icon: GraduationCap, label: t.nav.trainings, path: '/trainings' },
-    { icon: Stethoscope, label: t.nav.medicalExams, path: '/medical' },
-    { icon: AlertTriangle, label: t.nav.incidents, path: '/incidents' },
-    { icon: HardHat, label: t.nav.equipment, path: '/equipment' },
+    { icon: Plane, label: t.nav.flights, path: '/flights' },
+    { icon: Users, label: t.nav.passengers, path: '/passengers' },
+    { icon: UserCog, label: t.nav.staff, path: '/staff' },
+    { icon: Car, label: t.nav.vehicles, path: '/vehicles' },
     { icon: FileBarChart, label: t.nav.reports, path: '/reports' },
   ];
 
   const adminItems = [
-    { icon: Building2, label: t.nav.organization, path: '/organization' },
-    { icon: FileText, label: t.nav.documents, path: '/documents' },
     { icon: Shield, label: t.nav.users, path: '/users' },
     { icon: ScrollText, label: t.nav.logs, path: '/logs' },
     { icon: Settings, label: t.nav.settings, path: '/settings' },
@@ -60,9 +54,9 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
         {!collapsed && (
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-sidebar-primary flex items-center justify-center">
-              <Shield className="w-5 h-5 text-sidebar-primary-foreground" />
+              <Plane className="w-5 h-5 text-sidebar-primary-foreground" />
             </div>
-            <span className="font-semibold text-lg">TAV OHS</span>
+            <span className="font-semibold text-lg">TAV System</span>
           </div>
         )}
         <button
@@ -106,7 +100,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
         {/* Admin section */}
         {!collapsed && (
           <p className="px-3 mb-2 text-xs font-medium text-sidebar-muted uppercase tracking-wider">
-            {t.nav.admin}
+            Admin
           </p>
         )}
         <div className="space-y-1">
