@@ -399,7 +399,7 @@ const Reports: React.FC = () => {
                       </TableRow>
                     ) : (
                       filteredTrainings.map((training) => (
-                        <TableRow key={training.id}>
+                        <TableRow key={training.id} className="hover:scale-[1.01] transition-transform duration-200">
                           <TableCell>
                             <Checkbox
                               checked={selectedItems.includes(training.id)}
@@ -489,7 +489,7 @@ const Reports: React.FC = () => {
                       </TableRow>
                     ) : (
                       filteredMedicalExams.map((exam) => (
-                        <TableRow key={exam.id}>
+                        <TableRow key={exam.id} className="hover:scale-[1.01] transition-transform duration-200">
                           <TableCell>
                             <Checkbox
                               checked={selectedItems.includes(exam.id)}
@@ -597,7 +597,7 @@ const Reports: React.FC = () => {
                       </TableRow>
                     ) : (
                       filteredIncidents.map((incident) => (
-                        <TableRow key={incident.id}>
+                        <TableRow key={incident.id} className="hover:scale-[1.01] transition-transform duration-200">
                           <TableCell>
                             <Checkbox
                               checked={selectedItems.includes(incident.id)}

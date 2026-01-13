@@ -353,33 +353,48 @@ const Trainings: React.FC = () => {
                   const calculatedStatus = training.calculatedStatus;
 
                   return (
-                    <TableRow key={training.id}>
+                    <TableRow key={training.id} className="hover:scale-[1.01] transition-transform duration-200">
                       <TableCell>
                         <Checkbox
                           checked={selectedTrainings.includes(training.id)}
                           onCheckedChange={() => toggleTrainingSelection(training.id)}
                         />
                       </TableCell>
-                      <TableCell className="font-mono text-sm">{training.trainingId}</TableCell>
-                      <TableCell className="font-medium">{training.employeeName}</TableCell>
-                      <TableCell>{training.trainingName}</TableCell>
-                      <TableCell>
-                        <Badge variant="outline">{trainingTypeLabel}</Badge>
-                      </TableCell>
                       <TableCell>
                         <div className="flex items-center gap-2">
-                          <Calendar className="w-4 h-4 text-muted-foreground" />
-                          {formatDate(training.completionDate)}
+                          <div className="p-1.5 rounded-lg bg-gradient-to-br from-blue-500/10 to-indigo-500/10">
+                            <GraduationCap className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                          </div>
+                          <span className="font-mono text-sm font-semibold">{training.trainingId}</span>
                         </div>
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center gap-2">
-                          <Calendar className="w-4 h-4 text-muted-foreground" />
-                          {formatDate(training.expiryDate)}
+                          <User className="w-4 h-4 text-muted-foreground" />
+                          <span className="font-semibold">{training.employeeName}</span>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <span className="font-medium">{training.trainingName}</span>
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant="outline" className="shadow-sm">{trainingTypeLabel}</Badge>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-2">
+                          <Calendar className="w-4 h-4 text-primary" />
+                          <span className="font-semibold">{formatDate(training.completionDate)}</span>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <Calendar className="w-4 h-4 text-accent" />
+                          <span className="font-semibold">{formatDate(training.expiryDate)}</span>
                           {training.daysUntilExpiry !== null && (
                             <Badge
                               variant="outline"
                               className={cn(
+                                'shadow-sm',
                                 calculatedStatus === 'expiringSoon' && 'badge-warning',
                                 calculatedStatus === 'expired' && 'badge-danger'
                               )}
@@ -391,21 +406,28 @@ const Trainings: React.FC = () => {
                           )}
                         </div>
                       </TableCell>
-                      <TableCell>{training.validityMonths} {t.common.months}</TableCell>
-                      <TableCell>{training.instructor}</TableCell>
+                      <TableCell>
+                        <span className="font-medium">{training.validityMonths} {t.common.months}</span>
+                      </TableCell>
                       <TableCell>
                         <div className="flex items-center gap-2">
-                          <Badge className={status.className}>
-                            <StatusIcon className="w-3 h-3 mr-1" />
+                          <FileText className="w-4 h-4 text-muted-foreground" />
+                          <span>{training.instructor}</span>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <Badge className={cn(status.className, 'shadow-sm flex items-center gap-1 w-fit')}>
+                            <StatusIcon className="w-3.5 h-3.5" />
                             {status.label[language]}
                           </Badge>
                           {calculatedStatus === 'expiringSoon' && (
-                            <Badge variant="outline" className="badge-warning text-xs">
+                            <Badge variant="outline" className="badge-warning text-xs shadow-sm">
                               {t.trainings.expiringSoon}
                             </Badge>
                           )}
                           {calculatedStatus === 'expired' && (
-                            <Badge variant="outline" className="badge-danger text-xs">
+                            <Badge variant="outline" className="badge-danger text-xs shadow-sm">
                               {t.trainings.expired}
                             </Badge>
                           )}

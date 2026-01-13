@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Plus, Search, Filter, Download, MoreHorizontal, Eye, Edit, Trash2 } from 'lucide-react';
+import { Plus, Search, Filter, Download, MoreHorizontal, Eye, Edit, Trash2, User, Plane, Calendar, Mail, Phone } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -91,7 +91,7 @@ const Passengers: React.FC = () => {
       </p>
 
       {/* Table */}
-      <div className="bg-card rounded-lg border border-border overflow-hidden">
+      <div className="bg-gradient-to-br from-card to-card/95 rounded-lg border-2 border-border/50 overflow-hidden shadow-lg">
         <div className="overflow-x-auto">
           <table className="data-table">
             <thead>
@@ -112,32 +112,42 @@ const Passengers: React.FC = () => {
                 return (
                   <tr
                     key={passenger.id}
-                    className="animate-fade-in"
+                    className="animate-fade-in hover:scale-[1.01] transition-transform duration-200"
                     style={{ animationDelay: `${index * 50}ms` }}
                   >
                     <td>
                       <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center text-sm font-medium text-primary">
-                          {passenger.name.split(' ').map(n => n[0]).join('')}
+                        <div className="p-1.5 rounded-lg bg-gradient-to-br from-primary/10 to-accent/10">
+                          <User className="w-4 h-4 text-primary" />
                         </div>
                         <div>
-                          <p className="font-medium">{passenger.name}</p>
-                          <p className="text-xs text-muted-foreground">{passenger.email}</p>
+                          <p className="font-semibold">{passenger.name}</p>
+                          <p className="text-xs text-muted-foreground flex items-center gap-1">
+                            <Mail className="w-3 h-3" />
+                            {passenger.email}
+                          </p>
                         </div>
                       </div>
                     </td>
                     <td>
-                      <code className="px-2 py-1 rounded bg-muted text-sm">{passenger.bookingRef}</code>
+                      <code className="px-3 py-1.5 rounded-lg bg-gradient-to-br from-muted/80 to-muted/60 text-sm font-semibold border border-border/50 shadow-sm">{passenger.bookingRef}</code>
                     </td>
-                    <td className="font-medium">{passenger.flightNumber}</td>
                     <td>
-                      <span className="inline-flex items-center justify-center w-10 h-7 rounded bg-muted text-sm font-medium">
+                      <div className="flex items-center gap-2">
+                        <Plane className="w-4 h-4 text-primary" />
+                        <span className="font-semibold">{passenger.flightNumber}</span>
+                      </div>
+                    </td>
+                    <td>
+                      <span className="inline-flex items-center justify-center w-12 h-8 rounded-lg bg-gradient-to-br from-primary/20 to-accent/20 text-sm font-bold text-primary border-2 border-primary/30 shadow-sm">
                         {passenger.seatNumber}
                       </span>
                     </td>
-                    <td>{t.data.classes[passenger.class.toLowerCase() as keyof typeof t.data.classes] || passenger.class}</td>
                     <td>
-                      <Badge variant="outline" className={cn('w-fit', status.className)}>
+                      <span className="font-medium">{t.data.classes[passenger.class.toLowerCase() as keyof typeof t.data.classes] || passenger.class}</span>
+                    </td>
+                    <td>
+                      <Badge variant="outline" className={cn('w-fit shadow-sm flex items-center gap-1', status.className)}>
                         {status.label[language]}
                       </Badge>
                     </td>

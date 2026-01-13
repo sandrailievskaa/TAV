@@ -10,7 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Plus, Search, Filter, Package, MapPin, Calendar, DollarSign, Wrench } from 'lucide-react';
+import { Plus, Search, Filter, Package, MapPin, Calendar, DollarSign, Wrench, Building2, CheckCircle2, Clock, XCircle } from 'lucide-react';
 import { assets } from '@/data/adminData';
 import { cn } from '@/lib/utils';
 
@@ -116,7 +116,7 @@ const Assets: React.FC = () => {
       </p>
 
       {/* Table */}
-      <div className="bg-card rounded-lg border border-border overflow-hidden">
+      <div className="bg-gradient-to-br from-card to-card/95 rounded-lg border-2 border-border/50 overflow-hidden shadow-lg">
         <div className="overflow-x-auto">
           <table className="data-table">
             <thead>
@@ -131,48 +131,72 @@ const Assets: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredAssets.map((asset, index) => (
+              {filteredAssets.map((asset, index) => {
+                const getStatusIcon = () => {
+                  switch(asset.status) {
+                    case 'operational': return CheckCircle2;
+                    case 'maintenance': return Wrench;
+                    default: return XCircle;
+                  }
+                };
+                const StatusIcon = getStatusIcon();
+
+                return (
                 <tr
                   key={asset.id}
-                  className="animate-fade-in"
+                  className="animate-fade-in hover:scale-[1.01] transition-transform duration-200"
                   style={{ animationDelay: `${index * 50}ms` }}
                 >
                   <td>
-                    <code className="px-2 py-1 rounded bg-muted text-sm font-medium">
+                    <code className="px-3 py-1.5 rounded-lg bg-gradient-to-br from-muted/80 to-muted/60 text-sm font-semibold border border-border/50 shadow-sm font-mono">
                       {asset.assetId}
                     </code>
                   </td>
                   <td>
                     <div className="flex items-center gap-2">
-                      <Package className="w-4 h-4 text-muted-foreground" />
-                      <span className="font-medium">{asset.assetName}</span>
+                      <div className="p-1.5 rounded-lg bg-gradient-to-br from-primary/10 to-accent/10">
+                        <Package className="w-4 h-4 text-primary" />
+                      </div>
+                      <span className="font-semibold">{asset.assetName}</span>
                     </div>
                   </td>
-                  <td className="text-muted-foreground">{asset.category}</td>
                   <td>
-                    <div className="flex items-center gap-1.5 text-muted-foreground">
-                      <MapPin className="w-3.5 h-3.5" />
+                    <div className="flex items-center gap-2">
+                      <Building2 className="w-4 h-4 text-accent" />
+                      <span className="font-medium">{asset.category}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div className="flex items-center gap-2">
+                      <MapPin className="w-4 h-4 text-accent" />
                       <span>{asset.location}</span>
                     </div>
                   </td>
                   <td>
-                    <Badge variant="outline" className={cn('w-fit text-xs', getStatusBadge(asset.status))}>
+                    <Badge variant="outline" className={cn('w-fit shadow-sm flex items-center gap-1', getStatusBadge(asset.status))}>
+                      <StatusIcon className="w-3.5 h-3.5" />
                       {getStatusLabel(asset.status)}
                     </Badge>
                   </td>
-                  <td className="font-medium">€{asset.value.toLocaleString()}</td>
+                  <td>
+                    <div className="flex items-center gap-2">
+                      <DollarSign className="w-4 h-4 text-success" />
+                      <span className="font-semibold">€{asset.value.toLocaleString()}</span>
+                    </div>
+                  </td>
                   <td>
                     {asset.maintenanceDue ? (
-                      <div className="flex items-center gap-1.5 text-sm">
-                        <Calendar className="w-3.5 h-3.5 text-muted-foreground" />
-                        <span>{asset.maintenanceDue}</span>
+                      <div className="flex items-center gap-2">
+                        <Calendar className="w-4 h-4 text-primary" />
+                        <span className="font-semibold">{asset.maintenanceDue}</span>
                       </div>
                     ) : (
                       <span className="text-muted-foreground">-</span>
                     )}
                   </td>
                 </tr>
-              ))}
+              );
+              })}
             </tbody>
           </table>
         </div>

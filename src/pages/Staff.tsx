@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Plus, Search, Filter, Download, MoreHorizontal, Eye, Edit, Trash2 } from 'lucide-react';
+import { Plus, Search, Filter, Download, MoreHorizontal, Eye, Edit, Trash2, User, Building2, Briefcase, Calendar, Phone, Mail } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -91,7 +91,7 @@ const Staff: React.FC = () => {
       </p>
 
       {/* Table */}
-      <div className="bg-card rounded-lg border border-border overflow-hidden">
+      <div className="bg-gradient-to-br from-card to-card/95 rounded-lg border-2 border-border/50 overflow-hidden shadow-lg">
         <div className="overflow-x-auto">
           <table className="data-table">
             <thead>
@@ -112,50 +112,63 @@ const Staff: React.FC = () => {
                 return (
                   <tr
                     key={member.id}
-                    className="animate-fade-in"
+                    className="animate-fade-in hover:scale-[1.01] transition-transform duration-200"
                     style={{ animationDelay: `${index * 50}ms` }}
                   >
                     <td>
-                      <code className="px-2 py-1 rounded bg-muted text-sm">{member.employeeId}</code>
+                      <code className="px-3 py-1.5 rounded-lg bg-gradient-to-br from-muted/80 to-muted/60 text-sm font-semibold border border-border/50 shadow-sm font-mono">{member.employeeId}</code>
                     </td>
                     <td>
                       <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center text-sm font-medium text-primary">
-                          {member.name.split(' ').map(n => n[0]).join('')}
+                        <div className="p-1.5 rounded-lg bg-gradient-to-br from-primary/10 to-accent/10">
+                          <User className="w-4 h-4 text-primary" />
                         </div>
                         <div>
-                          <p className="font-medium">{member.name}</p>
-                          <p className="text-xs text-muted-foreground">{member.email}</p>
+                          <p className="font-semibold">{member.name}</p>
+                          <p className="text-xs text-muted-foreground flex items-center gap-1">
+                            <Mail className="w-3 h-3" />
+                            {member.email}
+                          </p>
                         </div>
                       </div>
                     </td>
-                    <td>{(() => {
-                      const deptMap: Record<string, keyof typeof t.staff.departments> = {
-                        'Operations': 'operations',
-                        'Customer Service': 'customerService',
-                        'Security': 'security',
-                        'Ground Handling': 'groundHandling',
-                        'Maintenance': 'maintenance',
-                      };
-                      return t.staff.departments[deptMap[member.department]] || member.department;
-                    })()}</td>
-                    <td>{(() => {
-                      const posMap: Record<string, keyof typeof t.staff.positions> = {
-                        'Shift Manager': 'shiftManager',
-                        'Check-in Agent': 'checkInAgent',
-                        'Security Officer': 'securityOfficer',
-                        'Ramp Agent': 'rampAgent',
-                        'Technician': 'technician',
-                      };
-                      return t.staff.positions[posMap[member.position]] || member.position;
-                    })()}</td>
                     <td>
-                      <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-muted text-xs font-medium">
+                      <div className="flex items-center gap-2">
+                        <Building2 className="w-4 h-4 text-accent" />
+                        <span className="font-medium">{(() => {
+                          const deptMap: Record<string, keyof typeof t.staff.departments> = {
+                            'Operations': 'operations',
+                            'Customer Service': 'customerService',
+                            'Security': 'security',
+                            'Ground Handling': 'groundHandling',
+                            'Maintenance': 'maintenance',
+                          };
+                          return t.staff.departments[deptMap[member.department]] || member.department;
+                        })()}</span>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="flex items-center gap-2">
+                        <Briefcase className="w-4 h-4 text-muted-foreground" />
+                        <span className="font-medium">{(() => {
+                          const posMap: Record<string, keyof typeof t.staff.positions> = {
+                            'Shift Manager': 'shiftManager',
+                            'Check-in Agent': 'checkInAgent',
+                            'Security Officer': 'securityOfficer',
+                            'Ramp Agent': 'rampAgent',
+                            'Technician': 'technician',
+                          };
+                          return t.staff.positions[posMap[member.position]] || member.position;
+                        })()}</span>
+                      </div>
+                    </td>
+                    <td>
+                      <span className="inline-flex items-center px-3 py-1.5 rounded-lg bg-gradient-to-br from-muted/60 to-muted/40 text-xs font-semibold border border-border/50 shadow-sm">
                         {t.staff.shifts[member.shift.toLowerCase() as keyof typeof t.staff.shifts] || member.shift}
                       </span>
                     </td>
                     <td>
-                      <Badge variant="outline" className={cn('w-fit', status.className)}>
+                      <Badge variant="outline" className={cn('w-fit shadow-sm flex items-center gap-1', status.className)}>
                         {status.label[language]}
                       </Badge>
                     </td>

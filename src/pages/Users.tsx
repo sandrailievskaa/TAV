@@ -3,7 +3,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Search, MoreHorizontal, Eye, Edit, Trash2, Key, Shield } from 'lucide-react';
+import { Plus, Search, MoreHorizontal, Eye, Edit, Trash2, Key, Shield, User, Mail, Calendar, CheckCircle2, XCircle } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -89,7 +89,7 @@ const Users: React.FC = () => {
       </p>
 
       {/* Table */}
-      <div className="bg-card rounded-lg border border-border overflow-hidden">
+      <div className="bg-gradient-to-br from-card to-card/95 rounded-lg border-2 border-border/50 overflow-hidden shadow-lg">
         <div className="overflow-x-auto">
           <table className="data-table">
             <thead>
@@ -106,33 +106,53 @@ const Users: React.FC = () => {
               {filteredUsers.map((user, index) => (
                 <tr
                   key={user.id}
-                  className="animate-fade-in"
+                  className="animate-fade-in hover:scale-[1.01] transition-transform duration-200"
                   style={{ animationDelay: `${index * 50}ms` }}
                 >
                   <td>
                     <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center text-sm font-medium text-primary">
-                        {user.name.split(' ').map(n => n[0]).join('')}
+                      <div className="p-1.5 rounded-lg bg-gradient-to-br from-primary/10 to-accent/10">
+                        <User className="w-4 h-4 text-primary" />
                       </div>
-                      <span className="font-medium">{user.name}</span>
+                      <span className="font-semibold">{user.name}</span>
                     </div>
                   </td>
-                  <td className="text-muted-foreground">{user.email}</td>
                   <td>
-                    <Badge variant="outline" className={cn('w-fit', roleColors[user.role])}>
+                    <div className="flex items-center gap-2">
+                      <Mail className="w-4 h-4 text-muted-foreground" />
+                      <span className="text-muted-foreground">{user.email}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <Badge variant="outline" className={cn('w-fit shadow-sm', roleColors[user.role])}>
                       {getRoleTranslation(user.role, t)}
                     </Badge>
                   </td>
-                  <td className="text-sm text-muted-foreground">{user.lastLogin}</td>
+                  <td>
+                    <div className="flex items-center gap-2">
+                      <Calendar className="w-4 h-4 text-muted-foreground" />
+                      <span className="text-sm text-muted-foreground font-medium">{user.lastLogin}</span>
+                    </div>
+                  </td>
                   <td>
                     <Badge
                       variant="outline"
                       className={cn(
-                        'w-fit',
+                        'w-fit shadow-sm flex items-center gap-1',
                         user.status === 'active' ? 'badge-success' : 'bg-muted text-muted-foreground border-border'
                       )}
                     >
-                      {user.status === 'active' ? t.common.active : t.common.inactive}
+                      {user.status === 'active' ? (
+                        <>
+                          <CheckCircle2 className="w-3.5 h-3.5" />
+                          {t.common.active}
+                        </>
+                      ) : (
+                        <>
+                          <XCircle className="w-3.5 h-3.5" />
+                          {t.common.inactive}
+                        </>
+                      )}
                     </Badge>
                   </td>
                   <td>

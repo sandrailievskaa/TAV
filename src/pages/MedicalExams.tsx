@@ -392,32 +392,45 @@ const MedicalExams: React.FC = () => {
                   const examTypeLabel = examTypeConfig[exam.examType].label[language];
 
                   return (
-                    <TableRow key={exam.id}>
+                    <TableRow key={exam.id} className="hover:scale-[1.01] transition-transform duration-200">
                       <TableCell>
                         <Checkbox
                           checked={selectedExams.includes(exam.id)}
                           onCheckedChange={() => toggleExamSelection(exam.id)}
                         />
                       </TableCell>
-                      <TableCell className="font-mono text-sm">{exam.examId}</TableCell>
-                      <TableCell className="font-medium">{exam.employeeName}</TableCell>
-                      <TableCell>
-                        <Badge variant="outline">{examTypeLabel}</Badge>
-                      </TableCell>
                       <TableCell>
                         <div className="flex items-center gap-2">
-                          <Calendar className="w-4 h-4 text-muted-foreground" />
-                          {formatDate(exam.examDate)}
+                          <div className="p-1.5 rounded-lg bg-gradient-to-br from-cyan-500/10 to-teal-500/10">
+                            <Stethoscope className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
+                          </div>
+                          <span className="font-mono text-sm font-semibold">{exam.examId}</span>
                         </div>
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center gap-2">
-                          <Calendar className="w-4 h-4 text-muted-foreground" />
-                          {formatDate(exam.validUntil)}
+                          <User className="w-4 h-4 text-muted-foreground" />
+                          <span className="font-semibold">{exam.employeeName}</span>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant="outline" className="shadow-sm">{examTypeLabel}</Badge>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-2">
+                          <Calendar className="w-4 h-4 text-primary" />
+                          <span className="font-semibold">{formatDate(exam.examDate)}</span>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <Calendar className="w-4 h-4 text-accent" />
+                          <span className="font-semibold">{formatDate(exam.validUntil)}</span>
                           {exam.daysUntilExpiry < 30 && (
                             <Badge
                               variant="outline"
                               className={cn(
+                                'shadow-sm',
                                 exam.daysUntilExpiry < 0 ? 'badge-danger' : 'badge-warning'
                               )}
                             >
@@ -428,16 +441,23 @@ const MedicalExams: React.FC = () => {
                           )}
                         </div>
                       </TableCell>
-                      <TableCell>{exam.validityMonths} {t.common.months}</TableCell>
-                      <TableCell>{exam.doctor}</TableCell>
                       <TableCell>
-                        <Badge className={result.className}>
-                          <ResultIcon className="w-3 h-3 mr-1" />
+                        <span className="font-medium">{exam.validityMonths} {t.common.months}</span>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-2">
+                          <FileText className="w-4 h-4 text-muted-foreground" />
+                          <span>{exam.doctor}</span>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <Badge className={cn(result.className, 'shadow-sm flex items-center gap-1 w-fit')}>
+                          <ResultIcon className="w-3.5 h-3.5" />
                           {result.label[language]}
                         </Badge>
                       </TableCell>
                       <TableCell>
-                        <Badge className={status.className}>{status.label[language]}</Badge>
+                        <Badge className={cn(status.className, 'shadow-sm')}>{status.label[language]}</Badge>
                       </TableCell>
                       <TableCell>
                         <DropdownMenu>

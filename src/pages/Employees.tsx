@@ -260,17 +260,21 @@ const Employees: React.FC = () => {
                   const risk = riskLevelConfig[employee.riskLevel];
                   return (
                     <tr key={employee.id} className="hover:scale-[1.01] transition-transform duration-200">
-                      <td className="font-mono text-sm font-semibold">{employee.employeeId}</td>
                       <td>
                         <div className="flex items-center gap-2">
-                          <User className="w-4 h-4 text-primary" />
-                          <span className="font-semibold">{employee.fullName}</span>
+                          <div className="p-1.5 rounded-lg bg-gradient-to-br from-primary/10 to-accent/10">
+                            <User className="w-4 h-4 text-primary" />
+                          </div>
+                          <span className="font-mono text-sm font-semibold">{employee.employeeId}</span>
                         </div>
+                      </td>
+                      <td>
+                        <span className="font-semibold">{employee.fullName}</span>
                       </td>
                       <td>
                         <div className="flex items-center gap-2">
                           <Briefcase className="w-4 h-4 text-muted-foreground" />
-                          <span>{employee.position}</span>
+                          <span className="font-medium">{employee.position}</span>
                         </div>
                       </td>
                       <td>
@@ -294,7 +298,7 @@ const Employees: React.FC = () => {
                       <td>
                         <div className="flex items-center gap-2">
                           <Calendar className="w-4 h-4 text-muted-foreground" />
-                          <span className="font-medium">{formatDate(employee.hireDate)}</span>
+                          <span className="font-semibold">{formatDate(employee.hireDate)}</span>
                         </div>
                       </td>
                       <td>

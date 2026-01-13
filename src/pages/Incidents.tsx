@@ -66,7 +66,10 @@ import {
   Clock,
   XCircle,
   Paperclip,
+  User,
+  MapPin,
 } from 'lucide-react';
+import { toast } from 'sonner';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -118,8 +121,8 @@ const Incidents: React.FC = () => {
   };
 
   const injuries = filteredIncidents.filter((inc) => inc.type === 'injury');
-  const totalLostDays = filteredIncidents.reduce((sum, inc) => sum + inc.lostWorkDays, 0);
-  const totalLostHours = filteredIncidents.reduce((sum, inc) => sum + inc.lostWorkHours, 0);
+  const totalLostDays = filteredIncidents.reduce((sum, inc) => sum + ((inc as any).lostWorkDays || 0), 0);
+  const totalLostHours = filteredIncidents.reduce((sum, inc) => sum + ((inc as any).lostWorkHours || 0), 0);
   const totalHours = Number(afrTotalHours) || 200000;
   const afr = calculateAFR(injuries.length, totalHours);
   const asr = calculateASR(totalLostDays, totalHours);
@@ -283,7 +286,7 @@ const Incidents: React.FC = () => {
                 <TableHead>{t.incidents.location}</TableHead>
                 <TableHead>{t.incidents.severity}</TableHead>
                 <TableHead>{t.incidents.status}</TableHead>
-                <TableHead>{t.incidents.lostWorkDays}</TableHead>
+                <TableHead>{'Lost Work Days'}</TableHead>
                 <TableHead>{t.common.actions}</TableHead>
               </TableRow>
             </TableHeader>
@@ -299,31 +302,88 @@ const Incidents: React.FC = () => {
                   const severity = severityConfig[incident.severity];
                   const status = incidentStatusConfig[incident.status];
                   const type = typeConfig[incident.type];
+                  
+                  // Default icons based on severity/status/type
+                  const getSeverityIcon = () => {
+                    switch(incident.severity) {
+                      case 'critical': return AlertTriangle;
+                      case 'serious': return XCircle;
+                      case 'moderate': return Clock;
+                      default: return CheckCircle2;
+                    }
+                  };
+                  const getStatusIcon = () => {
+                    switch(incident.status) {
+                      case 'reported': return Clock;
+                      case 'under-investigation': return AlertTriangle;
+                      case 'resolved': return CheckCircle2;
+                      default: return XCircle;
+                    }
+                  };
+                  const getTypeIcon = () => {
+                    switch(incident.type) {
+                      case 'injury': return AlertTriangle;
+                      case 'incident': return XCircle;
+                      default: return Clock;
+                    }
+                  };
+                  
+                  const SeverityIcon = getSeverityIcon();
+                  const StatusIcon = getStatusIcon();
+                  const TypeIcon = getTypeIcon();
 
                   return (
-                    <TableRow key={incident.id}>
-                      <TableCell className="font-mono text-sm">{incident.incidentId}</TableCell>
+                    <TableRow key={incident.id} className="hover:scale-[1.01] transition-transform duration-200">
                       <TableCell>
-                        <Badge className={type.className}>{type.label[language]}</Badge>
+                        <div className="flex items-center gap-2">
+                          <div className="p-1.5 rounded-lg bg-gradient-to-br from-primary/10 to-accent/10">
+                            <AlertTriangle className="w-4 h-4 text-primary" />
+                          </div>
+                          <span className="font-mono text-sm font-semibold">{incident.incidentId}</span>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <Badge className={cn(type.className, 'shadow-sm flex items-center gap-1 w-fit')}>
+                          <TypeIcon className="w-3.5 h-3.5" />
+                          {type.label[language]}
+                        </Badge>
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center gap-2">
-                          <Calendar className="w-4 h-4 text-muted-foreground" />
-                          {formatDate(incident.date)} {incident.time}
+                          <Calendar className="w-4 h-4 text-primary" />
+                          <span className="font-semibold">{formatDate(incident.date)}</span>
+                          <span className="text-muted-foreground">{incident.time}</span>
                         </div>
                       </TableCell>
-                      <TableCell className="font-medium">{incident.employeeName}</TableCell>
-                      <TableCell>{incident.location}</TableCell>
                       <TableCell>
-                        <Badge className={severity.className}>{severity.label[language]}</Badge>
+                        <div className="flex items-center gap-2">
+                          <User className="w-4 h-4 text-muted-foreground" />
+                          <span className="font-semibold">{incident.employeeName}</span>
+                        </div>
                       </TableCell>
                       <TableCell>
-                        <Badge className={status.className}>{status.label[language]}</Badge>
+                        <div className="flex items-center gap-2">
+                          <MapPin className="w-4 h-4 text-accent" />
+                          <span>{incident.location}</span>
+                        </div>
                       </TableCell>
                       <TableCell>
-                        {incident.lostWorkDays > 0 ? (
-                          <span className="font-medium text-red-600 dark:text-red-400">
-                            {incident.lostWorkDays} {t.common.days}
+                        <Badge className={cn(severity.className, 'shadow-sm flex items-center gap-1 w-fit')}>
+                          <SeverityIcon className="w-3.5 h-3.5" />
+                          {severity.label[language]}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <Badge className={cn(status.className, 'shadow-sm flex items-center gap-1 w-fit')}>
+                          <StatusIcon className="w-3.5 h-3.5" />
+                          {status.label[language]}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        {(incident as any).lostWorkDays > 0 ? (
+                          <span className="font-bold text-destructive flex items-center gap-1">
+                            <AlertTriangle className="w-4 h-4" />
+                            {(incident as any).lostWorkDays} {t.common.days}
                           </span>
                         ) : (
                           '-'
@@ -438,8 +498,8 @@ const Incidents: React.FC = () => {
                         <p>{selectedIncident.treatmentType.replace('-', ' ')}</p>
                       </div>
                       <div>
-                        <p className="text-sm text-muted-foreground">{t.incidents.lostWorkDays}</p>
-                        <p>{selectedIncident.lostWorkDays} {t.common.days}</p>
+                        <p className="text-sm text-muted-foreground">{'Lost Work Days'}</p>
+                        <p>{(selectedIncident as any).lostWorkDays || 0} {t.common.days}</p>
                       </div>
                       <div>
                         <p className="text-sm text-muted-foreground">{t.incidents.lostWorkHours}</p>
@@ -622,7 +682,7 @@ const Incidents: React.FC = () => {
                             </div>
                             <Button variant="outline" size="sm">
                               <Download className="w-4 h-4 mr-2" />
-                              {t.common.download}
+                              {t.common.export || 'Download'}
                             </Button>
                           </div>
                         </CardContent>
@@ -703,7 +763,7 @@ const Incidents: React.FC = () => {
           </DialogHeader>
           <div className="space-y-4">
             <div>
-              <Label>{t.common.reportType || 'Report Type'}</Label>
+              <Label>{'Report Type'}</Label>
               <Select value={reportType} onValueChange={(value: any) => setReportType(value)}>
                 <SelectTrigger className="mt-1">
                   <SelectValue />
@@ -718,7 +778,7 @@ const Incidents: React.FC = () => {
             {reportType === 'period' && (
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label>{t.incidents.startDate}</Label>
+                  <Label>{'Start Date'}</Label>
                   <Input
                     type="date"
                     value={reportStartDate}
@@ -727,7 +787,7 @@ const Incidents: React.FC = () => {
                   />
                 </div>
                 <div>
-                  <Label>{t.incidents.endDate}</Label>
+                  <Label>{'End Date'}</Label>
                   <Input
                     type="date"
                     value={reportEndDate}
