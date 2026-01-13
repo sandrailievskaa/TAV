@@ -181,7 +181,6 @@ const MedicalExams: React.FC = () => {
     const file = event.target.files?.[0];
     if (file) {
       setOcrFile(file);
-      // Simulate OCR processing
       setTimeout(() => {
         const mockOcrData = {
           employeeName: 'Marko Nikolovski',
@@ -199,7 +198,6 @@ const MedicalExams: React.FC = () => {
   };
 
   const handleOCRSave = () => {
-    // In a real application, this would save to the database
     toast.success(
       language === 'mk' ? 'OCR обработка завршена' : language === 'sq' ? 'Përpunimi OCR i përfunduar' : 'OCR Processing Complete',
       { description: t.medicalExams.recognitionComplete }
@@ -222,7 +220,6 @@ const MedicalExams: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Page Header */}
       <div className="page-header flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="page-title">{t.medicalExams.title}</h1>
@@ -250,7 +247,6 @@ const MedicalExams: React.FC = () => {
         </div>
       </div>
 
-      {/* Alerts */}
       {expiredExams.length > 0 && (
         <Card className="border-red-500 bg-red-50 dark:bg-red-950/20">
           <CardContent className="pt-6">
@@ -277,7 +273,6 @@ const MedicalExams: React.FC = () => {
         </Card>
       )}
 
-      {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -327,7 +322,6 @@ const MedicalExams: React.FC = () => {
         </Select>
       </div>
 
-      {/* Actions */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <Button
@@ -351,7 +345,6 @@ const MedicalExams: React.FC = () => {
         </p>
       </div>
 
-      {/* Table */}
       <div className="bg-card rounded-lg border border-border overflow-hidden">
         <div className="overflow-x-auto">
           <Table>
@@ -469,7 +462,6 @@ const MedicalExams: React.FC = () => {
         </div>
       </div>
 
-      {/* Group Referral Dialog */}
       <Dialog open={isReferralDialogOpen} onOpenChange={setIsReferralDialogOpen}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
@@ -528,7 +520,6 @@ const MedicalExams: React.FC = () => {
         </DialogContent>
       </Dialog>
 
-      {/* Reports Dialog */}
       <Dialog open={isReportDialogOpen} onOpenChange={setIsReportDialogOpen}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
@@ -602,7 +593,6 @@ const MedicalExams: React.FC = () => {
         </DialogContent>
       </Dialog>
 
-      {/* OCR Dialog */}
       <Dialog open={isOCRDialogOpen} onOpenChange={setIsOCRDialogOpen}>
         <DialogContent className="max-w-3xl">
           <DialogHeader>

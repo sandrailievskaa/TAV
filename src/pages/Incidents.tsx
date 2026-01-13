@@ -117,7 +117,6 @@ const Incidents: React.FC = () => {
     setIsDetailDialogOpen(true);
   };
 
-  // Calculate AFR and ASR
   const injuries = filteredIncidents.filter((inc) => inc.type === 'injury');
   const totalLostDays = filteredIncidents.reduce((sum, inc) => sum + inc.lostWorkDays, 0);
   const totalLostHours = filteredIncidents.reduce((sum, inc) => sum + inc.lostWorkHours, 0);
@@ -127,7 +126,6 @@ const Incidents: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Page Header */}
       <div className="page-header flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="page-title">{t.incidents.title}</h1>
@@ -169,7 +167,6 @@ const Incidents: React.FC = () => {
         </div>
       </div>
 
-      {/* Statistics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="pb-3">
@@ -213,7 +210,6 @@ const Incidents: React.FC = () => {
         </Card>
       </div>
 
-      {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -262,7 +258,6 @@ const Incidents: React.FC = () => {
         </Select>
       </div>
 
-      {/* Actions */}
       <div className="flex items-center justify-between">
         <Button
           variant="outline"
@@ -276,7 +271,6 @@ const Incidents: React.FC = () => {
         </p>
       </div>
 
-      {/* Table */}
       <div className="bg-card rounded-lg border border-border overflow-hidden">
         <div className="overflow-x-auto">
           <Table>
@@ -367,7 +361,6 @@ const Incidents: React.FC = () => {
         </div>
       </div>
 
-      {/* Incident Detail Dialog */}
       <Dialog open={isDetailDialogOpen} onOpenChange={setIsDetailDialogOpen}>
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
@@ -387,7 +380,6 @@ const Incidents: React.FC = () => {
                 <TabsTrigger value="attachments">{t.incidents.attachments}</TabsTrigger>
               </TabsList>
 
-              {/* Overview Tab */}
               <TabsContent value="overview" className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <Card>
@@ -467,7 +459,6 @@ const Incidents: React.FC = () => {
                 </div>
               </TabsContent>
 
-              {/* Root Cause Analysis Tab */}
               <TabsContent value="analysis" className="space-y-4">
                 <Card>
                   <CardHeader>
@@ -494,7 +485,6 @@ const Incidents: React.FC = () => {
                 </Card>
               </TabsContent>
 
-              {/* Corrective Actions Tab */}
               <TabsContent value="actions" className="space-y-4">
                 {selectedIncident.correctiveActions.length === 0 ? (
                   <Card>
@@ -549,7 +539,6 @@ const Incidents: React.FC = () => {
                 )}
               </TabsContent>
 
-              {/* Budget Impact Tab */}
               <TabsContent value="budget" className="space-y-4">
                 {selectedIncident.budgetImpact ? (
                   <div className="space-y-4">
@@ -603,7 +592,6 @@ const Incidents: React.FC = () => {
                 )}
               </TabsContent>
 
-              {/* Attachments Tab */}
               <TabsContent value="attachments" className="space-y-4">
                 <div className="flex justify-end">
                   <Button variant="outline" size="sm">
@@ -648,7 +636,6 @@ const Incidents: React.FC = () => {
         </DialogContent>
       </Dialog>
 
-      {/* AFR/ASR Calculation Dialog */}
       <Dialog open={isAFRDialogOpen} onOpenChange={setIsAFRDialogOpen}>
         <DialogContent>
           <DialogHeader>
@@ -708,7 +695,6 @@ const Incidents: React.FC = () => {
         </DialogContent>
       </Dialog>
 
-      {/* Reports Dialog */}
       <Dialog open={isReportDialogOpen} onOpenChange={setIsReportDialogOpen}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>

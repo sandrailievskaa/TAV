@@ -106,7 +106,6 @@ const Trainings: React.FC = () => {
   const [alarmDays, setAlarmDays] = useState(30);
   const [signatureConfirmed, setSignatureConfirmed] = useState(false);
 
-  // Calculate status based on expiry date and alarm days
   const getTrainingStatus = (training: Training): 'valid' | 'expiringSoon' | 'expired' => {
     if (!training.expiryDate) return 'valid';
     const daysUntil = training.daysUntilExpiry;
@@ -172,7 +171,6 @@ const Trainings: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Page Header */}
       <div className="page-header flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="page-title">{t.trainings.title}</h1>
@@ -195,7 +193,6 @@ const Trainings: React.FC = () => {
         </div>
       </div>
 
-      {/* Alarm Settings */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -221,7 +218,6 @@ const Trainings: React.FC = () => {
         </CardContent>
       </Card>
 
-      {/* Alerts */}
       {expiredTrainings.length > 0 && (
         <Card className="border-red-500 bg-red-50 dark:bg-red-950/20">
           <CardContent className="pt-6">
@@ -248,7 +244,6 @@ const Trainings: React.FC = () => {
         </Card>
       )}
 
-      {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -296,7 +291,6 @@ const Trainings: React.FC = () => {
         </Select>
       </div>
 
-      {/* Actions */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <Button
@@ -312,7 +306,6 @@ const Trainings: React.FC = () => {
         </p>
       </div>
 
-      {/* Table */}
       <div className="bg-card rounded-lg border border-border overflow-hidden">
         <div className="overflow-x-auto">
           <Table>
@@ -482,7 +475,6 @@ const Trainings: React.FC = () => {
         </div>
       </div>
 
-      {/* Certificate Generation Dialog */}
       <Dialog open={isCertificateDialogOpen} onOpenChange={setIsCertificateDialogOpen}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
@@ -550,7 +542,6 @@ const Trainings: React.FC = () => {
         </DialogContent>
       </Dialog>
 
-      {/* Reports Dialog */}
       <Dialog open={isReportDialogOpen} onOpenChange={setIsReportDialogOpen}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
@@ -624,7 +615,6 @@ const Trainings: React.FC = () => {
         </DialogContent>
       </Dialog>
 
-      {/* Read & Sign Instructions Dialog */}
       <Dialog open={isReadAndSignDialogOpen} onOpenChange={setIsReadAndSignDialogOpen}>
         <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
@@ -681,7 +671,6 @@ const Trainings: React.FC = () => {
                       <Button 
                         onClick={() => {
                           if (selectedTraining) {
-                            // In a real application, this would save the signature
                             alert(t.trainings.signInstructions + ' - ' + selectedTraining.employeeName);
                             setIsReadAndSignDialogOpen(false);
                           }
@@ -718,7 +707,6 @@ const Trainings: React.FC = () => {
         </DialogContent>
       </Dialog>
 
-      {/* Certificate Templates Dialog */}
       <Dialog open={isTemplateDialogOpen} onOpenChange={setIsTemplateDialogOpen}>
         <DialogContent className="max-w-3xl">
           <DialogHeader>

@@ -24,7 +24,6 @@ export const translations = {
       incidents: 'Injuries & Incidents',
       companyAnalysis: 'Company Analysis (DEMO)',
     },
-    // Common
     common: {
       search: 'Search...',
       filter: 'Filter',
@@ -80,7 +79,6 @@ export const translations = {
       details: 'Details',
       more: 'more',
     },
-    // Login
     login: {
       systemName: 'TAV Security System',
       welcomeText: 'Welcome to the airport security management system',
@@ -94,7 +92,6 @@ export const translations = {
       loginError: 'An error occurred during login',
       language: 'Language',
     },
-    // Dashboard
     dashboard: {
       title: 'Dashboard',
       subtitle: 'Welcome back! Here\'s an overview of today\'s operations.',
@@ -727,7 +724,6 @@ export const translations = {
       trainings: 'Управување со обуки',
       incidents: 'Повреди и инциденти',
     },
-    // Common
     common: {
       search: 'Пребарај...',
       filter: 'Филтер',
@@ -783,7 +779,6 @@ export const translations = {
       details: 'Детали',
       more: 'повеќе',
     },
-    // Login
     login: {
       systemName: 'TAV Систем за безбедност',
       welcomeText: 'Добредојдовте во системот за управување со безбедност на аеродромот',
@@ -797,7 +792,6 @@ export const translations = {
       loginError: 'Настана грешка при најавување',
       language: 'Јазик',
     },
-    // Dashboard
     dashboard: {
       title: 'Контролна табла',
       subtitle: 'Добредојдовте! Еве преглед на денешните операции.',
@@ -1427,7 +1421,6 @@ export const translations = {
       incidents: 'Lëndimet dhe Incidentet',
       companyAnalysis: 'Analiza e Kompanive (DEMO)',
     },
-    // Common
     common: {
       search: 'Kërko...',
       filter: 'Filtro',
@@ -1483,7 +1476,6 @@ export const translations = {
       details: 'Detajet',
       more: 'më shumë',
     },
-    // Login
     login: {
       systemName: 'Sistemi i Sigurisë TAV',
       welcomeText: 'Mirësevini në sistemin e menaxhimit të sigurisë së aeroportit',
@@ -1497,7 +1489,6 @@ export const translations = {
       loginError: 'Ndodhi një gabim gjatë hyrjes',
       language: 'Gjuha',
     },
-    // Dashboard
     dashboard: {
       title: 'Paneli',
       subtitle: 'Mirësevini! Ja një përmbledhje e operacioneve të sotme.',

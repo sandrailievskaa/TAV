@@ -140,7 +140,6 @@ const Employees: React.FC = () => {
 
     const matchesStatus = statusFilter === 'all' || employee.status === statusFilter;
 
-    // Filter for employee role - only show own data
     if (viewOwnOnly && user?.employeeId) {
       return matchesSearch && matchesStatus && employee.employeeId === user.employeeId;
     }
@@ -169,7 +168,6 @@ const Employees: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Page Header */}
       <div className="page-header flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="page-title">{t.employees.title}</h1>
@@ -188,7 +186,6 @@ const Employees: React.FC = () => {
         )}
       </div>
 
-      {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -223,12 +220,10 @@ const Employees: React.FC = () => {
         </Button>
       </div>
 
-      {/* Results count */}
       <p className="text-sm text-muted-foreground">
         {filteredEmployees.length} {t.employees.title.toLowerCase()}
       </p>
 
-      {/* Table */}
       <div className="bg-card rounded-lg border border-border overflow-hidden">
         <div className="overflow-x-auto">
           <table className="data-table">
@@ -336,7 +331,6 @@ const Employees: React.FC = () => {
         </div>
       </div>
 
-      {/* Employee Profile Dialog */}
       <Dialog open={isProfileOpen} onOpenChange={setIsProfileOpen}>
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
@@ -356,7 +350,6 @@ const Employees: React.FC = () => {
                 <TabsTrigger value="documents">{t.employees.documents}</TabsTrigger>
               </TabsList>
 
-              {/* Overview Tab */}
               <TabsContent value="overview" className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <Card>
@@ -555,7 +548,6 @@ const Employees: React.FC = () => {
                 </div>
               </TabsContent>
 
-              {/* Medical Exams Tab */}
               <TabsContent value="medical" className="space-y-4">
                 {selectedEmployee.medicalExams.length === 0 ? (
                   <Card>
@@ -631,7 +623,6 @@ const Employees: React.FC = () => {
                 )}
               </TabsContent>
 
-              {/* Training Tab */}
               <TabsContent value="training" className="space-y-4">
                 {selectedEmployee.trainings.length === 0 ? (
                   <Card>
@@ -714,7 +705,6 @@ const Employees: React.FC = () => {
                 )}
               </TabsContent>
 
-              {/* PPE Tab */}
               <TabsContent value="ppe" className="space-y-4">
                 {selectedEmployee.assignedPPE.length === 0 ? (
                   <Card>

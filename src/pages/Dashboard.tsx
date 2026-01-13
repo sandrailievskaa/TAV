@@ -535,7 +535,6 @@ const Dashboard: React.FC = () => {
         </div>
       )}
 
-      {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
           <PassengerFlowChart />
@@ -545,7 +544,6 @@ const Dashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* Table and Activity */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
           <div className="mb-4 flex items-center justify-between">

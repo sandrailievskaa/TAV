@@ -1,4 +1,15 @@
-import React, { createContext, useContext, useState, useCallback, ReactNode, useEffect } from 'react';
+import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
+
+export type UserRole =
+  | 'system-admin'
+  | 'hse-admin'
+  | 'hr-manager'
+  | 'medical-officer'
+  | 'training-coordinator'
+  | 'safety-officer'
+  | 'equipment-manager'
+  | 'management'
+  | 'employee';
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -8,20 +19,58 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// Map username to role - demo mode: any username is accepted
+const getRoleFromUsername = (username: string): UserRole => {
+  const trimmedUsername = (username || '').trim().toLowerCase();
+  
+  // Map test usernames to roles
+  const usernameToRole: Record<string, UserRole> = {
+    'admin.test': 'system-admin',
+    'hse.test': 'hse-admin',
+    'hr.test': 'hr-manager',
+    'medic.test': 'medical-officer',
+    'training.test': 'training-coordinator',
+    'safety.test': 'safety-officer',
+    'equipment.test': 'equipment-manager',
+    'manager.test': 'management',
+    'employee.test': 'employee',
+  };
+  
+  return usernameToRole[trimmedUsername] || 'management';
+};
+
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
-    return localStorage.getItem('tav-auth') === 'true';
+    const auth = localStorage.getItem('tav-auth') === 'true';
+    // Ensure we have username and role if authenticated
+    if (auth) {
+      const username = localStorage.getItem('currentUsername');
+      const role = localStorage.getItem('currentUserRole');
+      if (!username || !role) {
+        // Reset if incomplete
+        localStorage.removeItem('tav-auth');
+        return false;
+      }
+    }
+    return auth;
   });
 
   const login = useCallback(async (username: string, password: string): Promise<boolean> => {
     try {
       const trimmedUsername = (username || '').trim();
-      const trimmedPassword = (password || '').trim();
       
-      if (trimmedUsername.length > 0 && trimmedPassword.length > 0) {
-        setIsAuthenticated(true);
+      // Demo mode: accept any username (password is ignored)
+      if (trimmedUsername.length > 0) {
+        const role = getRoleFromUsername(trimmedUsername);
+        
+        // Set localStorage first
         localStorage.setItem('tav-auth', 'true');
         localStorage.setItem('currentUsername', trimmedUsername);
+        localStorage.setItem('currentUserRole', role);
+        
+        // Then update state to trigger re-render
+        setIsAuthenticated(true);
+        
         return true;
       }
       return false;
@@ -35,6 +84,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setIsAuthenticated(false);
     localStorage.removeItem('tav-auth');
     localStorage.removeItem('currentUsername');
+    localStorage.removeItem('currentUserRole');
   }, []);
 
   return (

@@ -7,41 +7,58 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { LogIn, Globe } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { LogIn, Globe, Info } from 'lucide-react';
+
+const testUsernames = [
+  'admin.test',
+  'hse.test',
+  'hr.test',
+  'medic.test',
+  'training.test',
+  'safety.test',
+  'equipment.test',
+  'manager.test',
+  'employee.test',
+];
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, logout } = useAuth();
   const { language, setLanguage, t } = useLanguage();
+
+  const handleReset = () => {
+    // Clear all localStorage
+    localStorage.clear();
+    // Logout to reset auth state
+    logout();
+    // Reload page to clear all state
+    window.location.reload();
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    
+    const trimmedUsername = (username || '').trim();
+    
+    // Demo mode: only username is required, password is ignored
+    if (!trimmedUsername) {
+      return;
+    }
+
     setIsLoading(true);
 
     try {
-      const trimmedUsername = (username || '').trim();
-      const trimmedPassword = (password || '').trim();
-      
-      if (!trimmedUsername || !trimmedPassword) {
-        setError(t.login.invalidCredentials);
-        setIsLoading(false);
-        return;
-      }
-
-      const success = await login(trimmedUsername, trimmedPassword);
-      if (success) {
-        navigate('/');
-      } else {
-        setError(t.login.invalidCredentials);
-      }
+      await login(trimmedUsername, password || '');
+      // Always navigate - login always succeeds in demo mode
+      navigate('/dashboard', { replace: true });
     } catch (err) {
       console.error('Login error:', err);
-      setError(t.login.loginError);
+      // Even on error, try to navigate in demo mode
+      navigate('/dashboard', { replace: true });
     } finally {
       setIsLoading(false);
     }
@@ -63,6 +80,15 @@ const Login: React.FC = () => {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
+            <Alert className="bg-blue-50 dark:bg-blue-950 border-blue-200 dark:border-blue-800">
+              <Info className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+              <AlertDescription className="text-sm text-blue-800 dark:text-blue-200">
+                <strong>Demo Mode – Authentication Disabled</strong>
+                <br />
+                Use any of the test usernames listed below. Password field is optional.
+              </AlertDescription>
+            </Alert>
+
             <div className="space-y-2">
               <Label htmlFor="language" className="text-sm font-medium flex items-center gap-2">
                 <Globe className="h-4 w-4" />
@@ -86,41 +112,48 @@ const Login: React.FC = () => {
                 <Input
                   id="username"
                   type="text"
-                  placeholder={t.login.usernamePlaceholder}
+                  placeholder="Enter test username (e.g., admin.test)"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   required
                   autoComplete="username"
                 />
+                <p className="text-xs text-muted-foreground">
+                  Test usernames: {testUsernames.join(', ')}
+                </p>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password">{t.login.password}</Label>
+                <Label htmlFor="password">{t.login.password} <span className="text-muted-foreground">(optional)</span></Label>
                 <Input
                   id="password"
                   type="password"
-                  placeholder={t.login.passwordPlaceholder}
+                  placeholder="Password (ignored in demo mode)"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  required
                   autoComplete="current-password"
                 />
               </div>
 
-              {error && (
-                <div className="text-sm text-destructive bg-destructive/10 border border-destructive/20 rounded-md p-3">
-                  {error}
-                </div>
-              )}
-
               <Button
                 type="submit"
                 className="w-full"
-                disabled={isLoading}
+                disabled={isLoading || !username.trim()}
               >
                 {isLoading ? t.login.loggingIn : t.login.loginButton}
               </Button>
             </form>
+
+            <div className="pt-2 border-t">
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full text-xs"
+                onClick={handleReset}
+              >
+                🔄 Reset Cache & Clear Storage
+              </Button>
+            </div>
           </CardContent>
         </Card>
       </div>

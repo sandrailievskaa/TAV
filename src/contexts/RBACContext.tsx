@@ -230,14 +230,64 @@ export const RBACProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   React.useEffect(() => {
     if (isAuthenticated) {
-      // Get username from localStorage or session
-      const username = localStorage.getItem('currentUsername') || 'employee.test';
-      const user = testUsers[username] || testUsers['employee.test'];
-      setCurrentUser(user);
+      // Get username and role from localStorage
+      const username = localStorage.getItem('currentUsername') || '';
+      const storedRole = localStorage.getItem('currentUserRole') as UserRole | null;
+      
+      // Try to get user from test users first
+      const user = testUsers[username.toLowerCase()];
+      
+      if (user) {
+        setCurrentUser(user);
+      } else if (storedRole) {
+        // Create a user object for unknown usernames with the stored role
+        setCurrentUser({
+          id: `demo-${username}`,
+          username: username || 'demo',
+          role: storedRole,
+          status: 'active',
+          fullName: username || 'Demo User',
+        });
+      } else {
+        // Fallback to management role for unknown users
+        setCurrentUser({
+          id: `demo-${username}`,
+          username: username || 'demo',
+          role: 'management',
+          status: 'active',
+          fullName: username || 'Demo User',
+        });
+      }
     } else {
       setCurrentUser(null);
     }
   }, [isAuthenticated]);
+
+  // Also listen to storage changes in case login happens in another tab
+  React.useEffect(() => {
+    const handleStorageChange = () => {
+      if (localStorage.getItem('tav-auth') === 'true') {
+        const username = localStorage.getItem('currentUsername') || '';
+        const storedRole = localStorage.getItem('currentUserRole') as UserRole | null;
+        const user = testUsers[username.toLowerCase()];
+        
+        if (user) {
+          setCurrentUser(user);
+        } else if (storedRole) {
+          setCurrentUser({
+            id: `demo-${username}`,
+            username: username || 'demo',
+            role: storedRole,
+            status: 'active',
+            fullName: username || 'Demo User',
+          });
+        }
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
 
   const hasPermission = (module: string, permission: Permission): boolean => {
     if (!currentUser || currentUser.status !== 'active') return false;

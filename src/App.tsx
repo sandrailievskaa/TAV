@@ -35,7 +35,7 @@ const queryClient = new QueryClient();
 
 const LoginRoute = () => {
   const { isAuthenticated } = useAuth();
-  return isAuthenticated ? <Navigate to="/" replace /> : <Login />;
+  return isAuthenticated ? <Navigate to="/dashboard" replace /> : <Login />;
 };
 
 const App = () => (
@@ -62,6 +62,7 @@ const App = () => (
                       <MainLayout>
                         <Routes>
                           <Route path="/" element={<Index />} />
+                          <Route path="/dashboard" element={<Index />} />
                           <Route path="/flights" element={<Flights />} />
                           <Route path="/passengers" element={<Passengers />} />
                           <Route path="/staff" element={<Staff />} />
