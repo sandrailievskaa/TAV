@@ -41,3 +41,4 @@ localStorage.clear(); window.location.reload();
 Отвори ја апликацијата во Incognito/Private режим за да избегнеш кеш проблеми.
 
 
+

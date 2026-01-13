@@ -187,19 +187,19 @@
 @layer components {
   /* Status badges */
   .badge-success {
-    @apply bg-success/15 text-success border-success/30;
+    @apply bg-gradient-to-br from-success/20 via-success/15 to-success/10 text-success border-success/40 shadow-sm;
   }
   
   .badge-warning {
-    @apply bg-warning/15 text-warning border-warning/30;
+    @apply bg-gradient-to-br from-warning/20 via-warning/15 to-warning/10 text-warning-foreground border-warning/40 shadow-sm;
   }
   
   .badge-destructive {
-    @apply bg-destructive/15 text-destructive border-destructive/30;
+    @apply bg-gradient-to-br from-destructive/20 via-destructive/15 to-destructive/10 text-destructive border-destructive/40 shadow-sm;
   }
 
   .stat-card {
-    @apply bg-card rounded-lg border border-border p-5 transition-all duration-200 hover:shadow-md hover:border-primary/20;
+    @apply bg-card rounded-lg border border-border p-5 transition-all duration-300 hover:shadow-lg hover:border-primary/30;
   }
 
   .stat-value {
@@ -215,39 +215,39 @@
   }
 
   .data-table th {
-    @apply text-left font-medium text-muted-foreground px-4 py-3 bg-muted/50 first:rounded-tl-lg last:rounded-tr-lg;
+    @apply text-left font-medium text-muted-foreground px-4 py-3 bg-gradient-to-b from-muted/60 to-muted/40 first:rounded-tl-lg last:rounded-tr-lg border-b-2 border-border/50;
   }
 
   .data-table td {
-    @apply px-4 py-3 border-b border-border;
+    @apply px-4 py-3 border-b border-border/50 transition-colors;
   }
 
   .data-table tr:hover td {
-    @apply bg-muted/30;
+    @apply bg-gradient-to-r from-muted/40 to-muted/20;
   }
 
   .topbar-action {
-    @apply p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors;
+    @apply p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-gradient-to-br hover:from-muted hover:to-muted/70 transition-all duration-200 hover:shadow-sm;
   }
 
   .nav-item {
-    @apply flex items-center gap-3 px-3 py-2.5 rounded-lg text-sidebar-foreground/80 hover:text-sidebar-foreground hover:bg-sidebar-accent transition-all duration-150;
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-lg text-sidebar-foreground/80 hover:text-sidebar-foreground hover:bg-gradient-to-r hover:from-sidebar-accent hover:to-sidebar-accent/80 transition-all duration-200 hover:shadow-sm;
   }
 
   .nav-item.active {
-    @apply bg-sidebar-primary text-sidebar-primary-foreground font-medium;
+    @apply bg-gradient-to-r from-sidebar-primary to-sidebar-primary/90 text-sidebar-primary-foreground font-medium shadow-md;
   }
 
   .page-header {
-    @apply mb-6;
+    @apply mb-6 pb-4 border-b-2 border-border/50 bg-gradient-to-r from-transparent via-primary/5 to-transparent rounded-lg px-4 -mx-4;
   }
 
   .page-title {
-    @apply text-2xl font-semibold text-foreground;
+    @apply text-2xl font-bold bg-gradient-to-br from-foreground via-foreground/90 to-foreground/80 bg-clip-text text-transparent;
   }
 
   .page-description {
-    @apply text-muted-foreground mt-1;
+    @apply text-muted-foreground mt-2 font-medium;
   }
 }
 

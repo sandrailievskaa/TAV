@@ -79,26 +79,26 @@ const CalendarView: React.FC<CalendarViewProps> = ({ events, daysToShow = 14 }) 
   const getEventColor = (type: string) => {
     switch (type) {
       case 'medical':
-        return 'bg-blue-500/20 text-blue-700 dark:text-blue-400 border-blue-300 dark:border-blue-700';
+        return 'bg-gradient-to-br from-cyan-50 to-teal-50 dark:from-cyan-950/30 dark:to-teal-950/30 text-cyan-700 dark:text-cyan-300 border-cyan-200 dark:border-cyan-800 shadow-sm';
       case 'training':
-        return 'bg-purple-500/20 text-purple-700 dark:text-purple-400 border-purple-300 dark:border-purple-700';
+        return 'bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800 shadow-sm';
       case 'inspection':
-        return 'bg-orange-500/20 text-orange-700 dark:text-orange-400 border-orange-300 dark:border-orange-700';
+        return 'bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-950/30 dark:to-orange-950/30 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800 shadow-sm';
       default:
-        return 'bg-gray-500/20 text-gray-700 dark:text-gray-400 border-gray-300 dark:border-gray-700';
+        return 'bg-muted text-muted-foreground border-border';
     }
   };
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case 'high':
-        return 'bg-red-500';
+        return 'bg-destructive';
       case 'medium':
-        return 'bg-yellow-500';
+        return 'bg-warning';
       case 'low':
-        return 'bg-green-500';
+        return 'bg-success';
       default:
-        return 'bg-gray-500';
+        return 'bg-muted-foreground';
     }
   };
 
@@ -147,11 +147,13 @@ const CalendarView: React.FC<CalendarViewProps> = ({ events, daysToShow = 14 }) 
 
   return (
     <>
-      <Card className="hover:shadow-md transition-shadow duration-200">
-        <CardHeader>
+      <Card className="hover:shadow-lg transition-all duration-300 border-2 bg-gradient-to-br from-card to-card/95">
+        <CardHeader className="bg-gradient-to-r from-primary/5 via-accent/5 to-primary/5 border-b-2 border-border/50">
           <div className="flex items-center justify-between mb-2">
-            <CardTitle className="flex items-center gap-2">
-              <Calendar className="w-5 h-5" />
+            <CardTitle className="flex items-center gap-2 text-foreground">
+              <div className="p-2 rounded-lg bg-gradient-to-br from-primary/20 to-accent/20 shadow-sm">
+                <Calendar className="w-5 h-5 text-primary" />
+              </div>
               {language === 'mk' ? 'Календар на настани' : language === 'sq' ? 'Kalendari i ngjarjeve' : 'Event Calendar'}
             </CardTitle>
             <div className="flex items-center gap-2">
@@ -181,9 +183,9 @@ const CalendarView: React.FC<CalendarViewProps> = ({ events, daysToShow = 14 }) 
           {/* Calendar Grid */}
           <div className="space-y-2">
             {/* Day Labels */}
-            <div className="grid grid-cols-7 gap-1 mb-2">
+            <div className="grid grid-cols-7 gap-1 mb-3">
               {dayLabels.map((day, index) => (
-                <div key={index} className="text-center text-xs font-medium text-muted-foreground py-1">
+                <div key={index} className="text-center text-xs font-semibold text-foreground/70 py-2 bg-gradient-to-b from-muted/30 to-transparent rounded-md">
                   {day}
                 </div>
               ))}
@@ -199,40 +201,49 @@ const CalendarView: React.FC<CalendarViewProps> = ({ events, daysToShow = 14 }) 
                 const isSelected = selectedDate && isSameDay(day, selectedDate);
                 const isCurrentMonth = isSameMonth(day, currentMonth);
 
+                // Get event types for this day to show color indicators
+                const eventTypes = dayEvents.map(e => e.type);
+                const hasMedical = eventTypes.includes('medical');
+                const hasTraining = eventTypes.includes('training');
+                const hasInspection = eventTypes.includes('inspection');
+
                 return (
                   <button
                     key={index}
                     onClick={() => handleDateClick(day)}
                     className={cn(
-                      'relative h-12 rounded-md border transition-all duration-200 hover:bg-muted/50',
+                      'relative h-12 rounded-lg border-2 transition-all duration-300 hover:scale-105',
                       !isCurrentMonth && 'opacity-40',
-                      isCurrentDay && 'ring-2 ring-primary',
-                      isSelected && 'bg-primary/10 border-primary',
-                      eventCount > 0 && 'hover:shadow-md'
+                      isCurrentDay && 'ring-2 ring-primary ring-offset-2 bg-gradient-to-br from-primary/10 to-primary/5 border-primary shadow-md',
+                      isSelected && 'bg-gradient-to-br from-primary/20 to-primary/10 border-primary shadow-lg scale-105',
+                      !isCurrentDay && !isSelected && 'border-border hover:border-primary/50 hover:bg-gradient-to-br hover:from-muted/50 hover:to-muted/30',
+                      eventCount > 0 && 'hover:shadow-lg'
                     )}
                   >
                     <div className="flex flex-col items-center justify-center h-full p-1">
                       <span
                         className={cn(
-                          'text-sm font-medium',
+                          'text-sm font-semibold transition-colors',
                           isCurrentDay && 'text-primary font-bold',
-                          isSelected && 'text-primary'
+                          isSelected && 'text-primary',
+                          !isCurrentDay && !isSelected && 'text-foreground'
                         )}
                       >
                         {format(day, 'd')}
                       </span>
                       {eventCount > 0 && (
-                        <div className="flex items-center gap-0.5 mt-0.5">
-                          {priority && (
-                            <div
-                              className={cn(
-                                'w-1.5 h-1.5 rounded-full',
-                                getPriorityColor(priority)
-                              )}
-                            />
+                        <div className="flex items-center gap-1 mt-0.5">
+                          {hasMedical && (
+                            <div className="w-1.5 h-1.5 rounded-full bg-cyan-500 shadow-sm" />
+                          )}
+                          {hasTraining && (
+                            <div className="w-1.5 h-1.5 rounded-full bg-blue-500 shadow-sm" />
+                          )}
+                          {hasInspection && (
+                            <div className="w-1.5 h-1.5 rounded-full bg-amber-500 shadow-sm" />
                           )}
                           {eventCount > 1 && (
-                            <span className="text-[10px] text-muted-foreground">
+                            <span className="text-[9px] font-medium text-muted-foreground ml-0.5">
                               +{eventCount - 1}
                             </span>
                           )}
@@ -247,9 +258,11 @@ const CalendarView: React.FC<CalendarViewProps> = ({ events, daysToShow = 14 }) 
 
           {/* Upcoming Events List */}
           {upcomingEvents.length > 0 && (
-            <div className="mt-6 pt-4 border-t border-border">
-              <h4 className="text-sm font-semibold mb-3 flex items-center gap-2">
-                <Clock className="w-4 h-4" />
+            <div className="mt-6 pt-4 border-t-2 border-border/50">
+              <h4 className="text-sm font-semibold mb-4 flex items-center gap-2 text-foreground">
+                <div className="p-1.5 rounded-lg bg-gradient-to-br from-accent/20 to-primary/20">
+                  <Clock className="w-4 h-4 text-accent" />
+                </div>
                 {language === 'mk' ? 'Претстојни настани' : language === 'sq' ? 'Ngjarjet e ardhshme' : 'Upcoming Events'}
               </h4>
               <div className="space-y-2">
@@ -266,12 +279,12 @@ const CalendarView: React.FC<CalendarViewProps> = ({ events, daysToShow = 14 }) 
                         handleDateClick(eventDate);
                       }}
                       className={cn(
-                        'flex items-start gap-2 p-2 rounded-lg border cursor-pointer transition-all duration-200 hover:bg-muted/50 hover:shadow-sm',
+                        'flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition-all duration-300 hover:scale-[1.02] hover:shadow-md',
                         getEventColor(event.type)
                       )}
                     >
-                      <div className={cn('p-1.5 rounded', getEventColor(event.type))}>
-                        <Icon className="w-3.5 h-3.5" />
+                      <div className={cn('p-2 rounded-lg shadow-sm', getEventColor(event.type))}>
+                        <Icon className="w-4 h-4" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between gap-2 mb-0.5">
@@ -338,12 +351,12 @@ const CalendarView: React.FC<CalendarViewProps> = ({ events, daysToShow = 14 }) 
                   <div
                     key={event.id}
                     className={cn(
-                      'p-3 rounded-lg border',
+                      'p-4 rounded-xl border-2 shadow-sm',
                       getEventColor(event.type)
                     )}
                   >
                     <div className="flex items-start gap-3">
-                      <div className={cn('p-2 rounded-lg', getEventColor(event.type))}>
+                      <div className={cn('p-2.5 rounded-lg shadow-sm', getEventColor(event.type))}>
                         <Icon className="w-5 h-5" />
                       </div>
                       <div className="flex-1 min-w-0">

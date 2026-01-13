@@ -7,6 +7,7 @@ import FlightTable from '@/components/dashboard/FlightTable';
 import ActivityFeed from '@/components/dashboard/ActivityFeed';
 import PassengerFlowChart from '@/components/dashboard/PassengerFlowChart';
 import FlightStatusChart from '@/components/dashboard/FlightStatusChart';
+import CalendarView from '@/components/dashboard/CalendarView';
 import {
   Plane,
   Users,
@@ -222,11 +223,11 @@ const Dashboard: React.FC = () => {
   const getAlertColor = (category: ExpirationAlert['category']) => {
     switch (category) {
       case 'expired':
-        return 'border-red-500 bg-red-50 dark:bg-red-950/20';
+        return 'border-2 border-red-500/60 bg-gradient-to-br from-red-50 via-red-50/80 to-red-100/50 dark:from-red-950/30 dark:via-red-950/20 dark:to-red-900/20 shadow-lg';
       case 'tomorrow':
-        return 'border-orange-500 bg-orange-50 dark:bg-orange-950/20';
+        return 'border-2 border-orange-500/60 bg-gradient-to-br from-orange-50 via-orange-50/80 to-amber-50/50 dark:from-orange-950/30 dark:via-orange-950/20 dark:to-amber-900/20 shadow-md';
       case '30days':
-        return 'border-yellow-500 bg-yellow-50 dark:bg-yellow-950/20';
+        return 'border-2 border-yellow-500/60 bg-gradient-to-br from-yellow-50 via-yellow-50/80 to-amber-50/50 dark:from-yellow-950/30 dark:via-yellow-950/20 dark:to-amber-900/20 shadow-sm';
     }
   };
 
@@ -235,6 +236,80 @@ const Dashboard: React.FC = () => {
       language === 'mk' ? 'mk-MK' : language === 'sq' ? 'sq-AL' : 'en-US'
     );
   };
+
+  // Transform data into calendar events
+  const calendarEvents = useMemo(() => {
+    const events: Array<{
+      id: string;
+      type: 'medical' | 'training' | 'inspection';
+      title: string;
+      employeeName?: string;
+      date: string;
+      time?: string;
+      priority: 'high' | 'medium' | 'low';
+      description?: string;
+    }> = [];
+
+    // Add training expiry dates
+    trainings.forEach((training) => {
+      if (training.expiryDate) {
+        const daysUntil = getDaysUntil(training.expiryDate);
+        events.push({
+          id: `training-expiry-${training.id}`,
+          type: 'training',
+          title: `${training.trainingName} - ${language === 'mk' ? 'Истекува' : language === 'sq' ? 'Skadon' : 'Expires'}`,
+          employeeName: training.employeeName,
+          date: training.expiryDate,
+          priority: daysUntil < 0 ? 'high' : daysUntil <= 7 ? 'high' : daysUntil <= 30 ? 'medium' : 'low',
+          description: training.trainingType === 'internal' 
+            ? (language === 'mk' ? 'Внатрешно обучување' : language === 'sq' ? 'Trajnim i brendshëm' : 'Internal training')
+            : (language === 'mk' ? 'Надворешно обучување' : language === 'sq' ? 'Trajnim i jashtëm' : 'External training'),
+        });
+      }
+    });
+
+    // Add medical exam expiry dates
+    medicalExaminations.forEach((exam) => {
+      const daysUntil = exam.daysUntilExpiry;
+      events.push({
+        id: `medical-expiry-${exam.id}`,
+        type: 'medical',
+        title: `${exam.examType} - ${language === 'mk' ? 'Истекува' : language === 'sq' ? 'Skadon' : 'Expires'}`,
+        employeeName: exam.employeeName,
+        date: exam.validUntil,
+        priority: daysUntil < 0 ? 'high' : daysUntil <= 7 ? 'high' : daysUntil <= 30 ? 'medium' : 'low',
+        description: exam.doctor,
+      });
+    });
+
+    // Add vehicle inspection and insurance expiry dates
+    vehicles.forEach((vehicle) => {
+      if (vehicle.inspectionExpiry) {
+        const daysUntil = getDaysUntil(vehicle.inspectionExpiry);
+        events.push({
+          id: `inspection-${vehicle.id}`,
+          type: 'inspection',
+          title: `${vehicle.type} - ${language === 'mk' ? 'Инспекција истекува' : language === 'sq' ? 'Inspeksioni skadon' : 'Inspection expires'}`,
+          date: vehicle.inspectionExpiry,
+          priority: daysUntil < 0 ? 'high' : daysUntil <= 7 ? 'high' : daysUntil <= 30 ? 'medium' : 'low',
+          description: vehicle.licensePlate,
+        });
+      }
+      if (vehicle.insuranceExpiry) {
+        const daysUntil = getDaysUntil(vehicle.insuranceExpiry);
+        events.push({
+          id: `insurance-${vehicle.id}`,
+          type: 'inspection',
+          title: `${vehicle.type} - ${language === 'mk' ? 'Осигурување истекува' : language === 'sq' ? 'Sigurimi skadon' : 'Insurance expires'}`,
+          date: vehicle.insuranceExpiry,
+          priority: daysUntil < 0 ? 'high' : daysUntil <= 7 ? 'high' : daysUntil <= 30 ? 'medium' : 'low',
+          description: vehicle.licensePlate,
+        });
+      }
+    });
+
+    return events;
+  }, [language]);
 
   return (
     <div className="space-y-6">
@@ -271,10 +346,12 @@ const Dashboard: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-              <GraduationCap className="w-4 h-4" />
+        <Card className="border-2 hover:shadow-lg transition-all duration-300 bg-gradient-to-br from-card to-card/95 hover:border-primary/30">
+          <CardHeader className="pb-3 bg-gradient-to-r from-blue-50/50 to-indigo-50/50 dark:from-blue-950/20 dark:to-indigo-950/20 border-b-2 border-border/50">
+            <CardTitle className="text-sm font-semibold text-foreground flex items-center gap-2">
+              <div className="p-1.5 rounded-lg bg-gradient-to-br from-blue-500/20 to-indigo-500/20 shadow-sm">
+                <GraduationCap className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+              </div>
               {t.dashboard.trainings}
             </CardTitle>
           </CardHeader>
@@ -296,10 +373,12 @@ const Dashboard: React.FC = () => {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-              <Stethoscope className="w-4 h-4" />
+        <Card className="border-2 hover:shadow-lg transition-all duration-300 bg-gradient-to-br from-card to-card/95 hover:border-accent/30">
+          <CardHeader className="pb-3 bg-gradient-to-r from-cyan-50/50 to-teal-50/50 dark:from-cyan-950/20 dark:to-teal-950/20 border-b-2 border-border/50">
+            <CardTitle className="text-sm font-semibold text-foreground flex items-center gap-2">
+              <div className="p-1.5 rounded-lg bg-gradient-to-br from-cyan-500/20 to-teal-500/20 shadow-sm">
+                <Stethoscope className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
+              </div>
               {t.dashboard.medicalExams}
             </CardTitle>
           </CardHeader>
@@ -321,10 +400,12 @@ const Dashboard: React.FC = () => {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-              <HardHat className="w-4 h-4" />
+        <Card className="border-2 hover:shadow-lg transition-all duration-300 bg-gradient-to-br from-card to-card/95 hover:border-warning/30">
+          <CardHeader className="pb-3 bg-gradient-to-r from-amber-50/50 to-orange-50/50 dark:from-amber-950/20 dark:to-orange-950/20 border-b-2 border-border/50">
+            <CardTitle className="text-sm font-semibold text-foreground flex items-center gap-2">
+              <div className="p-1.5 rounded-lg bg-gradient-to-br from-amber-500/20 to-orange-500/20 shadow-sm">
+                <HardHat className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+              </div>
               {t.dashboard.ppe}
             </CardTitle>
           </CardHeader>
@@ -346,10 +427,12 @@ const Dashboard: React.FC = () => {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-              <Wrench className="w-4 h-4" />
+        <Card className="border-2 hover:shadow-lg transition-all duration-300 bg-gradient-to-br from-card to-card/95 hover:border-warning/30">
+          <CardHeader className="pb-3 bg-gradient-to-r from-orange-50/50 to-red-50/50 dark:from-orange-950/20 dark:to-red-950/20 border-b-2 border-border/50">
+            <CardTitle className="text-sm font-semibold text-foreground flex items-center gap-2">
+              <div className="p-1.5 rounded-lg bg-gradient-to-br from-orange-500/20 to-red-500/20 shadow-sm">
+                <Wrench className="w-4 h-4 text-orange-600 dark:text-orange-400" />
+              </div>
               {t.dashboard.equipment}
             </CardTitle>
           </CardHeader>
@@ -371,10 +454,12 @@ const Dashboard: React.FC = () => {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-              <Clock className="w-4 h-4" />
+        <Card className="border-2 hover:shadow-lg transition-all duration-300 bg-gradient-to-br from-card to-card/95 hover:border-destructive/30">
+          <CardHeader className="pb-3 bg-gradient-to-r from-red-50/50 to-pink-50/50 dark:from-red-950/20 dark:to-pink-950/20 border-b-2 border-border/50">
+            <CardTitle className="text-sm font-semibold text-foreground flex items-center gap-2">
+              <div className="p-1.5 rounded-lg bg-gradient-to-br from-red-500/20 to-pink-500/20 shadow-sm">
+                <Clock className="w-4 h-4 text-red-600 dark:text-red-400" />
+              </div>
               {t.dashboard.lostWorkHours}
             </CardTitle>
           </CardHeader>
@@ -393,6 +478,15 @@ const Dashboard: React.FC = () => {
             </div>
           </CardContent>
         </Card>
+      </div>
+
+      <div className="w-full">
+        <CalendarView events={calendarEvents} />
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <PassengerFlowChart />
+        <FlightStatusChart />
       </div>
 
       {expirationAlerts.length > 0 && (
@@ -420,7 +514,7 @@ const Dashboard: React.FC = () => {
                   {expiredAlerts.slice(0, 5).map((alert) => {
                     const Icon = getAlertIcon(alert.type);
                     return (
-                      <div key={alert.id} className="flex items-center justify-between p-2 rounded-lg bg-white/50 dark:bg-black/20">
+                      <div key={alert.id} className="flex items-center justify-between p-3 rounded-xl bg-gradient-to-r from-white/70 to-white/50 dark:from-black/30 dark:to-black/20 border border-white/50 dark:border-white/10 shadow-sm hover:shadow-md transition-all duration-200">
                         <div className="flex items-center gap-2 flex-1">
                           <Icon className="w-4 h-4 text-muted-foreground" />
                           <div className="flex-1 min-w-0">
@@ -462,7 +556,7 @@ const Dashboard: React.FC = () => {
                   {tomorrowAlerts.slice(0, 5).map((alert) => {
                     const Icon = getAlertIcon(alert.type);
                     return (
-                      <div key={alert.id} className="flex items-center justify-between p-2 rounded-lg bg-white/50 dark:bg-black/20">
+                      <div key={alert.id} className="flex items-center justify-between p-3 rounded-xl bg-gradient-to-r from-white/70 to-white/50 dark:from-black/30 dark:to-black/20 border border-white/50 dark:border-white/10 shadow-sm hover:shadow-md transition-all duration-200">
                         <div className="flex items-center gap-2 flex-1">
                           <Icon className="w-4 h-4 text-muted-foreground" />
                           <div className="flex-1 min-w-0">
@@ -504,7 +598,7 @@ const Dashboard: React.FC = () => {
                   {thirtyDaysAlerts.slice(0, 5).map((alert) => {
                     const Icon = getAlertIcon(alert.type);
                     return (
-                      <div key={alert.id} className="flex items-center justify-between p-2 rounded-lg bg-white/50 dark:bg-black/20">
+                      <div key={alert.id} className="flex items-center justify-between p-3 rounded-xl bg-gradient-to-r from-white/70 to-white/50 dark:from-black/30 dark:to-black/20 border border-white/50 dark:border-white/10 shadow-sm hover:shadow-md transition-all duration-200">
                         <div className="flex items-center gap-2 flex-1">
                           <Icon className="w-4 h-4 text-muted-foreground" />
                           <div className="flex-1 min-w-0">
@@ -535,14 +629,6 @@ const Dashboard: React.FC = () => {
         </div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2">
-          <PassengerFlowChart />
-        </div>
-        <div>
-          <FlightStatusChart />
-        </div>
-      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">

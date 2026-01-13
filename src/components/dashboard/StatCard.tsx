@@ -24,16 +24,18 @@ const StatCard: React.FC<StatCardProps> = ({
   const TrendIcon = isPositive ? TrendingUp : isNegative ? TrendingDown : Minus;
 
   return (
-    <div className="stat-card group">
+    <div className="stat-card group hover:shadow-lg transition-all duration-300 border-2 hover:border-primary/30 bg-gradient-to-br from-card to-card/95">
       <div className="flex items-start justify-between">
         <div>
           <p className="stat-label">{title}</p>
-          <p className="stat-value mt-1">{value}</p>
+          <p className="stat-value mt-1 bg-gradient-to-br from-foreground to-foreground/80 bg-clip-text text-transparent">{value}</p>
         </div>
         <div
           className={cn(
-            'p-2.5 rounded-xl transition-colors',
-            'bg-primary/10 group-hover:bg-primary/15',
+            'p-3 rounded-xl transition-all duration-300 shadow-sm',
+            'bg-gradient-to-br from-primary/15 via-primary/10 to-accent/10',
+            'group-hover:from-primary/25 group-hover:via-primary/15 group-hover:to-accent/15',
+            'group-hover:scale-110 group-hover:shadow-md',
             iconColor
           )}
         >

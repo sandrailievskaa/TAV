@@ -9,3 +9,4 @@ console.log('Reloading page...');
 window.location.reload();
 
 
+
