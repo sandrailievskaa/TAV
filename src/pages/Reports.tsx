@@ -67,7 +67,6 @@ const Reports: React.FC = () => {
   const [viewMode, setViewMode] = useState<ViewMode>('list');
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   
-  // Filters
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [employeeFilter, setEmployeeFilter] = useState('all');
@@ -81,7 +80,6 @@ const Reports: React.FC = () => {
     );
   };
 
-  // Filter trainings
   const filteredTrainings = trainings.filter((training) => {
     const matchesDate = (!startDate || training.completionDate >= startDate) &&
                        (!endDate || training.completionDate <= endDate);
@@ -93,7 +91,6 @@ const Reports: React.FC = () => {
     return matchesDate && matchesEmployee && matchesDepartment && matchesStatus && matchesType;
   });
 
-  // Filter medical exams
   const filteredMedicalExams = medicalExaminations.filter((exam) => {
     const matchesDate = (!startDate || exam.examDate >= startDate) &&
                        (!endDate || exam.examDate <= endDate);
@@ -105,7 +102,6 @@ const Reports: React.FC = () => {
     return matchesDate && matchesEmployee && matchesDepartment && matchesStatus && matchesType;
   });
 
-  // Filter incidents
   const filteredIncidents = incidents.filter((incident) => {
     const matchesDate = (!startDate || incident.date >= startDate) &&
                        (!endDate || incident.date <= endDate);
@@ -138,12 +134,10 @@ const Reports: React.FC = () => {
   };
 
   const handleExportExcel = () => {
-    // In a real application, this would generate an Excel file
     alert(t.reports.exportToExcel + ' - ' + selectedItems.length + ' items');
   };
 
   const handleExportPDF = () => {
-    // In a real application, this would generate a PDF file
     alert(t.reports.exportToPDF + ' - ' + selectedItems.length + ' items');
   };
 

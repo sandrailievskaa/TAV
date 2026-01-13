@@ -1,5 +1,24 @@
 # TAV System – Интерен систем за безбедност, здравје и усогласеност
 
+## 🚀 Live Demo
+
+**Апликацијата е достапна за тестирање на GitHub Pages:**
+
+👉 **[https://sandrailievskaa.github.io/TAV](https://sandrailievskaa.github.io/TAV)**
+
+## 📦 Инсталација и Deployment
+
+**За локален развој:**
+```bash
+npm install
+npm run dev
+```
+
+**За deploy на GitHub Pages:**
+```bash
+npm install
+npm run deploy
+```
 ## Краток опис
 
 ## Улоги и дозволи (RBAC – Role Based Access Control)

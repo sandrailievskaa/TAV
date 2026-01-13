@@ -110,7 +110,6 @@ const AIAssistant: React.FC = () => {
         : 'The Dashboard shows:\n- Expiration alerts (trainings, medical exams, PPE, equipment)\n- Summary counters\n- Lost work hours\n- Time categories: tomorrow, 30 days, expired\n- Quick overview of operations';
     }
 
-    // Default response
     return lang === 'mk'
       ? 'Извинете, не сум сигурен како да одговорам на тоа прашање. Можете да ме прашате за:\n- Како да креирате нов вработен\n- Каде се извештаите\n- Како да проверите истек на медицински прегледи\n- Што е AFR/ASR\n- Управување со обуки\n- Роли и дозволи\n- Dashboard функционалности'
       : lang === 'sq'
@@ -132,7 +131,6 @@ const AIAssistant: React.FC = () => {
     setInputValue('');
     setIsTyping(true);
 
-    // Simulate AI response delay
     setTimeout(() => {
       const response = getResponse(inputValue);
       const assistantMessage: Message = {

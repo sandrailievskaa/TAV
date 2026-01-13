@@ -124,7 +124,6 @@ export const translations = {
       alerts: 'Alerts',
       summary: 'Summary',
     },
-    // Flights
     flights: {
       title: 'Flight Management',
       subtitle: 'Monitor and manage all flight operations.',
@@ -142,7 +141,6 @@ export const translations = {
       boarding: 'Boarding',
       landed: 'Landed',
     },
-    // Passengers
     passengers: {
       title: 'Passenger Management',
       subtitle: 'Track and manage passenger information.',
@@ -155,7 +153,6 @@ export const translations = {
       checkedIn: 'Checked In',
       boarded: 'Boarded',
     },
-    // Staff
     staff: {
       title: 'Staff Management',
       subtitle: 'Manage airport and airline personnel.',
@@ -187,7 +184,6 @@ export const translations = {
         night: 'Night',
       },
     },
-    // Vehicles
     vehicles: {
       title: 'Vehicle Management',
       subtitle: 'Track ground support equipment and vehicles.',
@@ -223,7 +219,6 @@ export const translations = {
         winterOperations: 'Winter Operations',
       },
     },
-    // Reports
     reports: {
       title: 'Reports & Analytics',
       subtitle: 'Generate and view operational reports.',
@@ -278,7 +273,6 @@ export const translations = {
       list: 'List',
       viewMode: 'View Mode',
     },
-    // Settings
     settings: {
       title: 'Settings',
       subtitle: 'Configure system preferences.',
@@ -313,7 +307,6 @@ export const translations = {
         loginAlertsDesc: 'Get notified of new login attempts',
       },
     },
-    // Users
     users: {
       title: 'User Management',
       subtitle: 'Manage system users and permissions.',
@@ -329,14 +322,12 @@ export const translations = {
         staff: 'Staff',
       },
     },
-    // Topbar
     topbar: {
       notifications: 'Notifications',
       profile: 'Profile',
       logout: 'Logout',
       help: 'Help & Support',
     },
-    // Administrative Module
     admin: {
       title: 'Administrative Module',
       organization: {
@@ -428,7 +419,6 @@ export const translations = {
         draft: 'Draft',
       },
     },
-    // Logs
     logs: {
       title: 'Activity Logs',
       subtitle: 'View system activity and audit trail',
@@ -439,7 +429,6 @@ export const translations = {
         system: 'System',
       },
     },
-    // Common data
     data: {
       classes: {
         economy: 'Economy',
@@ -452,7 +441,6 @@ export const translations = {
         kosovar: 'Kosovar',
       },
     },
-    // Activity messages
     activities: {
       flightDeparted: 'Flight {flight} departed from Gate {gate}',
       passengerCheckedIn: 'Passenger {name} checked in for {flight}',
@@ -461,7 +449,6 @@ export const translations = {
       backupCompleted: 'Daily backup completed successfully',
       flightDelayed: 'Flight {flight} delayed by {minutes} minutes',
     },
-    // Employee Registry
     employees: {
       title: 'Employee Registry',
       subtitle: 'Manage employee profiles, qualifications, and compliance',
@@ -515,7 +502,6 @@ export const translations = {
       editProfile: 'Edit Profile',
       uploadDocument: 'Upload Document',
     },
-    // Medical Examinations
     medicalExams: {
       title: 'Medical Examinations',
       subtitle: 'Manage employee medical examinations and track validity',
@@ -571,7 +557,6 @@ export const translations = {
       sent: 'Sent',
       statusTracking: 'Status Tracking',
     },
-    // Training Management
     trainings: {
       title: 'Training Management',
       subtitle: 'Manage employee trainings, certificates, and track validity',
@@ -627,7 +612,6 @@ export const translations = {
       iHaveReadAndUnderstood: 'I have read and understood the instructions',
       signature: 'Signature',
     },
-    // Workplace Injuries and Incidents
     incidents: {
       title: 'Workplace Injuries and Incidents',
       subtitle: 'Manage workplace injuries, incidents, and safety analysis',
@@ -702,7 +686,6 @@ export const translations = {
     },
   },
   mk: {
-    // Navigation
     nav: {
       dashboard: 'Контролна табла',
       flights: 'Летови',
@@ -824,7 +807,6 @@ export const translations = {
       alerts: 'Аларми',
       summary: 'Преглед',
     },
-    // Flights
     flights: {
       title: 'Управување со летови',
       subtitle: 'Следете ги и управувајте со сите летови.',
@@ -842,7 +824,6 @@ export const translations = {
       boarding: 'Укрцување',
       landed: 'Слетан',
     },
-    // Passengers
     passengers: {
       title: 'Управување со патници',
       subtitle: 'Следете ги и управувајте информации за патниците.',
@@ -855,7 +836,6 @@ export const translations = {
       checkedIn: 'Пријавен',
       boarded: 'Укрцан',
     },
-    // Staff
     staff: {
       title: 'Управување со персонал',
       subtitle: 'Управувајте со вработените на аеродромот.',
@@ -887,7 +867,6 @@ export const translations = {
         night: 'Ноќ',
       },
     },
-    // Vehicles
     vehicles: {
       title: 'Управување со возила',
       subtitle: 'Следете ја земната опрема и возилата.',
@@ -923,7 +902,6 @@ export const translations = {
         winterOperations: 'Зимски операции',
       },
     },
-    // Reports
     reports: {
       title: 'Извештаи и аналитика',
       subtitle: 'Генерирајте и прегледајте оперативни извештаи.',
@@ -978,7 +956,6 @@ export const translations = {
       list: 'Листа',
       viewMode: 'Режим на преглед',
     },
-    // Settings
     settings: {
       title: 'Поставки',
       subtitle: 'Конфигурирајте системски поставки.',
@@ -1013,7 +990,6 @@ export const translations = {
         loginAlertsDesc: 'Известување за нови обиди за најава',
       },
     },
-    // Users
     users: {
       title: 'Управување со корисници',
       subtitle: 'Управувајте со корисниците и дозволите.',
@@ -1029,14 +1005,12 @@ export const translations = {
         staff: 'Персонал',
       },
     },
-    // Topbar
     topbar: {
       notifications: 'Известувања',
       profile: 'Профил',
       logout: 'Одјава',
       help: 'Помош и поддршка',
     },
-    // Administrative Module
     admin: {
       title: 'Административен модул',
       organization: {
@@ -1128,7 +1102,6 @@ export const translations = {
         draft: 'Нацрт',
       },
     },
-    // Logs
     logs: {
       title: 'Дневник на активности',
       subtitle: 'Преглед на системска активност и ревизија',
@@ -1139,7 +1112,6 @@ export const translations = {
         system: 'Систем',
       },
     },
-    // Common data
     data: {
       classes: {
         economy: 'Економска',
@@ -1152,7 +1124,6 @@ export const translations = {
         kosovar: 'Косовар',
       },
     },
-    // Activity messages
     activities: {
       flightDeparted: 'Лет {flight} замина од Порта {gate}',
       passengerCheckedIn: 'Патник {name} пријавен за {flight}',
@@ -1161,7 +1132,6 @@ export const translations = {
       backupCompleted: 'Дневна резервна копија успешно завршена',
       flightDelayed: 'Лет {flight} задоцнет за {minutes} минути',
     },
-    // Employee Registry
     employees: {
       title: 'Регистар на вработени',
       subtitle: 'Управување со профили на вработени, квалификации и усогласеност',
@@ -1215,7 +1185,6 @@ export const translations = {
       editProfile: 'Уреди профил',
       uploadDocument: 'Прикачи документ',
     },
-    // Medical Examinations
     medicalExams: {
       title: 'Медицински прегледи',
       subtitle: 'Управување со медицински прегледи на вработени и следење на валидност',
@@ -1267,7 +1236,6 @@ export const translations = {
       processing: 'Обработка...',
       recognitionComplete: 'Препознавањето е завршено',
     },
-    // Training Management
     trainings: {
       title: 'Управување со обуки',
       subtitle: 'Управување со обуки на вработени, сертификати и следење на валидност',
@@ -1323,7 +1291,6 @@ export const translations = {
       iHaveReadAndUnderstood: 'Прочитав и разбрав инструкциите',
       signature: 'Потпис',
     },
-    // Workplace Injuries and Incidents
     incidents: {
       title: 'Повреди и инциденти на работното место',
       subtitle: 'Управување со повреди, инциденти и анализа на безбедност',
@@ -1398,7 +1365,6 @@ export const translations = {
     },
   },
   sq: {
-    // Navigation
     nav: {
       dashboard: 'Paneli',
       flights: 'Fluturimet',
@@ -1521,7 +1487,6 @@ export const translations = {
       alerts: 'Alarmet',
       summary: 'Përmbledhje',
     },
-    // Flights
     flights: {
       title: 'Menaxhimi i fluturimeve',
       subtitle: 'Monitoroni dhe menaxhoni të gjitha fluturimet.',
@@ -1539,7 +1504,6 @@ export const translations = {
       boarding: 'Duke hipur',
       landed: 'Zbritur',
     },
-    // Passengers
     passengers: {
       title: 'Menaxhimi i pasagjerëve',
       subtitle: 'Ndiqni dhe menaxhoni informacionet e pasagjerëve.',
@@ -1552,7 +1516,6 @@ export const translations = {
       checkedIn: 'I regjistruar',
       boarded: 'I hipur',
     },
-    // Staff
     staff: {
       title: 'Menaxhimi i stafit',
       subtitle: 'Menaxhoni personelin e aeroportit.',
@@ -1584,7 +1547,6 @@ export const translations = {
         night: 'Natë',
       },
     },
-    // Vehicles
     vehicles: {
       title: 'Menaxhimi i automjeteve',
       subtitle: 'Ndiqni pajisjet dhe automjetet tokësore.',
@@ -1620,7 +1582,6 @@ export const translations = {
         winterOperations: 'Operacionet Dimërore',
       },
     },
-    // Reports
     reports: {
       title: 'Raportet dhe analitika',
       subtitle: 'Gjeneroni dhe shikoni raportet operative.',
@@ -1675,7 +1636,6 @@ export const translations = {
       list: 'Lista',
       viewMode: 'Mënyra e Shikimit',
     },
-    // Settings
     settings: {
       title: 'Cilësimet',
       subtitle: 'Konfiguroni preferencat e sistemit.',
@@ -1710,7 +1670,6 @@ export const translations = {
         loginAlertsDesc: 'Merrni njoftime për përpjekjet e reja të hyrjes',
       },
     },
-    // Users
     users: {
       title: 'Menaxhimi i përdoruesve',
       subtitle: 'Menaxhoni përdoruesit dhe lejet.',
@@ -1726,14 +1685,12 @@ export const translations = {
         staff: 'Staf',
       },
     },
-    // Topbar
     topbar: {
       notifications: 'Njoftimet',
       profile: 'Profili',
       logout: 'Dilni',
       help: 'Ndihmë dhe mbështetje',
     },
-    // Administrative Module
     admin: {
       title: 'Moduli Administrativ',
       organization: {
@@ -1825,7 +1782,6 @@ export const translations = {
         draft: 'Draft',
       },
     },
-    // Logs
     logs: {
       title: 'Regjistri i aktiviteteve',
       subtitle: 'Shikoni aktivitetin e sistemit dhe gjurmimin e auditimit',
@@ -1836,7 +1792,6 @@ export const translations = {
         system: 'Sistem',
       },
     },
-    // Common data
     data: {
       classes: {
         economy: 'Ekonomike',
@@ -1849,7 +1804,6 @@ export const translations = {
         kosovar: 'Kosovar',
       },
     },
-    // Activity messages
     activities: {
       flightDeparted: 'Fluturimi {flight} u largua nga Porta {gate}',
       passengerCheckedIn: 'Pasagjeri {name} u regjistrua për {flight}',
@@ -1858,7 +1812,6 @@ export const translations = {
       backupCompleted: 'Kopja rezervë ditore u përfundua me sukses',
       flightDelayed: 'Fluturimi {flight} u vonua me {minutes} minuta',
     },
-    // Employee Registry
     employees: {
       title: 'Regjistri i Punonjësve',
       subtitle: 'Menaxhoni profilet e punonjësve, kualifikimet dhe përputhshmërinë',
@@ -1912,7 +1865,6 @@ export const translations = {
       editProfile: 'Ndrysho Profilin',
       uploadDocument: 'Ngarko Dokument',
     },
-    // Medical Examinations
     medicalExams: {
       title: 'Eksaminet Mjekësore',
       subtitle: 'Menaxhoni eksaminet mjekësore të punonjësve dhe ndiqni vlefshmërinë',
@@ -1964,7 +1916,6 @@ export const translations = {
       processing: 'Duke u Përpunuar...',
       recognitionComplete: 'Njohja u Përfundua',
     },
-    // Training Management
     trainings: {
       title: 'Menaxhimi i Trajnimeve',
       subtitle: 'Menaxhoni trajnimet e punonjësve, certifikatat dhe ndiqni vlefshmërinë',
@@ -2020,7 +1971,6 @@ export const translations = {
       iHaveReadAndUnderstood: 'Kam lexuar dhe kuptuar udhëzimet',
       signature: 'Nënshkrimi',
     },
-    // Workplace Injuries and Incidents
     incidents: {
       title: 'Lëndimet dhe Incidentet në Vendin e Punës',
       subtitle: 'Menaxhoni lëndimet, incidentet dhe analizën e sigurisë',

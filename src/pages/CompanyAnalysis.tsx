@@ -40,7 +40,6 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-// Demo data for companies
 const demoCompanies = [
   {
     id: '1',

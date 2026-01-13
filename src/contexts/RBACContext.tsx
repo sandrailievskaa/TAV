@@ -51,7 +51,6 @@ interface RBACContextType {
 
 const RBACContext = createContext<RBACContextType | undefined>(undefined);
 
-// Permission matrix based on role
 const rolePermissions: Record<UserRole, ModulePermissions> = {
   'system-admin': {
     'administrative': ['full-access'],
@@ -145,18 +144,17 @@ const rolePermissions: Record<UserRole, ModulePermissions> = {
   },
   'employee': {
     'administrative': [],
-    'employees': ['read'], // self only
-    'medical-exams': ['read'], // self only
-    'trainings': ['read', 'read-sign'], // self only
-    'incidents': ['create'], // can create incident reports
-    'ppe': ['read'], // assigned only
-    'equipment': ['read'], // assigned only
+    'employees': ['read'],
+    'medical-exams': ['read'],
+    'trainings': ['read', 'read-sign'],
+    'incidents': ['create'],
+    'ppe': ['read'],
+    'equipment': ['read'],
     'reports': [],
     'dashboard': ['read'],
   },
 };
 
-// Test users for each role
 export const testUsers: Record<string, User> = {
   'admin.test': {
     id: '1',
@@ -230,17 +228,14 @@ export const RBACProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   React.useEffect(() => {
     if (isAuthenticated) {
-      // Get username and role from localStorage
       const username = localStorage.getItem('currentUsername') || '';
       const storedRole = localStorage.getItem('currentUserRole') as UserRole | null;
       
-      // Try to get user from test users first
       const user = testUsers[username.toLowerCase()];
       
       if (user) {
         setCurrentUser(user);
       } else if (storedRole) {
-        // Create a user object for unknown usernames with the stored role
         setCurrentUser({
           id: `demo-${username}`,
           username: username || 'demo',
@@ -249,7 +244,6 @@ export const RBACProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           fullName: username || 'Demo User',
         });
       } else {
-        // Fallback to management role for unknown users
         setCurrentUser({
           id: `demo-${username}`,
           username: username || 'demo',
@@ -263,7 +257,6 @@ export const RBACProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   }, [isAuthenticated]);
 
-  // Also listen to storage changes in case login happens in another tab
   React.useEffect(() => {
     const handleStorageChange = () => {
       if (localStorage.getItem('tav-auth') === 'true') {

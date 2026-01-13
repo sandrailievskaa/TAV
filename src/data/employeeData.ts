@@ -1,5 +1,3 @@
-// Employee Registry Mock Data
-
 export interface MedicalExam {
   id: string;
   examType: string;

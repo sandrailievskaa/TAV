@@ -1,5 +1,3 @@
-// Administrative Module Mock Data
-
 export interface OrganizationStructure {
   id: string;
   type: 'terminal' | 'hangar' | 'facility';

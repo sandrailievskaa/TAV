@@ -31,11 +31,8 @@ const Login: React.FC = () => {
   const { language, setLanguage, t } = useLanguage();
 
   const handleReset = () => {
-    // Clear all localStorage
     localStorage.clear();
-    // Logout to reset auth state
     logout();
-    // Reload page to clear all state
     window.location.reload();
   };
 
@@ -44,7 +41,6 @@ const Login: React.FC = () => {
     
     const trimmedUsername = (username || '').trim();
     
-    // Demo mode: only username is required, password is ignored
     if (!trimmedUsername) {
       return;
     }
@@ -53,11 +49,9 @@ const Login: React.FC = () => {
 
     try {
       await login(trimmedUsername, password || '');
-      // Always navigate - login always succeeds in demo mode
       navigate('/dashboard', { replace: true });
     } catch (err) {
       console.error('Login error:', err);
-      // Even on error, try to navigate in demo mode
       navigate('/dashboard', { replace: true });
     } finally {
       setIsLoading(false);

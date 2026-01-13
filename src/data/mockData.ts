@@ -1,5 +1,3 @@
-// Realistic mock data for TAV Airport Management System
-
 export interface Flight {
   id: string;
   flightNumber: string;

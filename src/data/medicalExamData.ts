@@ -1,5 +1,3 @@
-// Medical Examinations Mock Data
-
 export type ExamType = 'pre-employment' | 'systematic' | 'periodic' | 'targeted';
 export type ExamResult = 'passed' | 'failed' | 'pending';
 export type ExamStatus = 'valid' | 'expiringSoon' | 'expired';
@@ -603,7 +601,6 @@ export const medicalExaminations: MedicalExamination[] = [
   },
 ];
 
-// Exam type configurations
 export const examTypeConfig = {
   'pre-employment': {
     defaultValidityMonths: 12,

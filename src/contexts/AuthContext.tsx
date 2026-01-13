@@ -19,11 +19,9 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Map username to role - demo mode: any username is accepted
 const getRoleFromUsername = (username: string): UserRole => {
   const trimmedUsername = (username || '').trim().toLowerCase();
   
-  // Map test usernames to roles
   const usernameToRole: Record<string, UserRole> = {
     'admin.test': 'system-admin',
     'hse.test': 'hse-admin',
@@ -42,12 +40,10 @@ const getRoleFromUsername = (username: string): UserRole => {
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
     const auth = localStorage.getItem('tav-auth') === 'true';
-    // Ensure we have username and role if authenticated
     if (auth) {
       const username = localStorage.getItem('currentUsername');
       const role = localStorage.getItem('currentUserRole');
       if (!username || !role) {
-        // Reset if incomplete
         localStorage.removeItem('tav-auth');
         return false;
       }
@@ -59,16 +55,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     try {
       const trimmedUsername = (username || '').trim();
       
-      // Demo mode: accept any username (password is ignored)
       if (trimmedUsername.length > 0) {
         const role = getRoleFromUsername(trimmedUsername);
         
-        // Set localStorage first
         localStorage.setItem('tav-auth', 'true');
         localStorage.setItem('currentUsername', trimmedUsername);
         localStorage.setItem('currentUserRole', role);
         
-        // Then update state to trigger re-render
         setIsAuthenticated(true);
         
         return true;

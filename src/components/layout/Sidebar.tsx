@@ -66,14 +66,11 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
     { icon: FileText, label: t.nav.documents, path: '/admin/documents', module: 'administrative' },
   ];
 
-  // Filter items based on RBAC permissions
   const navItems = allNavItems.filter(item => {
     if (item.module === 'flights' || item.module === 'passengers' || item.module === 'staff' || item.module === 'vehicles') {
-      // Legacy modules - allow all authenticated users for now
       return true;
     }
     if (item.module === 'company-analysis') {
-      // Demo module - visible to all authenticated users
       return true;
     }
     return canAccessModule(item.module);

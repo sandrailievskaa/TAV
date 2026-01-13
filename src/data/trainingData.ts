@@ -1,5 +1,3 @@
-// Training Management Mock Data
-
 export type TrainingType = 'internal' | 'external';
 export type TrainingStatus = 'completed' | 'in-progress' | 'expired';
 

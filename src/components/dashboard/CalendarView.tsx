@@ -34,7 +34,6 @@ const CalendarView: React.FC<CalendarViewProps> = ({ events, daysToShow = 14 }) 
   const monthEnd = endOfMonth(currentMonth);
   const calendarDays = eachDayOfInterval({ start: monthStart, end: monthEnd });
 
-  // Get events for selected date
   const handleDateClick = (date: Date) => {
     setSelectedDate(date);
     const dayEvents = events.filter(event => {
@@ -44,7 +43,6 @@ const CalendarView: React.FC<CalendarViewProps> = ({ events, daysToShow = 14 }) 
     setSelectedEvents(dayEvents);
   };
 
-  // Get events for a specific date
   const getEventsForDate = (date: Date): CalendarEvent[] => {
     return events.filter(event => {
       const eventDate = new Date(event.date);
@@ -52,12 +50,10 @@ const CalendarView: React.FC<CalendarViewProps> = ({ events, daysToShow = 14 }) 
     });
   };
 
-  // Get event count for a date
   const getEventCount = (date: Date): number => {
     return getEventsForDate(date).length;
   };
 
-  // Get highest priority for a date
   const getHighestPriority = (date: Date): 'high' | 'medium' | 'low' | null => {
     const dayEvents = getEventsForDate(date);
     if (dayEvents.length === 0) return null;

@@ -1,5 +1,3 @@
-// Workplace Injuries and Incidents Mock Data
-
 export type IncidentType = 'injury' | 'incident' | 'near-miss';
 export type Severity = 'minor' | 'moderate' | 'serious' | 'critical';
 export type Status = 'reported' | 'under-investigation' | 'resolved' | 'closed';
@@ -525,10 +523,6 @@ export const incidents: WorkplaceIncident[] = [
     ],
   },
 ];
-
-// Calculate AFR (Accident Frequency Rate) and ASR (Accident Severity Rate)
-// AFR = (Number of injuries × 1,000,000) / Total hours worked
-// ASR = (Total lost days × 1,000,000) / Total hours worked
 
 export const calculateAFR = (injuries: number, totalHours: number): number => {
   if (totalHours === 0) return 0;

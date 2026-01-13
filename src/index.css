@@ -2,14 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-/* TAV Enterprise Design System
-   Aviation-inspired, professional, accessible */
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @layer base {
   :root {
-    /* Light Mode - Clean & Professional */
     --background: 210 20% 98%;
     --foreground: 215 25% 15%;
 
@@ -19,23 +15,18 @@
     --popover: 0 0% 100%;
     --popover-foreground: 215 25% 15%;
 
-    /* Aviation Blue Primary */
     --primary: 213 55% 25%;
     --primary-foreground: 210 40% 98%;
 
-    /* Cool Gray Secondary */
     --secondary: 210 15% 94%;
     --secondary-foreground: 215 25% 25%;
 
-    /* Muted tones */
     --muted: 210 15% 96%;
     --muted-foreground: 215 15% 50%;
 
-    /* Teal Accent */
     --accent: 180 45% 45%;
     --accent-foreground: 0 0% 100%;
 
-    /* Status colors */
     --success: 158 60% 40%;
     --success-foreground: 0 0% 100%;
     
@@ -51,7 +42,6 @@
 
     --radius: 0.5rem;
 
-    /* Sidebar - Slightly darker for hierarchy */
     --sidebar-background: 215 25% 18%;
     --sidebar-foreground: 210 15% 85%;
     --sidebar-primary: 180 45% 50%;
@@ -62,21 +52,18 @@
     --sidebar-ring: 180 45% 50%;
     --sidebar-muted: 215 20% 40%;
 
-    /* Chart colors */
     --chart-1: 213 55% 35%;
     --chart-2: 180 45% 45%;
     --chart-3: 158 60% 45%;
     --chart-4: 38 92% 55%;
     --chart-5: 280 45% 55%;
 
-    /* Custom gradients */
     --gradient-primary: linear-gradient(135deg, hsl(213 55% 25%), hsl(213 55% 35%));
     --gradient-accent: linear-gradient(135deg, hsl(180 45% 45%), hsl(180 55% 55%));
     --gradient-hero: linear-gradient(135deg, hsl(215 25% 18%), hsl(213 55% 25%));
   }
 
   .dark {
-    /* Dark Mode - Deep & Elegant */
     --background: 220 20% 10%;
     --foreground: 210 15% 90%;
 
@@ -211,7 +198,6 @@
     @apply bg-destructive/15 text-destructive border-destructive/30;
   }
 
-  /* Stat cards */
   .stat-card {
     @apply bg-card rounded-lg border border-border p-5 transition-all duration-200 hover:shadow-md hover:border-primary/20;
   }
@@ -224,7 +210,6 @@
     @apply text-sm text-muted-foreground font-medium;
   }
 
-  /* Table styles */
   .data-table {
     @apply w-full text-sm;
   }
@@ -241,12 +226,10 @@
     @apply bg-muted/30;
   }
 
-  /* Action buttons in topbar */
   .topbar-action {
     @apply p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors;
   }
 
-  /* Navigation items */
   .nav-item {
     @apply flex items-center gap-3 px-3 py-2.5 rounded-lg text-sidebar-foreground/80 hover:text-sidebar-foreground hover:bg-sidebar-accent transition-all duration-150;
   }
@@ -255,7 +238,6 @@
     @apply bg-sidebar-primary text-sidebar-primary-foreground font-medium;
   }
 
-  /* Page header */
   .page-header {
     @apply mb-6;
   }
@@ -300,7 +282,6 @@
     }
   }
 
-  /* Scrollbar styling */
   .custom-scrollbar::-webkit-scrollbar {
     width: 6px;
     height: 6px;
