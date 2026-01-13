@@ -55,7 +55,11 @@ import {
   CheckCircle2,
   XCircle,
   Clock,
+  Building2,
+  Mail,
+  Phone,
 } from 'lucide-react';
+import { ViewToggle, ViewMode } from '@/components/ui/view-toggle';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -121,6 +125,7 @@ const Employees: React.FC = () => {
   const { hasPermission, isReadOnly, canViewOwnDataOnly, user } = useRBAC();
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
+  const [viewMode, setViewMode] = useState<ViewMode>('table');
   const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
@@ -220,11 +225,15 @@ const Employees: React.FC = () => {
         </Button>
       </div>
 
-      <p className="text-sm text-muted-foreground">
-        {filteredEmployees.length} {t.employees.title.toLowerCase()}
-      </p>
+      <div className="flex items-center justify-between">
+        <p className="text-sm text-muted-foreground">
+          {filteredEmployees.length} {t.employees.title.toLowerCase()}
+        </p>
+        <ViewToggle viewMode={viewMode} onViewModeChange={setViewMode} />
+      </div>
 
-      <div className="bg-card rounded-lg border border-border overflow-hidden">
+      {viewMode === 'table' ? (
+      <div className="bg-gradient-to-br from-card to-card/95 rounded-lg border-2 border-border/50 overflow-hidden shadow-lg">
         <div className="overflow-x-auto">
           <table className="data-table">
             <thead>
@@ -250,24 +259,44 @@ const Employees: React.FC = () => {
                   const status = statusConfig[employee.status];
                   const risk = riskLevelConfig[employee.riskLevel];
                   return (
-                    <tr key={employee.id}>
-                      <td className="font-mono text-sm">{employee.employeeId}</td>
-                      <td className="font-medium">{employee.fullName}</td>
-                      <td>{employee.position}</td>
-                      <td>{employee.department}</td>
+                    <tr key={employee.id} className="hover:scale-[1.01] transition-transform duration-200">
+                      <td className="font-mono text-sm font-semibold">{employee.employeeId}</td>
                       <td>
                         <div className="flex items-center gap-2">
-                          <Badge className={status.className}>
+                          <User className="w-4 h-4 text-primary" />
+                          <span className="font-semibold">{employee.fullName}</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="flex items-center gap-2">
+                          <Briefcase className="w-4 h-4 text-muted-foreground" />
+                          <span>{employee.position}</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="flex items-center gap-2">
+                          <Building2 className="w-4 h-4 text-accent" />
+                          <span>{employee.department}</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <Badge className={cn(status.className, 'shadow-sm')}>
                             {status.label[language]}
                           </Badge>
                           {employee.status === 'candidate' && (
-                            <Badge variant="outline" className="text-xs">
+                            <Badge variant="outline" className={cn('text-xs shadow-sm', risk.className)}>
                               {risk.label[language]} {t.common.risk}
                             </Badge>
                           )}
                         </div>
                       </td>
-                      <td>{formatDate(employee.hireDate)}</td>
+                      <td>
+                        <div className="flex items-center gap-2">
+                          <Calendar className="w-4 h-4 text-muted-foreground" />
+                          <span className="font-medium">{formatDate(employee.hireDate)}</span>
+                        </div>
+                      </td>
                       <td>
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
@@ -330,6 +359,82 @@ const Employees: React.FC = () => {
           </table>
         </div>
       </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {filteredEmployees.length === 0 ? (
+            <div className="col-span-full text-center py-12 text-muted-foreground">
+              {t.common.noResults}
+            </div>
+          ) : (
+            filteredEmployees.map((employee) => {
+              const status = statusConfig[employee.status];
+              const risk = riskLevelConfig[employee.riskLevel];
+              
+              return (
+                <Card
+                  key={employee.id}
+                  className="border-2 hover:border-primary/50 bg-gradient-to-br from-card to-card/95 hover:shadow-xl transition-all duration-300 hover:scale-105"
+                >
+                  <CardHeader className="pb-3">
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="p-2.5 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 shadow-md">
+                          <User className="w-5 h-5 text-primary" />
+                        </div>
+                        <div>
+                          <CardTitle className="text-base">{employee.fullName}</CardTitle>
+                          <CardDescription className="text-xs mt-1 font-mono">
+                            {employee.employeeId}
+                          </CardDescription>
+                        </div>
+                      </div>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon" className="h-8 w-8">
+                            <MoreHorizontal className="w-4 h-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem onClick={() => openProfile(employee)}>
+                            <Eye className="w-4 h-4 mr-2" />
+                            {t.employees.viewProfile}
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <div className="flex items-center gap-2">
+                      <Briefcase className="w-4 h-4 text-muted-foreground" />
+                      <span className="text-sm font-medium">{employee.position}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Building2 className="w-4 h-4 text-accent" />
+                      <span className="text-sm">{employee.department}</span>
+                    </div>
+                    <div className="flex items-center gap-2 flex-wrap pt-2 border-t border-border/50">
+                      <Badge className={cn(status.className, 'shadow-sm')}>
+                        {status.label[language]}
+                      </Badge>
+                      {employee.status === 'candidate' && (
+                        <Badge variant="outline" className={cn('text-xs shadow-sm', risk.className)}>
+                          {risk.label[language]} {t.common.risk}
+                        </Badge>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-2 pt-2 border-t border-border/50">
+                      <Calendar className="w-4 h-4 text-muted-foreground" />
+                      <span className="text-xs text-muted-foreground">
+                        {t.employees.hireDate}: {formatDate(employee.hireDate)}
+                      </span>
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })
+          )}
+        </div>
+      )}
 
       <Dialog open={isProfileOpen} onOpenChange={setIsProfileOpen}>
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">

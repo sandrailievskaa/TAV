@@ -60,7 +60,10 @@ import {
   CheckCircle2,
   Clock,
   GraduationCap,
+  User,
+  Building2,
 } from 'lucide-react';
+import { ViewToggle, ViewMode } from '@/components/ui/view-toggle';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -94,6 +97,7 @@ const Trainings: React.FC = () => {
   const [trainingTypeFilter, setTrainingTypeFilter] = useState<TrainingType | 'all'>('all');
   const [statusFilter, setStatusFilter] = useState<'all' | 'completed' | 'in-progress' | 'expired'>('all');
   const [employeeFilter, setEmployeeFilter] = useState<string>('all');
+  const [viewMode, setViewMode] = useState<ViewMode>('table');
   const [selectedTrainings, setSelectedTrainings] = useState<string[]>([]);
   const [isCertificateDialogOpen, setIsCertificateDialogOpen] = useState(false);
   const [isReportDialogOpen, setIsReportDialogOpen] = useState(false);
@@ -301,12 +305,16 @@ const Trainings: React.FC = () => {
             {t.trainings.reports}
           </Button>
         </div>
-        <p className="text-sm text-muted-foreground">
-          {filteredTrainings.length} {t.trainings.trainingName.toLowerCase()}
-        </p>
+        <div className="flex items-center gap-4">
+          <p className="text-sm text-muted-foreground">
+            {filteredTrainings.length} {t.trainings.trainingName.toLowerCase()}
+          </p>
+          <ViewToggle viewMode={viewMode} onViewModeChange={setViewMode} />
+        </div>
       </div>
 
-      <div className="bg-card rounded-lg border border-border overflow-hidden">
+      {viewMode === 'table' ? (
+      <div className="bg-gradient-to-br from-card to-card/95 rounded-lg border-2 border-border/50 overflow-hidden shadow-lg">
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
@@ -474,6 +482,88 @@ const Trainings: React.FC = () => {
           </Table>
         </div>
       </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {filteredTrainings.length === 0 ? (
+            <div className="col-span-full text-center py-12 text-muted-foreground">
+              {t.common.noResults}
+            </div>
+          ) : (
+            filteredTrainings.map((training) => {
+              const status = statusConfig[training.status];
+              const type = trainingTypeConfig[training.trainingType];
+              const StatusIcon = status.icon;
+
+              return (
+                <Card
+                  key={training.id}
+                  className="border-2 hover:border-primary/50 bg-gradient-to-br from-card to-card/95 hover:shadow-xl transition-all duration-300 hover:scale-105"
+                >
+                  <CardHeader className="pb-3">
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="p-2.5 rounded-xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 shadow-md">
+                          <GraduationCap className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                        </div>
+                        <div>
+                          <CardTitle className="text-base font-mono">{training.trainingId}</CardTitle>
+                          <CardDescription className="text-xs mt-1">
+                            {training.trainingName}
+                          </CardDescription>
+                        </div>
+                      </div>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon" className="h-8 w-8">
+                            <MoreHorizontal className="w-4 h-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem>
+                            <Eye className="w-4 h-4 mr-2" />
+                            {t.common.view}
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <div className="flex items-center gap-2">
+                      <User className="w-4 h-4 text-muted-foreground" />
+                      <span className="text-sm font-medium">{training.employeeName}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Building2 className="w-4 h-4 text-accent" />
+                      <span className="text-sm">{training.department}</span>
+                    </div>
+                    <div className="flex items-center gap-2 flex-wrap pt-2 border-t border-border/50">
+                      <Badge className={cn(status.className, 'shadow-sm')}>
+                        <StatusIcon className="w-3 h-3 mr-1" />
+                        {status.label[language]}
+                      </Badge>
+                      <Badge variant="outline" className="text-xs shadow-sm">
+                        {type.label[language]}
+                      </Badge>
+                    </div>
+                    <div className="pt-2 border-t border-border/50 space-y-1 text-xs">
+                      <div className="flex items-center gap-2 text-muted-foreground">
+                        <Calendar className="w-3.5 h-3.5" />
+                        <span>{formatDate(training.completionDate)}</span>
+                      </div>
+                      {training.expiryDate && (
+                        <div className="flex items-center gap-2 text-muted-foreground">
+                          <Clock className="w-3.5 h-3.5" />
+                          <span>{t.trainings.expiryDate}: {formatDate(training.expiryDate)}</span>
+                        </div>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })
+          )}
+        </div>
+      )}
 
       <Dialog open={isCertificateDialogOpen} onOpenChange={setIsCertificateDialogOpen}>
         <DialogContent className="max-w-2xl">

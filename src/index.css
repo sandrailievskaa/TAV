@@ -1,8 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @layer base {
   :root {
@@ -297,5 +297,31 @@
 
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     @apply bg-muted-foreground/30;
+  }
+
+  /* Enhanced gradients and colors */
+  .gradient-primary {
+    @apply bg-gradient-to-br from-primary via-primary/90 to-accent;
+  }
+
+  .gradient-accent {
+    @apply bg-gradient-to-br from-accent via-accent/90 to-primary;
+  }
+
+  .gradient-card {
+    @apply bg-gradient-to-br from-card via-card/95 to-card/90;
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-br from-foreground via-foreground/90 to-foreground/80 bg-clip-text text-transparent;
+  }
+
+  /* Enhanced shadows */
+  .shadow-glow {
+    box-shadow: 0 0 20px rgba(var(--primary-rgb, 59, 130, 246), 0.3);
+  }
+
+  .shadow-glow-accent {
+    box-shadow: 0 0 20px rgba(var(--accent-rgb, 16, 185, 129), 0.3);
   }
 }

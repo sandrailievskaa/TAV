@@ -70,7 +70,11 @@ import {
   FileCheck,
   Save,
   X,
+  Stethoscope,
+  User,
+  Building2,
 } from 'lucide-react';
+import { ViewToggle, ViewMode } from '@/components/ui/view-toggle';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -119,6 +123,7 @@ const MedicalExams: React.FC = () => {
   const [examTypeFilter, setExamTypeFilter] = useState<ExamType | 'all'>('all');
   const [statusFilter, setStatusFilter] = useState<'all' | 'valid' | 'expiringSoon' | 'expired'>('all');
   const [employeeFilter, setEmployeeFilter] = useState<string>('all');
+  const [viewMode, setViewMode] = useState<ViewMode>('table');
   const [selectedExams, setSelectedExams] = useState<string[]>([]);
   const [isReferralDialogOpen, setIsReferralDialogOpen] = useState(false);
   const [isReportDialogOpen, setIsReportDialogOpen] = useState(false);
@@ -340,12 +345,16 @@ const MedicalExams: React.FC = () => {
             {t.medicalExams.reports}
           </Button>
         </div>
-        <p className="text-sm text-muted-foreground">
-          {filteredExams.length} {t.medicalExams.examType.toLowerCase()}
-        </p>
+        <div className="flex items-center gap-4">
+          <p className="text-sm text-muted-foreground">
+            {filteredExams.length} {t.medicalExams.examType.toLowerCase()}
+          </p>
+          <ViewToggle viewMode={viewMode} onViewModeChange={setViewMode} />
+        </div>
       </div>
 
-      <div className="bg-card rounded-lg border border-border overflow-hidden">
+      {viewMode === 'table' ? (
+      <div className="bg-gradient-to-br from-card to-card/95 rounded-lg border-2 border-border/50 overflow-hidden shadow-lg">
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
@@ -461,6 +470,87 @@ const MedicalExams: React.FC = () => {
           </Table>
         </div>
       </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {filteredExams.length === 0 ? (
+            <div className="col-span-full text-center py-12 text-muted-foreground">
+              {t.common.noResults}
+            </div>
+          ) : (
+            filteredExams.map((exam) => {
+              const result = resultConfig[exam.result];
+              const status = statusConfig[exam.status];
+              const type = examTypeConfig[exam.examType];
+              const ResultIcon = result.icon;
+
+              return (
+                <Card
+                  key={exam.id}
+                  className="border-2 hover:border-primary/50 bg-gradient-to-br from-card to-card/95 hover:shadow-xl transition-all duration-300 hover:scale-105"
+                >
+                  <CardHeader className="pb-3">
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="p-2.5 rounded-xl bg-gradient-to-br from-cyan-500/20 to-teal-500/20 shadow-md">
+                          <Stethoscope className="w-5 h-5 text-cyan-600 dark:text-cyan-400" />
+                        </div>
+                        <div>
+                          <CardTitle className="text-base font-mono">{exam.examId}</CardTitle>
+                          <CardDescription className="text-xs mt-1">
+                            {type.label[language]}
+                          </CardDescription>
+                        </div>
+                      </div>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon" className="h-8 w-8">
+                            <MoreHorizontal className="w-4 h-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem>
+                            <Eye className="w-4 h-4 mr-2" />
+                            {t.common.view}
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <div className="flex items-center gap-2">
+                      <User className="w-4 h-4 text-muted-foreground" />
+                      <span className="text-sm font-medium">{exam.employeeName}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Building2 className="w-4 h-4 text-accent" />
+                      <span className="text-sm">{exam.department}</span>
+                    </div>
+                    <div className="flex items-center gap-2 flex-wrap pt-2 border-t border-border/50">
+                      <Badge className={cn(result.className, 'shadow-sm')}>
+                        <ResultIcon className="w-3 h-3 mr-1" />
+                        {result.label[language]}
+                      </Badge>
+                      <Badge className={cn(status.className, 'shadow-sm')}>
+                        {status.label[language]}
+                      </Badge>
+                    </div>
+                    <div className="pt-2 border-t border-border/50 space-y-1 text-xs">
+                      <div className="flex items-center gap-2 text-muted-foreground">
+                        <Calendar className="w-3.5 h-3.5" />
+                        <span>{formatDate(exam.examDate)}</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-muted-foreground">
+                        <Clock className="w-3.5 h-3.5" />
+                        <span>{t.medicalExams.validUntil}: {formatDate(exam.validUntil)}</span>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })
+          )}
+        </div>
+      )}
 
       <Dialog open={isReferralDialogOpen} onOpenChange={setIsReferralDialogOpen}>
         <DialogContent className="max-w-2xl">

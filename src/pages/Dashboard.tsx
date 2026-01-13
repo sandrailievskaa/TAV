@@ -632,15 +632,6 @@ const Dashboard: React.FC = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
-          <div className="mb-4 flex items-center justify-between">
-            <h3 className="font-semibold">{t.dashboard.upcomingDepartures}</h3>
-            <a
-              href="/flights"
-              className="text-sm text-primary hover:underline"
-            >
-              {t.common.view} {t.common.all.toLowerCase()}
-            </a>
-          </div>
           <FlightTable flights={flights} limit={5} />
         </div>
         <div>
