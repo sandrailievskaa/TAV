@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Sidebar from './Sidebar';
 import Topbar from './Topbar';
+import AIAssistant from '../AIAssistant';
 import { cn } from '@/lib/utils';
 
 interface MainLayoutProps {
@@ -25,6 +26,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         <Topbar />
         <main className="p-6 animate-fade-in">{children}</main>
       </div>
+      <AIAssistant />
     </div>
   );
 };

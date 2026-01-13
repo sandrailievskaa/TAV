@@ -35,7 +35,7 @@ const Settings: React.FC = () => {
           </div>
           <div>
             <h2 className="font-semibold">{t.settings.language}</h2>
-            <p className="text-sm text-muted-foreground">Choose your preferred language</p>
+            <p className="text-sm text-muted-foreground">{t.settings.languageDescription}</p>
           </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -67,7 +67,7 @@ const Settings: React.FC = () => {
           </div>
           <div>
             <h2 className="font-semibold">{t.settings.theme}</h2>
-            <p className="text-sm text-muted-foreground">Select your visual preference</p>
+            <p className="text-sm text-muted-foreground">{t.settings.themeDescription}</p>
           </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -109,15 +109,15 @@ const Settings: React.FC = () => {
           </div>
           <div>
             <h2 className="font-semibold">{t.settings.notifications}</h2>
-            <p className="text-sm text-muted-foreground">Configure notification preferences</p>
+            <p className="text-sm text-muted-foreground">{t.settings.notificationsDescription}</p>
           </div>
         </div>
         <div className="space-y-4">
           {[
-            { id: 'flight-alerts', label: 'Flight status alerts', description: 'Notify on delays, cancellations, and gate changes', enabled: true },
-            { id: 'system-alerts', label: 'System notifications', description: 'Important system updates and maintenance', enabled: true },
-            { id: 'email-digest', label: 'Daily email digest', description: 'Receive a summary of daily operations', enabled: false },
-            { id: 'sound', label: 'Sound notifications', description: 'Play sound for urgent alerts', enabled: false },
+            { id: 'flight-alerts', label: t.settings.notificationOptions.flightAlerts, description: t.settings.notificationOptions.flightAlertsDesc, enabled: true },
+            { id: 'system-alerts', label: t.settings.notificationOptions.systemAlerts, description: t.settings.notificationOptions.systemAlertsDesc, enabled: true },
+            { id: 'email-digest', label: t.settings.notificationOptions.emailDigest, description: t.settings.notificationOptions.emailDigestDesc, enabled: false },
+            { id: 'sound', label: t.settings.notificationOptions.sound, description: t.settings.notificationOptions.soundDesc, enabled: false },
           ].map((notification) => (
             <div key={notification.id} className="flex items-center justify-between">
               <div>
@@ -140,14 +140,14 @@ const Settings: React.FC = () => {
           </div>
           <div>
             <h2 className="font-semibold">{t.settings.security}</h2>
-            <p className="text-sm text-muted-foreground">Manage security options</p>
+            <p className="text-sm text-muted-foreground">{t.settings.securityDescription}</p>
           </div>
         </div>
         <div className="space-y-4">
           {[
-            { id: '2fa', label: 'Two-factor authentication', description: 'Add an extra layer of security', enabled: true },
-            { id: 'session', label: 'Session timeout (30 min)', description: 'Automatically log out after inactivity', enabled: true },
-            { id: 'login-alerts', label: 'Login alerts', description: 'Get notified of new login attempts', enabled: false },
+            { id: '2fa', label: t.settings.securityOptions.twoFactor, description: t.settings.securityOptions.twoFactorDesc, enabled: true },
+            { id: 'session', label: t.settings.securityOptions.sessionTimeout, description: t.settings.securityOptions.sessionTimeoutDesc, enabled: true },
+            { id: 'login-alerts', label: t.settings.securityOptions.loginAlerts, description: t.settings.securityOptions.loginAlertsDesc, enabled: false },
           ].map((security) => (
             <div key={security.id} className="flex items-center justify-between">
               <div>

@@ -1,11 +1,16 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useRBAC } from '@/contexts/RBACContext';
 import {
   LayoutDashboard,
   Plane,
   Users,
   UserCog,
+  ClipboardList,
+  Stethoscope,
+  GraduationCap,
+  AlertTriangle,
   Car,
   FileBarChart,
   Settings,
@@ -13,6 +18,13 @@ import {
   ScrollText,
   ChevronLeft,
   ChevronRight,
+  Building2,
+  Briefcase,
+  Package,
+  HardHat,
+  FileText,
+  Building,
+  Sparkles,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -24,21 +36,51 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
   const { t } = useLanguage();
   const location = useLocation();
+  const { canAccessModule } = useRBAC();
 
-  const navItems = [
-    { icon: LayoutDashboard, label: t.nav.dashboard, path: '/' },
-    { icon: Plane, label: t.nav.flights, path: '/flights' },
-    { icon: Users, label: t.nav.passengers, path: '/passengers' },
-    { icon: UserCog, label: t.nav.staff, path: '/staff' },
-    { icon: Car, label: t.nav.vehicles, path: '/vehicles' },
-    { icon: FileBarChart, label: t.nav.reports, path: '/reports' },
+  const allNavItems = [
+    { icon: LayoutDashboard, label: t.nav.dashboard, path: '/', module: 'dashboard' },
+    { icon: Plane, label: t.nav.flights, path: '/flights', module: 'flights' },
+    { icon: Users, label: t.nav.passengers, path: '/passengers', module: 'passengers' },
+    { icon: UserCog, label: t.nav.staff, path: '/staff', module: 'staff' },
+    { icon: ClipboardList, label: t.nav.employees, path: '/employees', module: 'employees' },
+    { icon: Stethoscope, label: t.nav.medicalExams, path: '/medical-exams', module: 'medical-exams' },
+    { icon: GraduationCap, label: t.nav.trainings, path: '/trainings', module: 'trainings' },
+    { icon: AlertTriangle, label: t.nav.incidents, path: '/incidents', module: 'incidents' },
+    { icon: Car, label: t.nav.vehicles, path: '/vehicles', module: 'vehicles' },
+    { icon: FileBarChart, label: t.nav.reports, path: '/reports', module: 'reports' },
+    { icon: Building, label: t.nav.companyAnalysis, path: '/company-analysis', module: 'company-analysis' },
   ];
 
   const adminItems = [
-    { icon: Shield, label: t.nav.users, path: '/users' },
-    { icon: ScrollText, label: t.nav.logs, path: '/logs' },
-    { icon: Settings, label: t.nav.settings, path: '/settings' },
+    { icon: Shield, label: t.nav.users, path: '/users', module: 'users' },
+    { icon: ScrollText, label: t.nav.logs, path: '/logs', module: 'logs' },
+    { icon: Settings, label: t.nav.settings, path: '/settings', module: 'settings' },
   ];
+
+  const administrativeItems = [
+    { icon: Building2, label: t.nav.organization, path: '/admin/organization', module: 'administrative' },
+    { icon: Briefcase, label: t.nav.positions, path: '/admin/positions', module: 'administrative' },
+    { icon: Package, label: t.nav.assets, path: '/admin/assets', module: 'equipment' },
+    { icon: HardHat, label: t.nav.ppe, path: '/admin/ppe', module: 'ppe' },
+    { icon: FileText, label: t.nav.documents, path: '/admin/documents', module: 'administrative' },
+  ];
+
+  // Filter items based on RBAC permissions
+  const navItems = allNavItems.filter(item => {
+    if (item.module === 'flights' || item.module === 'passengers' || item.module === 'staff' || item.module === 'vehicles') {
+      // Legacy modules - allow all authenticated users for now
+      return true;
+    }
+    if (item.module === 'company-analysis') {
+      // Demo module - visible to all authenticated users
+      return true;
+    }
+    return canAccessModule(item.module);
+  });
+
+  const filteredAdminItems = adminItems.filter(item => canAccessModule(item.module));
+  const filteredAdministrativeItems = administrativeItems.filter(item => canAccessModule(item.module));
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -104,7 +146,33 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
           </p>
         )}
         <div className="space-y-1">
-          {adminItems.map((item) => (
+          {filteredAdminItems.map((item) => (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              className={cn(
+                'nav-item',
+                isActive(item.path) && 'active'
+              )}
+              title={collapsed ? item.label : undefined}
+            >
+              <item.icon className="w-5 h-5 flex-shrink-0" />
+              {!collapsed && <span className="truncate">{item.label}</span>}
+            </NavLink>
+          ))}
+        </div>
+
+        {/* Divider */}
+        <div className="my-4 mx-2 border-t border-sidebar-border" />
+
+        {/* Administrative section */}
+        {!collapsed && (
+          <p className="px-3 mb-2 text-xs font-medium text-sidebar-muted uppercase tracking-wider">
+            {t.nav.admin}
+          </p>
+        )}
+        <div className="space-y-1">
+          {filteredAdministrativeItems.map((item) => (
             <NavLink
               key={item.path}
               to={item.path}

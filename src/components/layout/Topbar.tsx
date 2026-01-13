@@ -1,6 +1,8 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { Language } from '@/i18n/translations';
 import {
   Bell,
@@ -39,6 +41,13 @@ const languageFlags: Record<Language, string> = {
 const Topbar: React.FC = () => {
   const { language, setLanguage, t } = useLanguage();
   const { theme, setTheme } = useTheme();
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
   const themeIcons = {
     light: <Sun className="w-4 h-4" />,
@@ -150,7 +159,7 @@ const Topbar: React.FC = () => {
               {t.topbar.help}
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-destructive focus:text-destructive">
+            <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={handleLogout}>
               <LogOut className="w-4 h-4 mr-2" />
               {t.topbar.logout}
             </DropdownMenuItem>

@@ -6,16 +6,16 @@ import { flightStatusDistribution } from '@/data/mockData';
 const FlightStatusChart: React.FC = () => {
   const { t, language } = useLanguage();
 
-  const statusLabels: Record<string, Record<string, string>> = {
-    'On Time': { en: 'On Time', mk: 'На време', sq: 'Në kohë' },
-    'Delayed': { en: 'Delayed', mk: 'Задоцнет', sq: 'I vonuar' },
-    'Cancelled': { en: 'Cancelled', mk: 'Откажан', sq: 'I anuluar' },
-    'Boarding': { en: 'Boarding', mk: 'Укрцување', sq: 'Duke hipur' },
+  const statusLabels: Record<string, string> = {
+    'On Time': t.flights.onTime,
+    'Delayed': t.flights.delayed,
+    'Cancelled': t.flights.cancelled,
+    'Boarding': t.flights.boarding,
   };
 
   const localizedData = flightStatusDistribution.map(item => ({
     ...item,
-    name: statusLabels[item.name]?.[language] || item.name,
+    name: statusLabels[item.name] || item.name,
   }));
 
   return (

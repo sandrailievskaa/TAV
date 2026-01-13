@@ -1,73 +1,95 @@
-# Welcome to your Lovable project
+# TAV System – Интерен систем за безбедност, здравје и усогласеност
 
-## Project info
+## Краток опис
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Улоги и дозволи (RBAC – Role Based Access Control)
 
-## How can I edit this code?
+| УЛОГА | ОПИС | ВИДЛИВИ МОДУЛИ | ДОЗВОЛЕНИ АКЦИИ | ОГРАНИЧУВАЊА |
+|-------|------|----------------|-----------------|--------------|
+| **System Administrator** | Целосна контрола над системот | Сите модули | CREATE, READ, UPDATE, DELETE, CONFIGURE, EXPORT | Нема ограничувања |
+| **HSE Administrator** | Управување со БЗР, обуки, прегледи, повреди | Dashboard, Вработени (read), Медицински прегледи (read), Обуки (read), Повреди и инциденти (full), ЗО (read), Опрема (read), Извештаи | READ, CREATE/UPDATE/DELETE (само инциденти), ASSIGN PPE, GENERATE REPORTS | Не може да креира/уредува вработени, медицински прегледи, обуки |
+| **HR Manager** | Вработени, позиции, обуки, кандидати | Dashboard, Вработени (full), Медицински прегледи (read), Обуки (read), Извештаи | CREATE, READ, UPDATE, DELETE (вработени), READ (медицински, обуки), GENERATE REPORTS | Не може да управува со инциденти, ЗО, опрема |
+| **Medical Officer** | Прегледи, OCR, медицински документи | Dashboard, Вработени (read), Медицински прегледи (full) | CREATE, READ, UPDATE, DELETE (медицински прегледи), OCR, GENERATE REFERRALS | Не може да управува со вработени, обуки, инциденти |
+| **Training Coordinator** | Обуки, сертификати, read & sign | Dashboard, Вработени (read), Обуки (full) | CREATE, READ, UPDATE, DELETE (обуки), READ & SIGN, GENERATE CERTIFICATES | Не може да управува со медицински прегледи, инциденти |
+| **Safety Officer** | Повреди, инциденти, анализи | Dashboard, Вработени (read), Повреди и инциденти (full), Извештаи | CREATE, READ, UPDATE, DELETE (инциденти), ROOT CAUSE ANALYSIS, CORRECTIVE ACTIONS, GENERATE REPORTS | Не може да управува со вработени, обуки, медицински прегледи |
+| **Equipment Manager** | Машини, ЗО, инспекции | Dashboard, Вработени (read), ЗО (full), Опрема (full) | CREATE, READ, UPDATE, DELETE (ЗО, опрема), INSPECTIONS | Не може да управува со вработени, обуки, медицински прегледи, инциденти |
+| **Management / Viewer** | Read-only извештаи и dashboard | Dashboard, Вработени (read), Медицински прегледи (read), Обуки (read), Повреди и инциденти (read), Извештаи | READ (сите модули), GENERATE REPORTS | Не може да креира, уредува или брише записи |
+| **Employee (Self-service)** | Само сопствени податоци | Dashboard, Вработени (self), Медицински прегледи (self), Обуки (self), ЗО (assigned), Опрема (assigned) | READ (сопствени податоци), READ & SIGN (сопствени обуки), CREATE (инцидент извештаи) | Не може да гледа други вработени, не може да менува податоци |
 
-There are several ways of editing your application.
+## Тест корисници (за брзо тестирање)
 
-**Use Lovable**
+| username | улога | намена |
+|----------|-------|--------|
+| `admin.test` | System Administrator | Целосен пристап за тестирање на сите функционалности |
+| `hse.test` | HSE Administrator | Тестирање на управување со инциденти и БЗР модули |
+| `hr.test` | HR Manager | Тестирање на управување со вработени и HR процеси |
+| `medic.test` | Medical Officer | Тестирање на медицински прегледи и OCR функционалност |
+| `training.test` | Training Coordinator | Тестирање на обуки, сертификати и read & sign |
+| `safety.test` | Safety Officer | Тестирање на повреди, инциденти и анализи |
+| `equipment.test` | Equipment Manager | Тестирање на управување со ЗО и опрема |
+| `manager.test` | Management / Viewer | Тестирање на read-only пристап и извештаи |
+| `employee.test` | Employee | Тестирање на self-service функционалност |
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+**Како да тестирате:**
 
-Changes made via Lovable will be committed automatically to this repo.
+1. Најавете се со различни тест корисници користејќи го username како корисничко име (секоја лозинка е валидна)
+2. Набљудувајте како се менува видливоста на менито во sidebar-от според улогата
+3. Обидете се да пристапите на ограничени акции (креирање, уредување, бришење) и проверете дека се скриени или оневозможени за недозволени улоги
 
-**Use your preferred IDE**
+## Како најбрзо да се тестира системот
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+1. **Најава:** Користете еден од тест корисниците (на пр. `admin.test`) со која било лозинка
+2. **Промена на јазик:** Користете го language selector-от во topbar-от за да префрлите помеѓу Македонски, English и Shqip
+3. **Dashboard:** Отворете го Dashboard-от и проверете ги алармите за истек (обуки, медицински прегледи, ЗО, опрема)
+4. **Вработени модул:** Влезете во модулот Вработени и проверете го role-based пристапот (на пр. со `employee.test` ќе видите само сопствени податоци)
+5. **Одјава и повторување:** Одјавете се и најавете се повторно со друга улога за да видите различни дозволи
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## Модули (краток преглед)
 
-Follow these steps:
+- **Административен модул:** Управување со организациона структура, работни позиции, опрема, ЗО регистар, корисници и документи
+- **Вработени:** Целосен регистар на вработени со профили, квалификации, медицински прегледи, обуки, доделена ЗО и опрема, и документи
+- **Медицински прегледи:** Управување со медицински прегледи, следење на валидност, OCR обработка на документи, групно генерирање на упати
+- **Обуки:** Управување со обуки, сертификати, шаблони, read & sign инструкции, и следење на истек
+- **Повреди и инциденти:** Регистрација на повреди и инциденти, анализа на коренски причини, корективни мерки, и пресметка на AFR/ASR
+- **Извештаи и аналитика:** Извештаи за обуки, медицински прегледи, ЗО, опрема, и инциденти со филтри, групно печатење и извоз
+- **Dashboard и аларми:** Преглед на операции, аларми за истек, summary бројачи, и изгубени работни часови
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## Демонстрациски модул: Интелигентна анализа на компании
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+**Демонстрациски модул – Интелигентен систем за анализа и сегментација на македонски компании**
 
-# Step 3: Install the necessary dependencies.
-npm i
+Овој модул е **ДЕМО / КОНЦЕПТ** модул логички одделен од основниот безбедносен систем. Тој демонстрира како платформата може да се прошири со AI-водени бизнис модули.
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+**Карактеристики:**
 
-**Edit a file directly in GitHub**
+- Централизиран регистар на компании базиран на отворени податоци
+- Преглед по сектор и локација со филтрирање и пребарување
+- Автоматско генерирање и испраќање понуди базирано на профилот на компанијата
+- AI сегментација и препораки за потенцијални клиенти
+- Контрола на податоци (идентификација на дупликати, невалидни контакти)
+- Dashboard со аналитика за активности и трендови
+- Индекс на активност на компании за приоритизација
+- Препорачувачки систем според трендови и историски податоци
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+**Забелешка:** Овој модул е демонстрација и може подоцна да се реупотреби или интегрира (на пр. Laravel-базирана имплементација).
 
-**Use GitHub Codespaces**
+## AI Асистент (ДЕМО)
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+**AI Асистент (демонстрациски)**
 
-## What technologies are used for this project?
+Асистентот е ограничен на внатрешни системски податоци и се користи за помош и навигација во системот. Асистентот може да одговори на прашања како:
 
-This project is built with:
+- „Како да креирам нов вработен?"
+- „Каде се извештаите за обуки?"
+- „Како да проверам истек на медицински прегледи?"
+- „Што е AFR и како се пресметува?"
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+**UI однесување:**
 
-## How can I deploy this project?
+- Асистентот се појавува како мала avatar икона во долниот десен агол на екранот
+- Кликот на иконата отвора in-system chat прозорец
+- Асистентот нема пристап до надворешни податоци, само до внатрешни системски информации
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+## Забелешка
 
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Овој систем е демо/proof-of-concept наменет за презентација и тестирање. Сите податоци се тест податоци и не претставуваат реални информации. 

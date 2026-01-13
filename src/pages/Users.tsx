@@ -16,9 +16,19 @@ import { cn } from '@/lib/utils';
 const users = [
   { id: '1', name: 'Dragan Kostov', email: 'dragan.kostov@tav.com.mk', role: 'Administrator', lastLogin: '2026-01-13 09:45', status: 'active' },
   { id: '2', name: 'Ana Dimitrova', email: 'ana.dimitrova@tav.com.mk', role: 'Operations Manager', lastLogin: '2026-01-13 08:30', status: 'active' },
-  { id: '3', name: 'Marko Nikolovski', email: 'marko.nikolovski@tav.com.mk', role: 'Supervisor', lastLogin: '2026-01-12 14:20', status: 'active' },
+  { id: '3', name: 'Marko Nikolovski', email: 'marko.nikolovski@tav.com.mk', role: 'Supervisor', lastLogin: '2026-01-13 08:30', status: 'active' },
   { id: '4', name: 'Elena Trajkovska', email: 'elena.trajkovska@tav.com.mk', role: 'Staff', lastLogin: '2026-01-10 16:45', status: 'inactive' },
   { id: '5', name: 'Bujar Ahmeti', email: 'bujar.ahmeti@tav.com.mk', role: 'Staff', lastLogin: '2026-01-13 07:15', status: 'active' },
+  { id: '6', name: 'Vlado Mitrovski', email: 'vlado.mitrovski@tav.com.mk', role: 'Supervisor', lastLogin: '2026-01-13 07:00', status: 'active' },
+  { id: '7', name: 'Snezana Trajkovska', email: 'snezana.trajkovska@tav.com.mk', role: 'Staff', lastLogin: '2026-01-13 08:15', status: 'active' },
+  { id: '8', name: 'Goran Petrov', email: 'goran.petrov@tav.com.mk', role: 'Supervisor', lastLogin: '2026-01-13 06:30', status: 'active' },
+  { id: '9', name: 'Marija Stojanovska', email: 'marija.stojanovska@tav.com.mk', role: 'Staff', lastLogin: '2026-01-13 05:45', status: 'active' },
+  { id: '10', name: 'Dejan Ristovski', email: 'dejan.ristovski@tav.com.mk', role: 'Staff', lastLogin: '2026-01-13 07:20', status: 'active' },
+  { id: '11', name: 'Ivana Petrovska', email: 'ivana.petrovska@tav.com.mk', role: 'Staff', lastLogin: '2026-01-13 08:00', status: 'active' },
+  { id: '12', name: 'Aleksandar Stojanov', email: 'aleksandar.stojanov@tav.com.mk', role: 'Staff', lastLogin: '2026-01-12 22:30', status: 'active' },
+  { id: '13', name: 'Tamara Jovanovska', email: 'tamara.jovanovska@tav.com.mk', role: 'Staff', lastLogin: '2026-01-13 09:10', status: 'active' },
+  { id: '14', name: 'Nikola Todorov', email: 'nikola.todorov@tav.com.mk', role: 'Staff', lastLogin: '2026-01-13 08:45', status: 'active' },
+  { id: '15', name: 'Jovana Milosevska', email: 'jovana.milosevska@tav.com.mk', role: 'Staff', lastLogin: '2026-01-12 18:00', status: 'inactive' },
 ];
 
 const roleColors: Record<string, string> = {
@@ -26,6 +36,17 @@ const roleColors: Record<string, string> = {
   'Operations Manager': 'bg-chart-1/15 text-chart-1 border-chart-1/30',
   'Supervisor': 'bg-chart-2/15 text-chart-2 border-chart-2/30',
   'Staff': 'bg-muted text-muted-foreground border-border',
+};
+
+const getRoleTranslation = (role: string, t: any): string => {
+  const roleMap: Record<string, keyof typeof t.users.roles> = {
+    'Administrator': 'administrator',
+    'Operations Manager': 'operationsManager',
+    'Supervisor': 'supervisor',
+    'Staff': 'staff',
+  };
+  const roleKey = roleMap[role];
+  return roleKey ? t.users.roles[roleKey] : role;
 };
 
 const Users: React.FC = () => {
@@ -64,7 +85,7 @@ const Users: React.FC = () => {
 
       {/* Results count */}
       <p className="text-sm text-muted-foreground">
-        {filteredUsers.length} users
+        {filteredUsers.length} {t.users.userCount}
       </p>
 
       {/* Table */}
@@ -99,7 +120,7 @@ const Users: React.FC = () => {
                   <td className="text-muted-foreground">{user.email}</td>
                   <td>
                     <Badge variant="outline" className={cn('w-fit', roleColors[user.role])}>
-                      {user.role}
+                      {getRoleTranslation(user.role, t)}
                     </Badge>
                   </td>
                   <td className="text-sm text-muted-foreground">{user.lastLogin}</td>

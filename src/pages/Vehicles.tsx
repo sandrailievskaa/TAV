@@ -82,8 +82,8 @@ const Vehicles: React.FC = () => {
           <SelectContent>
             <SelectItem value="all">{t.common.all}</SelectItem>
             <SelectItem value="active">{t.common.active}</SelectItem>
-            <SelectItem value="maintenance">Maintenance</SelectItem>
-            <SelectItem value="idle">Idle</SelectItem>
+            <SelectItem value="maintenance">{t.vehicles.maintenance}</SelectItem>
+            <SelectItem value="idle">{t.vehicles.idle}</SelectItem>
           </SelectContent>
         </Select>
         <Button variant="outline">
@@ -118,7 +118,16 @@ const Vehicles: React.FC = () => {
                       {status.label[language]}
                     </Badge>
                   </div>
-                  <h3 className="font-semibold">{vehicle.type}</h3>
+                  <h3 className="font-semibold">{(() => {
+                    const typeMap: Record<string, keyof typeof t.vehicles.types> = {
+                      'Baggage Tractor': 'baggageTractor',
+                      'Passenger Bus': 'passengerBus',
+                      'Fuel Truck': 'fuelTruck',
+                      'Catering Truck': 'cateringTruck',
+                      'De-icing Vehicle': 'deicingVehicle',
+                    };
+                    return t.vehicles.types[typeMap[vehicle.type]] || vehicle.type;
+                  })()}</h3>
                 </div>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -150,11 +159,29 @@ const Vehicles: React.FC = () => {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">{t.vehicles.location}</span>
-                  <span>{vehicle.location}</span>
+                  <span>{(() => {
+                    const locMap: Record<string, keyof typeof t.vehicles.locations> = {
+                      'Apron A': 'apronA',
+                      'Terminal 1': 'terminal1',
+                      'Fuel Depot': 'fuelDepot',
+                      'Gate B5': 'gateB5',
+                      'Hangar 2': 'hangar2',
+                    };
+                    return t.vehicles.locations[locMap[vehicle.location]] || vehicle.location;
+                  })()}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">{t.vehicles.assigned}</span>
-                  <span>{vehicle.assignedTo}</span>
+                  <span>{(() => {
+                    const assignMap: Record<string, keyof typeof t.vehicles.assignments> = {
+                      'Ground Handling': 'groundHandling',
+                      'Passenger Services': 'passengerServices',
+                      'Fuel Services': 'fuelServices',
+                      'Catering': 'catering',
+                      'Winter Operations': 'winterOperations',
+                    };
+                    return t.vehicles.assignments[assignMap[vehicle.assignedTo]] || vehicle.assignedTo;
+                  })()}</span>
                 </div>
 
                 {/* Fuel Level */}

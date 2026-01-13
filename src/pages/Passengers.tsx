@@ -135,7 +135,7 @@ const Passengers: React.FC = () => {
                         {passenger.seatNumber}
                       </span>
                     </td>
-                    <td>{passenger.class}</td>
+                    <td>{t.data.classes[passenger.class.toLowerCase() as keyof typeof t.data.classes] || passenger.class}</td>
                     <td>
                       <Badge variant="outline" className={cn('w-fit', status.className)}>
                         {status.label[language]}

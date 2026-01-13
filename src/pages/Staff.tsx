@@ -75,8 +75,8 @@ const Staff: React.FC = () => {
           <SelectContent>
             <SelectItem value="all">{t.common.all}</SelectItem>
             <SelectItem value="active">{t.common.active}</SelectItem>
-            <SelectItem value="on-leave">On Leave</SelectItem>
-            <SelectItem value="off-duty">Off Duty</SelectItem>
+            <SelectItem value="on-leave">{t.staff.onLeave}</SelectItem>
+            <SelectItem value="off-duty">{t.staff.offDuty}</SelectItem>
           </SelectContent>
         </Select>
         <Button variant="outline">
@@ -129,11 +129,29 @@ const Staff: React.FC = () => {
                         </div>
                       </div>
                     </td>
-                    <td>{member.department}</td>
-                    <td>{member.position}</td>
+                    <td>{(() => {
+                      const deptMap: Record<string, keyof typeof t.staff.departments> = {
+                        'Operations': 'operations',
+                        'Customer Service': 'customerService',
+                        'Security': 'security',
+                        'Ground Handling': 'groundHandling',
+                        'Maintenance': 'maintenance',
+                      };
+                      return t.staff.departments[deptMap[member.department]] || member.department;
+                    })()}</td>
+                    <td>{(() => {
+                      const posMap: Record<string, keyof typeof t.staff.positions> = {
+                        'Shift Manager': 'shiftManager',
+                        'Check-in Agent': 'checkInAgent',
+                        'Security Officer': 'securityOfficer',
+                        'Ramp Agent': 'rampAgent',
+                        'Technician': 'technician',
+                      };
+                      return t.staff.positions[posMap[member.position]] || member.position;
+                    })()}</td>
                     <td>
                       <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-muted text-xs font-medium">
-                        {member.shift}
+                        {t.staff.shifts[member.shift.toLowerCase() as keyof typeof t.staff.shifts] || member.shift}
                       </span>
                     </td>
                     <td>
