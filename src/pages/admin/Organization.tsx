@@ -60,7 +60,6 @@ const Organization: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Page Header */}
       <div className="page-header flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="page-title">{t.admin.organization.title}</h1>
@@ -72,7 +71,6 @@ const Organization: React.FC = () => {
         </Button>
       </div>
 
-      {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -108,12 +106,10 @@ const Organization: React.FC = () => {
         </Select>
       </div>
 
-      {/* Results count */}
       <p className="text-sm text-muted-foreground">
         {filteredStructures.length} {t.admin.organization.facility.toLowerCase()}
       </p>
 
-      {/* Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredStructures.map((structure, index) => {
           const Icon = getTypeIcon(structure.type);

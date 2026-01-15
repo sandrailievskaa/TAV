@@ -21,13 +21,11 @@ const Settings: React.FC = () => {
 
   return (
     <div className="space-y-6 max-w-3xl">
-      {/* Page Header */}
       <div className="page-header">
         <h1 className="page-title">{t.settings.title}</h1>
         <p className="page-description">{t.settings.subtitle}</p>
       </div>
 
-      {/* Language Settings */}
       <div className="bg-card rounded-lg border border-border p-6">
         <div className="flex items-center gap-3 mb-4">
           <div className="p-2 rounded-lg bg-primary/10">
@@ -59,7 +57,6 @@ const Settings: React.FC = () => {
         </div>
       </div>
 
-      {/* Theme Settings */}
       <div className="bg-card rounded-lg border border-border p-6">
         <div className="flex items-center gap-3 mb-4">
           <div className="p-2 rounded-lg bg-primary/10">
@@ -101,7 +98,6 @@ const Settings: React.FC = () => {
         </div>
       </div>
 
-      {/* Notification Settings */}
       <div className="bg-card rounded-lg border border-border p-6">
         <div className="flex items-center gap-3 mb-6">
           <div className="p-2 rounded-lg bg-primary/10">
@@ -132,7 +128,6 @@ const Settings: React.FC = () => {
         </div>
       </div>
 
-      {/* Security Settings */}
       <div className="bg-card rounded-lg border border-border p-6">
         <div className="flex items-center gap-3 mb-6">
           <div className="p-2 rounded-lg bg-primary/10">
@@ -162,7 +157,6 @@ const Settings: React.FC = () => {
         </div>
       </div>
 
-      {/* Save Button */}
       <div className="flex justify-end">
         <Button>
           <Save className="w-4 h-4 mr-2" />

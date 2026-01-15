@@ -65,7 +65,6 @@ const Positions: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Page Header */}
       <div className="page-header flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="page-title">{t.admin.positions.title}</h1>
@@ -77,7 +76,6 @@ const Positions: React.FC = () => {
         </Button>
       </div>
 
-      {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -117,12 +115,10 @@ const Positions: React.FC = () => {
         </Select>
       </div>
 
-      {/* Results count */}
       <p className="text-sm text-muted-foreground">
         {filteredPositions.length} {t.admin.positions.position.toLowerCase()}
       </p>
 
-      {/* Positions List */}
       <div className="space-y-4">
         <Accordion type="single" collapsible className="w-full">
           {filteredPositions.map((position, index) => (
@@ -144,7 +140,6 @@ const Positions: React.FC = () => {
               </AccordionTrigger>
               <AccordionContent className="pt-4 pb-6">
                 <div className="space-y-6">
-                  {/* Risks */}
                   <div>
                     <div className="flex items-center gap-2 mb-3">
                       <AlertTriangle className="w-4 h-4 text-warning" />
@@ -159,7 +154,6 @@ const Positions: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Required Trainings */}
                   <div>
                     <div className="flex items-center gap-2 mb-3">
                       <GraduationCap className="w-4 h-4 text-primary" />
@@ -180,7 +174,6 @@ const Positions: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Required Medical Exams */}
                   <div>
                     <div className="flex items-center gap-2 mb-3">
                       <Stethoscope className="w-4 h-4 text-accent" />
@@ -201,7 +194,6 @@ const Positions: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Required PPE */}
                   <div>
                     <div className="flex items-center gap-2 mb-3">
                       <Shield className="w-4 h-4 text-success" />

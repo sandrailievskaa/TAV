@@ -175,7 +175,6 @@ const Reports: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Page Header */}
       <div className="page-header flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="page-title">{t.reports.title}</h1>
@@ -205,7 +204,6 @@ const Reports: React.FC = () => {
         </div>
       </div>
 
-      {/* Filters */}
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
@@ -340,7 +338,6 @@ const Reports: React.FC = () => {
         </CardContent>
       </Card>
 
-      {/* Report Tabs */}
       <Tabs value={activeTab} onValueChange={(value) => {
         setActiveTab(value as ReportType);
         setSelectedItems([]);
@@ -368,7 +365,6 @@ const Reports: React.FC = () => {
           </TabsTrigger>
         </TabsList>
 
-        {/* Training Reports */}
         <TabsContent value="training" className="space-y-4">
           {viewMode === 'list' ? (
             <div className="bg-card rounded-lg border border-border overflow-hidden">
@@ -458,7 +454,6 @@ const Reports: React.FC = () => {
           )}
         </TabsContent>
 
-        {/* Medical Exam Reports */}
         <TabsContent value="medical" className="space-y-4">
           {viewMode === 'list' ? (
             <div className="bg-card rounded-lg border border-border overflow-hidden">
@@ -548,7 +543,6 @@ const Reports: React.FC = () => {
           )}
         </TabsContent>
 
-        {/* PPE Reports - Placeholder */}
         <TabsContent value="ppe" className="space-y-4">
           <Card>
             <CardContent className="py-8 text-center text-muted-foreground">
@@ -557,7 +551,6 @@ const Reports: React.FC = () => {
           </Card>
         </TabsContent>
 
-        {/* Equipment Inspections - Placeholder */}
         <TabsContent value="equipment" className="space-y-4">
           <Card>
             <CardContent className="py-8 text-center text-muted-foreground">
@@ -566,7 +559,6 @@ const Reports: React.FC = () => {
           </Card>
         </TabsContent>
 
-        {/* Injury & Incident Cards */}
         <TabsContent value="incidents" className="space-y-4">
           {viewMode === 'list' ? (
             <div className="bg-card rounded-lg border border-border overflow-hidden">

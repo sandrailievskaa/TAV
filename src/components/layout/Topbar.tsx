@@ -57,7 +57,6 @@ const Topbar: React.FC = () => {
 
   return (
     <header className="h-16 bg-card border-b border-border flex items-center justify-between px-6">
-      {/* Search */}
       <div className="flex-1 max-w-md">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -69,9 +68,7 @@ const Topbar: React.FC = () => {
         </div>
       </div>
 
-      {/* Right actions */}
       <div className="flex items-center gap-2">
-        {/* Language Selector */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button className="topbar-action flex items-center gap-2 px-3">
@@ -96,7 +93,6 @@ const Topbar: React.FC = () => {
           </DropdownMenuContent>
         </DropdownMenu>
 
-        {/* Theme Selector */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button className="topbar-action">
@@ -128,7 +124,6 @@ const Topbar: React.FC = () => {
           </DropdownMenuContent>
         </DropdownMenu>
 
-        {/* Notifications */}
         <button className="topbar-action relative">
           <Bell className="w-5 h-5" />
           <Badge className="absolute -top-1 -right-1 w-5 h-5 p-0 flex items-center justify-center text-xs bg-destructive text-destructive-foreground">
@@ -136,7 +131,6 @@ const Topbar: React.FC = () => {
           </Badge>
         </button>
 
-        {/* User Menu */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button className="flex items-center gap-3 pl-3 pr-2 py-1.5 rounded-lg hover:bg-muted transition-colors">

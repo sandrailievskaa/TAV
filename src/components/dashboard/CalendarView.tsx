@@ -131,7 +131,6 @@ const CalendarView: React.FC<CalendarViewProps> = ({ events, daysToShow = 14 }) 
   const currentYear = currentMonth.getFullYear();
   const dayLabels = dayNames[language as keyof typeof dayNames] || dayNames.en;
 
-  // Upcoming events (next 14 days)
   const upcomingEvents = useMemo(() => {
     const today = new Date();
     const endDate = addDays(today, daysToShow);
@@ -180,9 +179,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({ events, daysToShow = 14 }) 
           </div>
         </CardHeader>
         <CardContent>
-          {/* Calendar Grid */}
           <div className="space-y-2">
-            {/* Day Labels */}
             <div className="grid grid-cols-7 gap-1 mb-3">
               {dayLabels.map((day, index) => (
                 <div key={index} className="text-center text-xs font-semibold text-foreground/70 py-2 bg-gradient-to-b from-muted/30 to-transparent rounded-md">
@@ -191,7 +188,6 @@ const CalendarView: React.FC<CalendarViewProps> = ({ events, daysToShow = 14 }) 
               ))}
             </div>
 
-            {/* Calendar Days */}
             <div className="grid grid-cols-7 gap-1">
               {calendarDays.map((day, index) => {
                 const dayEvents = getEventsForDate(day);
@@ -201,7 +197,6 @@ const CalendarView: React.FC<CalendarViewProps> = ({ events, daysToShow = 14 }) 
                 const isSelected = selectedDate && isSameDay(day, selectedDate);
                 const isCurrentMonth = isSameMonth(day, currentMonth);
 
-                // Get event types for this day to show color indicators
                 const eventTypes = dayEvents.map(e => e.type);
                 const hasMedical = eventTypes.includes('medical');
                 const hasTraining = eventTypes.includes('training');
@@ -256,7 +251,6 @@ const CalendarView: React.FC<CalendarViewProps> = ({ events, daysToShow = 14 }) 
             </div>
           </div>
 
-          {/* Upcoming Events List */}
           {upcomingEvents.length > 0 && (
             <div className="mt-6 pt-4 border-t-2 border-border/50">
               <h4 className="text-sm font-semibold mb-4 flex items-center gap-2 text-foreground">
@@ -315,7 +309,6 @@ const CalendarView: React.FC<CalendarViewProps> = ({ events, daysToShow = 14 }) 
         </CardContent>
       </Card>
 
-      {/* Event Details Dialog */}
       <Dialog open={selectedDate !== null} onOpenChange={() => setSelectedDate(null)}>
         <DialogContent className="max-w-md">
           <DialogHeader>

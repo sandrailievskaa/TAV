@@ -8,7 +8,7 @@ namespace TavSecuritySystem.Api.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]
-[Microsoft.AspNetCore.Authorization.AllowAnonymous] // За POC - дозволен пристап без authentication
+[Microsoft.AspNetCore.Authorization.AllowAnonymous]
 public class ExampleEntityController : ControllerBase
 {
     private readonly IExampleEntityService _service;
@@ -18,9 +18,6 @@ public class ExampleEntityController : ControllerBase
         _service = service;
     }
 
-    /// <summary>
-    /// Get all entities with pagination
-    /// </summary>
     [HttpGet]
     [ProducesResponseType(typeof(PagedResponse<ExampleEntity>), StatusCodes.Status200OK)]
     public async Task<ActionResult<PagedResponse<ExampleEntity>>> GetAll(
@@ -43,9 +40,6 @@ public class ExampleEntityController : ControllerBase
         return Ok(response);
     }
 
-    /// <summary>
-    /// Get entity by ID
-    /// </summary>
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(ExampleEntity), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -58,9 +52,6 @@ public class ExampleEntityController : ControllerBase
         return Ok(entity);
     }
 
-    /// <summary>
-    /// Create new entity
-    /// </summary>
     [HttpPost]
     [ProducesResponseType(typeof(ExampleEntity), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -73,9 +64,6 @@ public class ExampleEntityController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = entity.Id }, entity);
     }
 
-    /// <summary>
-    /// Update entity
-    /// </summary>
     [HttpPut("{id}")]
     [ProducesResponseType(typeof(ExampleEntity), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -94,9 +82,6 @@ public class ExampleEntityController : ControllerBase
         return Ok(entity);
     }
 
-    /// <summary>
-    /// Delete entity
-    /// </summary>
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -110,7 +95,6 @@ public class ExampleEntityController : ControllerBase
     }
 }
 
-// Helper class for paginated responses
 public class PagedResponse<T>
 {
     public List<T> Items { get; set; } = new();

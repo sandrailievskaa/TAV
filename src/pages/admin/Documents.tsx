@@ -90,7 +90,6 @@ const Documents: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Page Header */}
       <div className="page-header flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="page-title">{t.admin.documents.title}</h1>
@@ -102,7 +101,6 @@ const Documents: React.FC = () => {
         </Button>
       </div>
 
-      {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -139,12 +137,10 @@ const Documents: React.FC = () => {
         </Select>
       </div>
 
-      {/* Results count */}
       <p className="text-sm text-muted-foreground">
         {filteredDocuments.length} {t.admin.documents.title.toLowerCase()}
       </p>
 
-      {/* Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredDocuments.map((doc, index) => (
           <div

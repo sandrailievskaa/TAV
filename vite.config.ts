@@ -3,7 +3,6 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
 
-// https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   base: mode === "production" ? "/TAV/" : "/",
   build: {
@@ -13,13 +12,11 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
     proxy: {
-      // Proxy за API calls во development
-      // Ова овозможува CORS-free development
       '/api': {
         target: process.env.VITE_API_BASE_URL || 'http://localhost:5001',
         changeOrigin: true,
-        secure: false, // За HTTPS во development, ставете true
-        rewrite: (path) => path, // Не прави rewrite, остава го /api
+        secure: false,
+        rewrite: (path) => path,
         configure: (proxy, _options) => {
           proxy.on('error', (err, _req, res) => {
             console.log('Proxy error:', err);

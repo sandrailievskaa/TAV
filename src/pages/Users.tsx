@@ -60,7 +60,6 @@ const Users: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Page Header */}
       <div className="page-header flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="page-title">{t.users.title}</h1>
@@ -72,7 +71,6 @@ const Users: React.FC = () => {
         </Button>
       </div>
 
-      {/* Search */}
       <div className="relative max-w-md">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
         <Input
@@ -83,12 +81,10 @@ const Users: React.FC = () => {
         />
       </div>
 
-      {/* Results count */}
       <p className="text-sm text-muted-foreground">
         {filteredUsers.length} {t.users.userCount}
       </p>
 
-      {/* Table */}
       <div className="bg-gradient-to-br from-card to-card/95 rounded-lg border-2 border-border/50 overflow-hidden shadow-lg">
         <div className="overflow-x-auto">
           <table className="data-table">

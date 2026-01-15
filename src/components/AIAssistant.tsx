@@ -52,7 +52,6 @@ const AIAssistant: React.FC = () => {
     }
   }, [isOpen]);
 
-  // Quick action suggestions - адаптирано за сите јазици
   const quickActions = [
     { 
       icon: BookOpen, 
@@ -62,7 +61,7 @@ const AIAssistant: React.FC = () => {
     { 
       icon: TrendingUp, 
       text: language === 'mk' ? 'Што е AFR/ASR?' : language === 'sq' ? 'Çfarë është AFR/ASR?' : 'What is AFR/ASR?', 
-      action: 'afr asr' // исто за сите јазици
+      action: 'afr asr'
     },
     { 
       icon: AlertCircle, 
@@ -80,7 +79,6 @@ const AIAssistant: React.FC = () => {
     const lowerQuestion = question.toLowerCase();
     const lang = language;
 
-    // Navigation questions - прилагодено за сите јазици
     if ((lowerQuestion.includes('како') && lowerQuestion.includes('креирам') && lowerQuestion.includes('вработен')) ||
         (lowerQuestion.includes('how') && lowerQuestion.includes('create') && lowerQuestion.includes('employee')) ||
         (lowerQuestion.includes('si') && lowerQuestion.includes('krijoj') && lowerQuestion.includes('punonjës'))) {
@@ -142,21 +140,20 @@ const AIAssistant: React.FC = () => {
         : 'The Dashboard shows:\n- Expiration alerts (trainings, medical exams, PPE, equipment)\n- Summary counters\n- Lost work hours\n- Time categories: tomorrow, 30 days, expired\n- Quick overview of operations';
     }
 
-    // New responses
     if (lowerQuestion.includes('здраво') || lowerQuestion.includes('hello') || lowerQuestion.includes('hi') || lowerQuestion.includes('përshëndetje')) {
       return lang === 'mk'
-        ? 'Здраво! Добредојдовте! Јас сум вашиот AI асистент и сум тука да ви помогнам со системот. Можете да ме прашате за било што! 😊'
+        ? 'Здраво! Добредојдовте! Јас сум вашиот AI асистент и сум тука да ви помогнам со системот. Можете да ме прашате за било што!'
         : lang === 'sq'
-        ? 'Përshëndetje! Mirë se vini! Unë jam asistenti juaj AI dhe jam këtu për t\'ju ndihmuar me sistemin. Mund të më pyesni për çdo gjë! 😊'
-        : 'Hello! Welcome! I am your AI assistant and I\'m here to help you with the system. You can ask me anything! 😊';
+        ? 'Përshëndetje! Mirë se vini! Unë jam asistenti juaj AI dhe jam këtu për t\'ju ndihmuar me sistemin. Mund të më pyesni për çdo gjë!'
+        : 'Hello! Welcome! I am your AI assistant and I\'m here to help you with the system. You can ask me anything!';
     }
 
     if (lowerQuestion.includes('помош') || lowerQuestion.includes('help') || lowerQuestion.includes('ndihmë')) {
       return lang === 'mk'
-        ? 'Секако! Еве некои работи за кои можам да ви помогнам:\n\n📋 Управување со вработени\n📊 Извештаи и аналитика\n🏥 Медицински прегледи\n🎓 Обуки и сертификати\n⚠️ Инциденти и повреди\n🔐 Роли и дозволи\n📈 Dashboard и метрики\n\nПрашајте ме за било која од овие теми!'
+        ? 'Секако! Еве некои работи за кои можам да ви помогнам:\n\nУправување со вработени\nИзвештаи и аналитика\nМедицински прегледи\nОбуки и сертификати\nИнциденти и повреди\nРоли и дозволи\nDashboard и метрики\n\nПрашајте ме за било која од овие теми!'
         : lang === 'sq'
-        ? 'Sigurisht! Ja disa gjëra për të cilat mund t\'ju ndihmoj:\n\n📋 Menaxhimi i punonjësve\n📊 Raportet dhe analitika\n🏥 Ekzaminimet mjekësore\n🎓 Trajnimet dhe certifikatat\n⚠️ Incidentet dhe lëndimet\n🔐 Rolet dhe lejet\n📈 Dashboard dhe metrikat\n\nMë pyesni për çdo nga këto tema!'
-        : 'Of course! Here are some things I can help you with:\n\n📋 Employee management\n📊 Reports and analytics\n🏥 Medical examinations\n🎓 Trainings and certificates\n⚠️ Incidents and injuries\n🔐 Roles and permissions\n📈 Dashboard and metrics\n\nAsk me about any of these topics!';
+        ? 'Sigurisht! Ja disa gjëra për të cilat mund t\'ju ndihmoj:\n\nMenaxhimi i punonjësve\nRaportet dhe analitika\nEkzaminimet mjekësore\nTrajnimet dhe certifikatat\nIncidentet dhe lëndimet\nRolet dhe lejet\nDashboard dhe metrikat\n\nMë pyesni për çdo nga këto tema!'
+        : 'Of course! Here are some things I can help you with:\n\nEmployee management\nReports and analytics\nMedical examinations\nTrainings and certificates\nIncidents and injuries\nRoles and permissions\nDashboard and metrics\n\nAsk me about any of these topics!';
     }
 
     if (lowerQuestion.includes('календар') || lowerQuestion.includes('calendar') || lowerQuestion.includes('kalendar')) {
@@ -186,19 +183,17 @@ const AIAssistant: React.FC = () => {
     }
 
     return lang === 'mk'
-      ? 'Извинете, не сум сигурен како да одговорам на тоа прашање. Можете да ме прашате за:\n\n✅ Како да креирате нов вработен\n✅ Каде се извештаите\n✅ Како да проверите истек на медицински прегледи\n✅ Што е AFR/ASR\n✅ Управување со обуки\n✅ Роли и дозволи\n✅ Dashboard функционалности\n✅ Календар и настани\n✅ Инциденти и повреди\n✅ ЗО и опрема\n\nИли едноставно напишете "помош" за да видите сите опции! 😊'
+      ? 'Извинете, не сум сигурен како да одговорам на тоа прашање. Можете да ме прашате за:\n\nКако да креирате нов вработен\nКаде се извештаите\nКако да проверите истек на медицински прегледи\nШто е AFR/ASR\nУправување со обуки\nРоли и дозволи\nDashboard функционалности\nКалендар и настани\nИнциденти и повреди\nЗО и опрема\n\nИли едноставно напишете "помош" за да видите сите опции!'
       : lang === 'sq'
-      ? 'Më vjen keq, nuk jam i sigurt se si t\'u përgjigjem asaj pyetjeje. Mund të më pyesni për:\n\n✅ Si të krijoni një punonjës të ri\n✅ Ku janë raportet\n✅ Si të kontrolloni skadimin e ekzaminimeve mjekësore\n✅ Çfarë është AFR/ASR\n✅ Menaxhimi i trajnimeve\n✅ Rolet dhe lejet\n✅ Funksionalitetet e Dashboard\n✅ Kalendari dhe eventet\n✅ Incidentet dhe lëndimet\n✅ PPE dhe pajisjet\n\nOse thjesht shkruani "ndihmë" për të parë të gjitha opsionet! 😊'
-      : 'Sorry, I\'m not sure how to answer that question. You can ask me about:\n\n✅ How to create a new employee\n✅ Where reports are\n✅ How to check medical exam expiration\n✅ What is AFR/ASR\n✅ Training management\n✅ Roles and permissions\n✅ Dashboard functionalities\n✅ Calendar and events\n✅ Incidents and injuries\n✅ PPE and equipment\n\nOr simply type "help" to see all options! 😊';
+      ? 'Më vjen keq, nuk jam i sigurt se si t\'u përgjigjem asaj pyetjeje. Mund të më pyesni për:\n\nSi të krijoni një punonjës të ri\nKu janë raportet\nSi të kontrolloni skadimin e ekzaminimeve mjekësore\nÇfarë është AFR/ASR\nMenaxhimi i trajnimeve\nRolet dhe lejet\nFunksionalitetet e Dashboard\nKalendari dhe eventet\nIncidentet dhe lëndimet\nPPE dhe pajisjet\n\nOse thjesht shkruani "ndihmë" për të parë të gjitha opsionet!'
+      : 'Sorry, I\'m not sure how to answer that question. You can ask me about:\n\nHow to create a new employee\nWhere reports are\nHow to check medical exam expiration\nWhat is AFR/ASR\nTraining management\nRoles and permissions\nDashboard functionalities\nCalendar and events\nIncidents and injuries\nPPE and equipment\n\nOr simply type "help" to see all options!';
   };
 
-  // Simulate typing animation
   useEffect(() => {
     if (isTyping && typingText) {
       const fullText = typingText;
       let currentIndex = 0;
       
-      // Add empty message first
       const tempId = Date.now().toString();
       setMessages((prev) => [...prev, {
         id: tempId,
@@ -209,7 +204,7 @@ const AIAssistant: React.FC = () => {
       }]);
 
       const typeInterval = setInterval(() => {
-        currentIndex += 2; // Speed up typing
+        currentIndex += 2;
         setMessages((prev) => {
           const newMessages = [...prev];
           const lastMessage = newMessages[newMessages.length - 1];
@@ -224,7 +219,7 @@ const AIAssistant: React.FC = () => {
           }
           return newMessages;
         });
-      }, 15); // Typing speed
+      }, 15);
 
       return () => {
         clearInterval(typeInterval);
@@ -247,7 +242,6 @@ const AIAssistant: React.FC = () => {
     setInputValue('');
     setIsTyping(true);
 
-    // Simulate thinking time
     setTimeout(() => {
       const response = getResponse(question);
       setTypingText(response);
@@ -280,7 +274,6 @@ const AIAssistant: React.FC = () => {
 
   return (
     <>
-      {/* Floating Button */}
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
@@ -292,7 +285,6 @@ const AIAssistant: React.FC = () => {
         </button>
       )}
 
-      {/* Chat Window */}
       {isOpen && (
         <div className="fixed bottom-6 right-6 w-96 h-[600px] bg-gradient-to-br from-card via-card/95 to-card/90 border-2 border-primary/20 rounded-xl shadow-2xl z-50 flex flex-col animate-slide-in-right">
           <CardHeader className="pb-3 border-b-2 border-border/50 flex flex-row items-center justify-between bg-gradient-to-r from-primary/5 to-accent/5">
@@ -319,7 +311,6 @@ const AIAssistant: React.FC = () => {
             </Button>
           </CardHeader>
 
-          {/* Quick Actions */}
           {messages.length === 1 && (
             <div className="p-3 border-b border-border/50 bg-gradient-to-r from-muted/30 to-muted/10">
               <p className="text-xs font-semibold text-muted-foreground mb-2 px-2">

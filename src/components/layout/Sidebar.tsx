@@ -88,7 +88,6 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
         collapsed ? 'w-16' : 'w-64'
       )}
     >
-      {/* Logo */}
       <div className="h-16 flex items-center justify-between px-4 border-b border-sidebar-border">
         {!collapsed && (
           <div className="flex items-center gap-2">
@@ -114,7 +113,6 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
         </button>
       </div>
 
-      {/* Navigation */}
       <nav className="flex-1 py-4 px-2 overflow-y-auto custom-scrollbar">
         <div className="space-y-1">
           {navItems.map((item) => (
@@ -133,10 +131,8 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
           ))}
         </div>
 
-        {/* Divider */}
         <div className="my-4 mx-2 border-t border-sidebar-border" />
 
-        {/* Admin section */}
         {!collapsed && (
           <p className="px-3 mb-2 text-xs font-medium text-sidebar-muted uppercase tracking-wider">
             Admin
@@ -159,10 +155,8 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
           ))}
         </div>
 
-        {/* Divider */}
         <div className="my-4 mx-2 border-t border-sidebar-border" />
 
-        {/* Administrative section */}
         {!collapsed && (
           <p className="px-3 mb-2 text-xs font-medium text-sidebar-muted uppercase tracking-wider">
             {t.nav.admin}
@@ -186,7 +180,6 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
         </div>
       </nav>
 
-      {/* Footer */}
       {!collapsed && (
         <div className="p-4 border-t border-sidebar-border">
           <p className="text-xs text-sidebar-muted text-center">

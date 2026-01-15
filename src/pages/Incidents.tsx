@@ -303,7 +303,6 @@ const Incidents: React.FC = () => {
                   const status = incidentStatusConfig[incident.status];
                   const type = typeConfig[incident.type];
                   
-                  // Default icons based on severity/status/type
                   const getSeverityIcon = () => {
                     switch(incident.severity) {
                       case 'critical': return AlertTriangle;

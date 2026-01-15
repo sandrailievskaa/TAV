@@ -237,7 +237,6 @@ const Dashboard: React.FC = () => {
     );
   };
 
-  // Transform data into calendar events
   const calendarEvents = useMemo(() => {
     const events: Array<{
       id: string;
@@ -250,7 +249,6 @@ const Dashboard: React.FC = () => {
       description?: string;
     }> = [];
 
-    // Add training expiry dates
     trainings.forEach((training) => {
       if (training.expiryDate) {
         const daysUntil = getDaysUntil(training.expiryDate);
@@ -268,7 +266,6 @@ const Dashboard: React.FC = () => {
       }
     });
 
-    // Add medical exam expiry dates
     medicalExaminations.forEach((exam) => {
       const daysUntil = exam.daysUntilExpiry;
       events.push({
@@ -282,7 +279,6 @@ const Dashboard: React.FC = () => {
       });
     });
 
-    // Add vehicle inspection and insurance expiry dates
     vehicles.forEach((vehicle) => {
       if (vehicle.inspectionExpiry) {
         const daysUntil = getDaysUntil(vehicle.inspectionExpiry);

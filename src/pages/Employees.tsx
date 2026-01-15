@@ -888,7 +888,6 @@ const Employees: React.FC = () => {
                 )}
               </TabsContent>
 
-              {/* Documents Tab */}
               <TabsContent value="documents" className="space-y-4">
                 {selectedEmployee.documents.length === 0 ? (
                   <Card>

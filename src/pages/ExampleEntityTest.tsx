@@ -37,14 +37,12 @@ const ExampleEntityTest = () => {
       setFormData({ name: '', description: '' });
       refetch();
     } catch (error) {
-      // Error е веќе обработен во API client
     }
   };
 
   const handleEdit = (id: string) => {
     setEditingId(id);
     setIsEditOpen(true);
-    // Fetch entity data
     const entity = data?.items.find(e => e.id === id);
     if (entity) {
       setFormData({
@@ -72,7 +70,6 @@ const ExampleEntityTest = () => {
       setFormData({ name: '', description: '' });
       refetch();
     } catch (error) {
-      // Error е веќе обработен
     }
   };
 
@@ -86,7 +83,6 @@ const ExampleEntityTest = () => {
       toast.success(language === 'mk' ? 'Успешно избришан запис' : language === 'sq' ? 'Regjistrim i fshirë me sukses' : 'Record deleted successfully');
       refetch();
     } catch (error) {
-      // Error е веќе обработен
     }
   };
 
@@ -250,7 +246,6 @@ const ExampleEntityTest = () => {
         </CardContent>
       </Card>
 
-      {/* Edit Dialog */}
       <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
           <DialogContent>
             <DialogHeader>

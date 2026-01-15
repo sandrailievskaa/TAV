@@ -185,7 +185,6 @@ const CompanyAnalysis: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Page Header */}
       <div className="page-header flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-2">
@@ -219,7 +218,6 @@ const CompanyAnalysis: React.FC = () => {
         </div>
       </div>
 
-      {/* Info Card */}
       <Card className="border-primary/20 bg-primary/5">
         <CardContent className="pt-6">
           <div className="flex items-start gap-3">
@@ -244,7 +242,6 @@ const CompanyAnalysis: React.FC = () => {
         </CardContent>
       </Card>
 
-      {/* Statistics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="pb-3">
@@ -296,7 +293,6 @@ const CompanyAnalysis: React.FC = () => {
         </Card>
       </div>
 
-      {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -343,12 +339,10 @@ const CompanyAnalysis: React.FC = () => {
         </Select>
       </div>
 
-      {/* Results count */}
       <p className="text-sm text-muted-foreground">
         {filteredCompanies.length} {language === 'mk' ? 'компании' : language === 'sq' ? 'kompani' : 'companies'}
       </p>
 
-      {/* Table */}
       <div className="bg-card rounded-lg border border-border overflow-hidden">
         <div className="overflow-x-auto">
           <Table>

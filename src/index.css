@@ -116,7 +116,6 @@
   }
 
   .pastel {
-    /* Soft Pastel Mode - Gentle & Calm */
     --background: 210 30% 97%;
     --foreground: 215 20% 30%;
 
@@ -185,7 +184,6 @@
 }
 
 @layer components {
-  /* Status badges */
   .badge-success {
     @apply bg-gradient-to-br from-success/20 via-success/15 to-success/10 text-success border-success/40 shadow-sm;
   }
@@ -299,7 +297,6 @@
     @apply bg-muted-foreground/30;
   }
 
-  /* Enhanced gradients and colors */
   .gradient-primary {
     @apply bg-gradient-to-br from-primary via-primary/90 to-accent;
   }
@@ -316,7 +313,6 @@
     @apply bg-gradient-to-br from-foreground via-foreground/90 to-foreground/80 bg-clip-text text-transparent;
   }
 
-  /* Enhanced shadows */
   .shadow-glow {
     box-shadow: 0 0 20px rgba(var(--primary-rgb, 59, 130, 246), 0.3);
   }
@@ -325,7 +321,6 @@
     box-shadow: 0 0 20px rgba(var(--accent-rgb, 16, 185, 129), 0.3);
   }
 
-  /* Slide in animations */
   @keyframes slide-in-right {
     from {
       transform: translateX(100%);

@@ -66,7 +66,6 @@ const PPE: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Page Header */}
       <div className="page-header flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="page-title">{t.admin.ppe.title}</h1>
@@ -78,7 +77,6 @@ const PPE: React.FC = () => {
         </Button>
       </div>
 
-      {/* Alarms Summary */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="bg-card rounded-lg border border-destructive/30 p-4">
           <div className="flex items-center gap-3">
@@ -115,7 +113,6 @@ const PPE: React.FC = () => {
         </div>
       </div>
 
-      {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -151,12 +148,10 @@ const PPE: React.FC = () => {
         </Select>
       </div>
 
-      {/* Results count */}
       <p className="text-sm text-muted-foreground">
         {filteredPPE.length} {t.admin.ppe.itemName.toLowerCase()}
       </p>
 
-      {/* Table */}
       <div className="bg-card rounded-lg border border-border overflow-hidden">
         <div className="overflow-x-auto">
           <table className="data-table">

@@ -44,7 +44,6 @@ const Staff: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Page Header */}
       <div className="page-header flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="page-title">{t.staff.title}</h1>
@@ -56,7 +55,6 @@ const Staff: React.FC = () => {
         </Button>
       </div>
 
-      {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -85,12 +83,10 @@ const Staff: React.FC = () => {
         </Button>
       </div>
 
-      {/* Results count */}
       <p className="text-sm text-muted-foreground">
         {filteredStaff.length} {t.nav.staff.toLowerCase()}
       </p>
 
-      {/* Table */}
       <div className="bg-gradient-to-br from-card to-card/95 rounded-lg border-2 border-border/50 overflow-hidden shadow-lg">
         <div className="overflow-x-auto">
           <table className="data-table">

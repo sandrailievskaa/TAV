@@ -86,7 +86,6 @@ const Logs: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Page Header */}
       <div className="page-header flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="page-title">{t.nav.logs}</h1>
@@ -98,7 +97,6 @@ const Logs: React.FC = () => {
         </Button>
       </div>
 
-      {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -123,12 +121,10 @@ const Logs: React.FC = () => {
         </Select>
       </div>
 
-      {/* Results count */}
       <p className="text-sm text-muted-foreground">
         {filteredLogs.length} {t.logs.logEntries}
       </p>
 
-      {/* Logs List */}
       <div className="space-y-3">
         {filteredLogs.map((log, index) => {
           const type = typeConfig[log.type as keyof typeof typeConfig];
