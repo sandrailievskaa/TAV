@@ -19,6 +19,92 @@ npm run dev
 npm install
 npm run deploy
 ```
+
+## 🔌 ASP.NET Backend Интеграција
+
+**OpenAPI/Swagger schema** за автоматска генерација на TypeScript типови.
+
+Автоматска генерација на TypeScript типови од OpenAPI schema
+Централизиран API клиент со error handling
+React Query hooks за data fetching
+Глобално error handling со toast notifications
+Поддршка за errors и статус кодови
+
+### Setup Чекори
+
+#### 1. Стартување на ASP.NET Backend
+
+```powershell
+cd backend\TavSecuritySystem.Api
+dotnet restore
+dotnet run
+```
+
+Backend ќе стартува на `http://localhost:5001`
+- **Swagger UI:** `http://localhost:5001/swagger`
+- **Health Check:** `http://localhost:5001/`
+- **API Base:** `http://localhost:5001/api`
+
+#### 2. Генерирање на TypeScript Типови
+
+**Во нов терминал**:
+
+```powershell
+npm run generate:api-types:local
+```
+
+Ова ќе генерира `src/types/api/schema.d.ts` со типовите од ASP.NET OpenAPI schema.
+
+#### 3. Стартување на Frontend
+
+```powershell
+npm run dev
+```
+
+Frontend ќе стартува на `http://localhost:8080`
+
+#### 4. Тестирање
+
+1. **Backend API:** Отвори `http://localhost:5001/api/ExampleEntity?page=1&pageSize=10` во browser
+2. **Frontend Test Page:** Отвори `http://localhost:8080/#/example-test`
+
+### API Endpoints (POC Example)
+
+- `GET /api/ExampleEntity?page=1&pageSize=10` - Листа со pagination
+- `GET /api/ExampleEntity/{id}` - Единечен ентитет
+- `POST /api/ExampleEntity` - Креирање
+- `PUT /api/ExampleEntity/{id}` - Ажурирање
+- `DELETE /api/ExampleEntity/{id}` - Бришење
+
+### Структура на Проектот
+
+- **Backend:** `backend/TavSecuritySystem.Api/`
+- **Frontend API Client:** `src/services/api/client.ts`
+- **Example Service:** `src/services/api/exampleService.ts`
+- **Test Page:** `src/pages/ExampleEntityTest.tsx`
+
+### Решавање на Проблеми
+
+**403 Forbidden на Swagger/API:**
+- Проверка дали backend е стартуван
+- Проверка дали порта 5001 е слободна: `netstat -ano | findstr :5001`
+- Ако е зафатена, смени `backend/TavSecuritySystem.Api/Properties/launchSettings.json`
+
+**Frontend не може да се поврзе:**
+- Проверка `http://localhost:5001`
+
+**Тестирање на Backend директно:**
+```powershell
+# Health check
+Invoke-WebRequest -Uri http://localhost:5001/ -Method GET
+
+# API test
+Invoke-WebRequest -Uri http://localhost:5001/api/ExampleEntity?page=1&pageSize=10 -Method GET
+```
+
+### Детални инструкции:
+Види: [`docs/API_INTEGRATION.md`](docs/API_INTEGRATION.md)
+
 ## Краток опис
 
 ## Улоги и дозволи (RBAC – Role Based Access Control)

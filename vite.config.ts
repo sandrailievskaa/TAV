@@ -12,6 +12,21 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: 8080,
+    proxy: {
+      // Proxy за API calls во development
+      // Ова овозможува CORS-free development
+      '/api': {
+        target: process.env.VITE_API_BASE_URL || 'http://localhost:5001',
+        changeOrigin: true,
+        secure: false, // За HTTPS во development, ставете true
+        rewrite: (path) => path, // Не прави rewrite, остава го /api
+        configure: (proxy, _options) => {
+          proxy.on('error', (err, _req, res) => {
+            console.log('Proxy error:', err);
+          });
+        },
+      },
+    },
   },
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
   resolve: {
