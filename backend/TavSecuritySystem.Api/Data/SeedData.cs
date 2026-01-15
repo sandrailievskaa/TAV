@@ -16,16 +16,23 @@ public static class SeedData
             new ExampleEntity
             {
                 Id = Guid.NewGuid(),
-                Name = "Пример Ентитет 1",
-                Description = "Ова е пример ентитет за POC",
-                CreatedAt = DateTime.UtcNow
+                Name = "Fire Safety Inspection - Building A",
+                Description = "Monthly fire safety inspection. Checked fire extinguishers and emergency exits.",
+                CreatedAt = DateTime.UtcNow.AddDays(-5)
             },
             new ExampleEntity
             {
                 Id = Guid.NewGuid(),
-                Name = "Пример Ентитет 2",
-                Description = "Втор пример ентитет",
-                CreatedAt = DateTime.UtcNow
+                Name = "PPE Compliance Check - Warehouse",
+                Description = "Quarterly PPE compliance verification. Verified hard hats and safety equipment usage.",
+                CreatedAt = DateTime.UtcNow.AddDays(-12)
+            },
+            new ExampleEntity
+            {
+                Id = Guid.NewGuid(),
+                Name = "Electrical Safety Audit",
+                Description = "Annual electrical safety audit. Inspected electrical panels and grounding systems.",
+                CreatedAt = DateTime.UtcNow.AddDays(-30)
             }
         };
 

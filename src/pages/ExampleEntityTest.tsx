@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useExampleEntities, useExampleEntity, useCreateExampleEntity, useUpdateExampleEntity, useDeleteExampleEntity } from '@/services/api/exampleService';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -11,6 +12,7 @@ import { toast } from 'sonner';
 import { Loader2, Plus, Edit, Trash2 } from 'lucide-react';
 
 const ExampleEntityTest = () => {
+  const { t, language } = useLanguage();
   const [page, setPage] = useState(1);
   const pageSize = 10;
   const { data, isLoading, error, refetch } = useExampleEntities(page, pageSize);
@@ -30,7 +32,7 @@ const ExampleEntityTest = () => {
         name: formData.name,
         description: formData.description || undefined,
       });
-      toast.success('Успешно креиран ентитет');
+      toast.success(language === 'mk' ? 'Успешно креиран запис' : language === 'sq' ? 'Regjistrim i krijuar me sukses' : 'Record created successfully');
       setIsCreateOpen(false);
       setFormData({ name: '', description: '' });
       refetch();
@@ -64,7 +66,7 @@ const ExampleEntityTest = () => {
           description: formData.description || undefined,
         },
       });
-      toast.success('Успешно ажуриран ентитет');
+      toast.success(language === 'mk' ? 'Успешно ажуриран запис' : language === 'sq' ? 'Regjistrim i përditësuar me sukses' : 'Record updated successfully');
       setIsEditOpen(false);
       setEditingId(null);
       setFormData({ name: '', description: '' });
@@ -75,13 +77,13 @@ const ExampleEntityTest = () => {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Дали сте сигурни дека сакате да го избришете овој ентитет?')) {
+    if (!confirm(language === 'mk' ? 'Дали сте сигурни дека сакате да го избришете овој запис?' : language === 'sq' ? 'A jeni të sigurt që dëshironi të fshini këtë regjistrim?' : 'Are you sure you want to delete this record?')) {
       return;
     }
 
     try {
       await deleteMutation.mutateAsync(id);
-      toast.success('Успешно избришан ентитет');
+      toast.success(language === 'mk' ? 'Успешно избришан запис' : language === 'sq' ? 'Regjistrim i fshirë me sukses' : 'Record deleted successfully');
       refetch();
     } catch (error) {
       // Error е веќе обработен
@@ -93,11 +95,11 @@ const ExampleEntityTest = () => {
       <div className="p-6">
         <Card>
           <CardHeader>
-            <CardTitle>Грешка</CardTitle>
-            <CardDescription>Не можам да се поврзам со API</CardDescription>
+            <CardTitle>{language === 'mk' ? 'Грешка' : language === 'sq' ? 'Gabim' : 'Error'}</CardTitle>
+            <CardDescription>{language === 'mk' ? 'Не можам да се поврзам со API' : language === 'sq' ? 'Nuk mund të lidhem me API' : 'Cannot connect to API'}</CardDescription>
           </CardHeader>
           <CardContent>
-            <Button onClick={() => refetch()}>Обиди се повторно</Button>
+            <Button onClick={() => refetch()}>{language === 'mk' ? 'Обиди се повторно' : language === 'sq' ? 'Provo përsëri' : 'Try Again'}</Button>
           </CardContent>
         </Card>
       </div>
@@ -108,28 +110,28 @@ const ExampleEntityTest = () => {
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold">Example Entity - POC Test</h1>
+          <h1 className="text-3xl font-bold">{language === 'mk' ? 'Безбедносни Инспекции - POC' : language === 'sq' ? 'Inspektime Sigurie - POC' : 'Safety Inspections - POC'}</h1>
           <p className="text-muted-foreground mt-1">
-            Тест страна за интеграција со ASP.NET Backend
+            {language === 'mk' ? 'Тест на интеграција со ASP.NET Backend' : language === 'sq' ? 'Test integrimi me ASP.NET Backend' : 'ASP.NET Backend Integration Test'}
           </p>
         </div>
         <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
           <DialogTrigger asChild>
             <Button>
               <Plus className="mr-2 h-4 w-4" />
-              Нов Ентитет
+              {t.common.add}
             </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Креирај нов ентитет</DialogTitle>
+              <DialogTitle>{t.common.add}</DialogTitle>
               <DialogDescription>
-                Внесете податоци за новиот ентитет
+                {language === 'mk' ? 'Внесете податоци за новата инспекција' : language === 'sq' ? 'Shkruani të dhënat për inspektimin e ri' : 'Enter details for new inspection'}
               </DialogDescription>
             </DialogHeader>
             <form onSubmit={handleCreate} className="space-y-4">
               <div>
-                <Label htmlFor="name">Име *</Label>
+                <Label htmlFor="name">{t.common.name} *</Label>
                 <Input
                   id="name"
                   value={formData.name}
@@ -138,7 +140,7 @@ const ExampleEntityTest = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="description">Опис</Label>
+                <Label htmlFor="description">{t.common.notes || 'Description'}</Label>
                 <Textarea
                   id="description"
                   value={formData.description}
@@ -151,11 +153,11 @@ const ExampleEntityTest = () => {
                   variant="outline"
                   onClick={() => setIsCreateOpen(false)}
                 >
-                  Откажи
+                  {t.common.cancel}
                 </Button>
                 <Button type="submit" disabled={createMutation.isPending}>
                   {createMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  Креирај
+                  {t.common.save}
                 </Button>
               </div>
             </form>
@@ -165,9 +167,9 @@ const ExampleEntityTest = () => {
 
       <Card>
         <CardHeader>
-          <CardTitle>Листа на ентитети</CardTitle>
+          <CardTitle>{language === 'mk' ? 'Листа на инспекции' : language === 'sq' ? 'Lista e inspektimeve' : 'Inspections List'}</CardTitle>
           <CardDescription>
-            {data && `Вкупно: ${data.totalCount} | Страна ${data.pageNumber} од ${data.totalPages}`}
+            {data && (language === 'mk' ? `Вкупно: ${data.totalCount} | Страна ${data.pageNumber} од ${data.totalPages}` : language === 'sq' ? `Total: ${data.totalCount} | Faqja ${data.pageNumber} nga ${data.totalPages}` : `Total: ${data.totalCount} | Page ${data.pageNumber} of ${data.totalPages}`)}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -181,10 +183,10 @@ const ExampleEntityTest = () => {
                 <TableHeader>
                   <TableRow>
                     <TableHead>ID</TableHead>
-                    <TableHead>Име</TableHead>
-                    <TableHead>Опис</TableHead>
-                    <TableHead>Креиран</TableHead>
-                    <TableHead>Акции</TableHead>
+                    <TableHead>{t.common.name}</TableHead>
+                    <TableHead>{t.common.notes || 'Description'}</TableHead>
+                    <TableHead>{t.common.createdAt}</TableHead>
+                    <TableHead>{t.common.actions}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -229,17 +231,17 @@ const ExampleEntityTest = () => {
                     onClick={() => setPage(p => Math.max(1, p - 1))}
                     disabled={page === 1}
                   >
-                    Претходна
+                    {language === 'mk' ? 'Претходна' : language === 'sq' ? 'Paraardhëse' : 'Previous'}
                   </Button>
                   <span className="flex items-center px-4">
-                    Страна {page} од {data.totalPages}
+                    {language === 'mk' ? `Страна ${page} од ${data.totalPages}` : language === 'sq' ? `Faqja ${page} nga ${data.totalPages}` : `Page ${page} of ${data.totalPages}`}
                   </span>
                   <Button
                     variant="outline"
                     onClick={() => setPage(p => Math.min(data.totalPages, p + 1))}
                     disabled={page === data.totalPages}
                   >
-                    Следна
+                    {language === 'mk' ? 'Следна' : language === 'sq' ? 'Tjetra' : 'Next'}
                   </Button>
                 </div>
               )}
@@ -250,16 +252,16 @@ const ExampleEntityTest = () => {
 
       {/* Edit Dialog */}
       <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Уреди ентитет</DialogTitle>
-            <DialogDescription>
-              Променете ги податоците на ентитетот
-            </DialogDescription>
-          </DialogHeader>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>{t.common.edit}</DialogTitle>
+              <DialogDescription>
+                {language === 'mk' ? 'Променете ги податоците на инспекцијата' : language === 'sq' ? 'Ndryshoni të dhënat e inspektimit' : 'Update inspection details'}
+              </DialogDescription>
+            </DialogHeader>
           <form onSubmit={handleUpdate} className="space-y-4">
             <div>
-              <Label htmlFor="edit-name">Име *</Label>
+              <Label htmlFor="edit-name">{t.common.name} *</Label>
               <Input
                 id="edit-name"
                 value={formData.name}
@@ -268,7 +270,7 @@ const ExampleEntityTest = () => {
               />
             </div>
             <div>
-              <Label htmlFor="edit-description">Опис</Label>
+              <Label htmlFor="edit-description">{t.common.notes || 'Description'}</Label>
               <Textarea
                 id="edit-description"
                 value={formData.description}
@@ -285,11 +287,11 @@ const ExampleEntityTest = () => {
                   setFormData({ name: '', description: '' });
                 }}
               >
-                Откажи
+                {t.common.cancel}
               </Button>
               <Button type="submit" disabled={updateMutation.isPending}>
                 {updateMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Зачувај
+                {t.common.save}
               </Button>
             </div>
           </form>
