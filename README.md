@@ -1,12 +1,12 @@
 # TAV System – Интерен систем за безбедност, здравје и усогласеност
 
-## 🚀 Live Demo
+## Live Demo
 
 **Апликацијата е достапна за тестирање на GitHub Pages:**
 
-👉 **[https://sandrailievskaa.github.io/TAV](https://sandrailievskaa.github.io/TAV)**
+**[https://sandrailievskaa.github.io/TAV](https://sandrailievskaa.github.io/TAV)**
 
-## 📦 Инсталација и Deployment
+## Инсталација и Deployment
 
 **За локален развој:**
 ```bash
@@ -20,7 +20,7 @@ npm install
 npm run deploy
 ```
 
-## 🔌 ASP.NET Backend Интеграција
+## ASP.NET Backend Интеграција
 
 **OpenAPI/Swagger schema** за автоматска генерација на TypeScript типови.
 
