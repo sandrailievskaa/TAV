@@ -1,0 +1,23 @@
+<Solution>
+    <Configurations>
+        <Platform Name="Any CPU" />
+    </Configurations>
+    <Folder Name="/src/">
+        <Project Path="src/Test.Domain/Test.Domain.csproj" />
+        <Project Path="src/Test.Application/Test.Application.csproj" />
+        <Project Path="src/Test.EntityFrameworkCore/Test.EntityFrameworkCore.csproj" />
+        <Project Path="src/Test.Domain.Shared/Test.Domain.Shared.csproj" />
+        <Project Path="src/Test.Application.Contracts/Test.Application.Contracts.csproj" />
+        <Project Path="src/Test.HttpApi/Test.HttpApi.csproj" />
+        <Project Path="src/Test.HttpApi.Client/Test.HttpApi.Client.csproj" />
+        <Project Path="src/Test.DbMigrator/Test.DbMigrator.csproj" />
+        <Project Path="src/Test.HttpApi.Host/Test.HttpApi.Host.csproj" />
+    </Folder>
+    <Folder Name="/test/">
+        <Project Path="test/Test.Application.Tests/Test.Application.Tests.csproj" />
+        <Project Path="test/Test.EntityFrameworkCore.Tests/Test.EntityFrameworkCore.Tests.csproj" />
+        <Project Path="test/Test.TestBase/Test.TestBase.csproj" />
+        <Project Path="test/Test.Domain.Tests/Test.Domain.Tests.csproj" />
+        <Project Path="test/Test.HttpApi.Client.ConsoleTestApp/Test.HttpApi.Client.ConsoleTestApp.csproj" />
+    </Folder>
+</Solution>
