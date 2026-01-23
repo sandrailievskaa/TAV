@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TavSecuritySystem.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+77339301aebfd302ef3ab0d96124205dabbc2bef")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3956007a390f422cd88bbb247c0ec3b098d3c318")]
 [assembly: System.Reflection.AssemblyProductAttribute("TavSecuritySystem.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TavSecuritySystem.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
