@@ -30,6 +30,7 @@ import PPE from "./pages/admin/PPE";
 import Documents from "./pages/admin/Documents";
 import CompanyAnalysis from "./pages/CompanyAnalysis";
 import ExampleEntityTest from "./pages/ExampleEntityTest";
+import AbpTest from "./pages/AbpTest";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -83,6 +84,7 @@ const App = () => (
                           <Route path="/admin/documents" element={<Documents />} />
                           <Route path="/company-analysis" element={<CompanyAnalysis />} />
                           <Route path="/example-test" element={<ExampleEntityTest />} />
+                          <Route path="/abp-test" element={<AbpTest />} />
                           <Route path="*" element={<NotFound />} />
                         </Routes>
                       </MainLayout>
