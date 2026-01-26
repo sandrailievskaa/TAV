@@ -13,7 +13,7 @@ export default defineConfig(({ mode }) => ({
     port: 8080,
     proxy: {
       '/api/app': {
-        target: process.env.VITE_ABP_API_BASE_URL || 'http://localhost:5001',
+        target: process.env.VITE_ABP_API_BASE_URL || 'http://localhost:5002',
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path,
@@ -24,7 +24,7 @@ export default defineConfig(({ mode }) => ({
         },
       },
       '/api': {
-        target: process.env.VITE_API_BASE_URL || 'http://localhost:5001',
+        target: process.env.VITE_API_BASE_URL || 'http://localhost:5002',
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path,

@@ -20,7 +20,6 @@ using Microsoft.OpenApi.Models;
 using Volo.Abp;
 using Volo.Abp.Studio;
 using Volo.Abp.Account;
-using Volo.Abp.Account.Web;
 using Volo.Abp.AspNetCore.MultiTenancy;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.Autofac;
@@ -28,10 +27,6 @@ using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.VirtualFileSystem;
-using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
-using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
-using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic;
-using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic.Bundling;
 using Microsoft.AspNetCore.Hosting;
 using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Identity;
@@ -45,12 +40,11 @@ namespace Test;
 [DependsOn(
     typeof(TestHttpApiModule),
     typeof(AbpStudioClientAspNetCoreModule),
-    typeof(AbpAspNetCoreMvcUiBasicThemeModule),
     typeof(AbpAutofacModule),
     typeof(AbpAspNetCoreMultiTenancyModule),
     typeof(TestApplicationModule),
     typeof(TestEntityFrameworkCoreModule),
-    typeof(AbpAccountWebOpenIddictModule),
+    typeof(AbpAccountApplicationModule),
     typeof(AbpSwashbuckleModule),
     typeof(AbpAspNetCoreSerilogModule)
     )]
@@ -115,7 +109,6 @@ public class TestHttpApiHostModule : AbpModule
         ConfigureStudio(hostingEnvironment);
         ConfigureAuthentication(context);
         ConfigureUrls(configuration);
-        ConfigureBundles();
         ConfigureConventionalControllers();
         ConfigureHealthChecks(context);
         ConfigureSwagger(context, configuration);
@@ -145,34 +138,9 @@ public class TestHttpApiHostModule : AbpModule
 
     private void ConfigureUrls(IConfiguration configuration)
     {
-        Configure<AppUrlOptions>(options =>
-        {
-            options.Applications["MVC"].RootUrl = configuration["App:SelfUrl"];
-            options.RedirectAllowedUrls.AddRange(configuration["App:RedirectAllowedUrls"]?.Split(',') ?? Array.Empty<string>());
-        });
+        // URLs configuration for API only - no MVC needed
     }
 
-    private void ConfigureBundles()
-    {
-        Configure<AbpBundlingOptions>(options =>
-        {
-            options.StyleBundles.Configure(
-                BasicThemeBundles.Styles.Global,
-                bundle =>
-                {
-                    bundle.AddFiles("/global-styles.css");
-                }
-            );
-
-            options.ScriptBundles.Configure(
-                BasicThemeBundles.Scripts.Global,
-                bundle =>
-                {
-                    bundle.AddFiles("/global-scripts.js");
-                }
-            );
-        });
-    }
 
 
     private void ConfigureVirtualFileSystem(ServiceConfigurationContext context)
@@ -256,13 +224,8 @@ public class TestHttpApiHostModule : AbpModule
 
         app.UseAbpRequestLocalization();
 
-        if (!env.IsDevelopment())
-        {
-            app.UseErrorPage();
-        }
-
         app.UseRouting();
-        app.MapAbpStaticAssets();
+        // app.MapAbpStaticAssets(); // Disabled - no MVC UI needed, causes Libs folder check
         app.UseAbpStudioLink();
         app.UseAbpSecurityHeaders();
         app.UseCors();

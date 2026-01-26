@@ -20,8 +20,8 @@ class ApiClient {
   constructor(baseURL?: string) {
     const apiBaseURL = baseURL || 
       (import.meta.env.DEV 
-        ? '/api'
-        : import.meta.env.VITE_API_BASE_URL || 'http://localhost:5001/api');
+        ? '/api/app'
+        : import.meta.env.VITE_API_BASE_URL || 'http://localhost:5002/api/app');
     
     this.client = axios.create({
       baseURL: apiBaseURL,
