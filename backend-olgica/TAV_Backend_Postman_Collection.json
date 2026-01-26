@@ -1,0 +1,541 @@
+{
+	"info": {
+		"_postman_id": "tav-backend-olgica-collection",
+		"name": "TAV Backend-olgica API",
+		"description": "Postman колекција за тестирање на ABP Framework backend (backend-olgica)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Get Access Token (Password Grant)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"access_token\", jsonData.access_token);",
+									"    console.log(\"Access token saved to environment\");",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "1q2w3E*",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "Test",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "Test_Swagger",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/connect/token",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"connect",
+								"token"
+							]
+						},
+						"description": "Добиј access token користејќи password grant flow. Default корисник: admin / 1q2w3E*"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Access Token (Client Credentials)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "Test",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "Test_Swagger",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/connect/token",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"connect",
+								"token"
+							]
+						},
+						"description": "Алтернативен начин за добивање на токен (ако е поддржан)"
+					},
+					"response": []
+				},
+				{
+					"name": "Test: Request без токен (401 Expected)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									"",
+									"pm.test(\"Response contains error\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('error');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/app/test",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"app",
+								"test"
+							]
+						},
+						"description": "Тест: Request без Authorization header. Очекуван резултат: 401 Unauthorized"
+					},
+					"response": []
+				},
+				{
+					"name": "Test: Request со невалиден токен (401 Expected)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer invalid_token_12345",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/app/test",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"app",
+								"test"
+							]
+						},
+						"description": "Тест: Request со невалиден токен. Очекуван резултат: 401 Unauthorized"
+					},
+					"response": []
+				},
+				{
+					"name": "Test: Валиден токен (200 Expected)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200 or 201\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+									"});",
+									"",
+									"pm.test(\"Response is JSON\", function () {",
+									"    pm.response.to.be.json;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/app/test?MaxResultCount=5",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"app",
+								"test"
+							],
+							"query": [
+								{
+									"key": "MaxResultCount",
+									"value": "5"
+								}
+							]
+						},
+						"description": "Тест: Request со валиден токен. Очекуван резултат: 200 OK со податоци"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints за автентикација и добивање на access tokens"
+		},
+		{
+			"name": "Test API",
+			"item": [
+				{
+					"name": "Get All Tests (List)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/app/test?SkipCount=0&MaxResultCount=10&Sorting=name&Filter=",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"app",
+								"test"
+							],
+							"query": [
+								{
+									"key": "SkipCount",
+									"value": "0",
+									"description": "Број на записи да се прескокнат (pagination)"
+								},
+								{
+									"key": "MaxResultCount",
+									"value": "10",
+									"description": "Максимален број на записи да се вратат"
+								},
+								{
+									"key": "Sorting",
+									"value": "name",
+									"description": "Сортирање (на пр. 'name asc', 'age desc')"
+								},
+								{
+									"key": "Filter",
+									"value": "",
+									"description": "Филтер за пребарување по име",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Добиј листа на сите Test записи со pagination и филтрирање"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Test by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/app/test/{{test_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"app",
+								"test",
+								"{{test_id}}"
+							],
+							"description": "Заменете {{test_id}} со вистински GUID"
+						},
+						"description": "Добиј еден Test запис по ID (GUID)"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Test",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200 || pm.response.code === 201) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"test_id\", jsonData.id);",
+									"    console.log(\"Created test with ID: \" + jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Test Item 1\",\n  \"age\": 25\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/app/test",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"app",
+								"test"
+							]
+						},
+						"description": "Креирај нов Test запис"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Test",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Updated Test Item\",\n  \"age\": 30\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/app/test/{{test_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"app",
+								"test",
+								"{{test_id}}"
+							],
+							"description": "Заменете {{test_id}} со вистински GUID"
+						},
+						"description": "Ажурирај постоечки Test запис"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Test",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/app/test/{{test_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"app",
+								"test",
+								"{{test_id}}"
+							],
+							"description": "Заменете {{test_id}} со вистински GUID"
+						},
+						"description": "Избриши Test запис"
+					},
+					"response": []
+				}
+			],
+			"description": "CRUD операции за Test ентитет"
+		},
+		{
+			"name": "System",
+			"item": [
+				{
+					"name": "Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/health-status",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"health-status"
+							]
+						},
+						"description": "Провери дали API работи (не бара автентикација)"
+					},
+					"response": []
+				},
+				{
+					"name": "API Info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								""
+							]
+						},
+						"description": "Добиј основна информација за API (не бара автентикација)"
+					},
+					"response": []
+				}
+			],
+			"description": "Системски endpoints"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://localhost:44375",
+			"type": "string"
+		},
+		{
+			"key": "access_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "test_id",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
+
