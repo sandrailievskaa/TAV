@@ -8,6 +8,67 @@ This is a layered startup solution based on [Domain Driven Design (DDD)](https:/
 
 * [.NET10.0+ SDK](https://dotnet.microsoft.com/download/dotnet)
 * [Node v18 or 20](https://nodejs.org/en)
+* [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) (SQL Server 2019 or later, or SQL Server Express)
+
+### Database Setup
+
+**Важно:** Пред да го стартувате проектот, треба да ја конфигурирате базата на податоци.
+
+#### 1. Инсталирајте SQL Server
+
+Ако немате инсталирано SQL Server, можете да го инсталирате:
+- **SQL Server Express** (бесплатно): [Download SQL Server Express](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
+- **SQL Server Developer Edition** (бесплатно за развој): [Download SQL Server Developer](https://www.microsoft.com/en-us/sql-server/sql-server-downloads)
+- Или користете постоечка SQL Server инстанца
+
+#### 2. Конфигурирајте Connection String
+
+Отворете ги следните фајлови и ажурирајте го `ConnectionStrings:Default`:
+
+- `src/Test.DbMigrator/appsettings.json`
+- `src/Test.HttpApi.Host/appsettings.json`
+
+**Пример за локална SQL Server инстанца:**
+```json
+"ConnectionStrings": {
+  "Default": "Server=localhost;Database=TestDb;Trusted_Connection=True;TrustServerCertificate=true"
+}
+```
+
+**Пример за SQL Server Express:**
+```json
+"ConnectionStrings": {
+  "Default": "Server=localhost\\SQLEXPRESS;Database=TestDb;Trusted_Connection=True;TrustServerCertificate=true"
+}
+```
+
+**Пример со SQL Server Authentication:**
+```json
+"ConnectionStrings": {
+  "Default": "Server=localhost;Database=TestDb;User Id=your_username;Password=your_password;TrustServerCertificate=true"
+}
+```
+
+> **Забелешка:** Името на базата (`Database=TestDb`) може да биде било кое име. Базата ќе се креира автоматски кога ќе го извршите `Test.DbMigrator`.
+
+#### 3. Креирајте ја базата на податоци
+
+По конфигурирањето на connection string, извршете го `Test.DbMigrator` за да се креира базата и да се применат миграциите:
+
+```bash
+cd src/Test.DbMigrator
+dotnet run
+```
+
+Или користете го скриптот:
+```powershell
+.\etc\scripts\migrate-database.ps1
+```
+
+`DbMigrator` ќе:
+- Креира база на податоци (ако не постои)
+- Примени сите миграции
+- Seed-ира почетни податоци (корисници, роли, итн.)
 
 ### Configurations
 
