@@ -4,17 +4,14 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useRBAC } from '@/contexts/RBACContext';
 import {
   LayoutDashboard,
-  Plane,
-  Users,
+  Shield,
   UserCog,
   ClipboardList,
   Stethoscope,
   GraduationCap,
   AlertTriangle,
-  Car,
   FileBarChart,
   Settings,
-  Shield,
   ScrollText,
   ChevronLeft,
   ChevronRight,
@@ -40,14 +37,11 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
 
   const allNavItems = [
     { icon: LayoutDashboard, label: t.nav.dashboard, path: '/', module: 'dashboard' },
-    { icon: Plane, label: t.nav.flights, path: '/flights', module: 'flights' },
-    { icon: Users, label: t.nav.passengers, path: '/passengers', module: 'passengers' },
     { icon: UserCog, label: t.nav.staff, path: '/staff', module: 'staff' },
     { icon: ClipboardList, label: t.nav.employees, path: '/employees', module: 'employees' },
     { icon: Stethoscope, label: t.nav.medicalExams, path: '/medical-exams', module: 'medical-exams' },
     { icon: GraduationCap, label: t.nav.trainings, path: '/trainings', module: 'trainings' },
     { icon: AlertTriangle, label: t.nav.incidents, path: '/incidents', module: 'incidents' },
-    { icon: Car, label: t.nav.vehicles, path: '/vehicles', module: 'vehicles' },
     { icon: FileBarChart, label: t.nav.reports, path: '/reports', module: 'reports' },
     { icon: Building, label: t.nav.companyAnalysis, path: '/company-analysis', module: 'company-analysis' },
   ];
@@ -67,7 +61,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
   ];
 
   const navItems = allNavItems.filter(item => {
-    if (item.module === 'flights' || item.module === 'passengers' || item.module === 'staff' || item.module === 'vehicles') {
+    if (item.module === 'staff') {
       return true;
     }
     if (item.module === 'company-analysis') {
@@ -92,7 +86,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
         {!collapsed && (
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-sidebar-primary flex items-center justify-center">
-              <Plane className="w-5 h-5 text-sidebar-primary-foreground" />
+              <Shield className="w-5 h-5 text-sidebar-primary-foreground" />
             </div>
             <span className="font-semibold text-lg">TAV System</span>
           </div>

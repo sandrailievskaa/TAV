@@ -11,14 +11,11 @@ import MainLayout from "@/components/layout/MainLayout";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import Login from "./pages/Login";
 import Index from "./pages/Index";
-import Flights from "./pages/Flights";
-import Passengers from "./pages/Passengers";
 import Staff from "./pages/Staff";
 import Employees from "./pages/Employees";
 import MedicalExams from "./pages/MedicalExams";
 import Trainings from "./pages/Trainings";
 import Incidents from "./pages/Incidents";
-import Vehicles from "./pages/Vehicles";
 import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
 import Users from "./pages/Users";
@@ -65,14 +62,11 @@ const App = () => (
                         <Routes>
                           <Route path="/" element={<Index />} />
                           <Route path="/dashboard" element={<Index />} />
-                          <Route path="/flights" element={<Flights />} />
-                          <Route path="/passengers" element={<Passengers />} />
                           <Route path="/staff" element={<Staff />} />
                           <Route path="/employees" element={<Employees />} />
                           <Route path="/medical-exams" element={<MedicalExams />} />
                           <Route path="/trainings" element={<Trainings />} />
                           <Route path="/incidents" element={<Incidents />} />
-                          <Route path="/vehicles" element={<Vehicles />} />
                           <Route path="/reports" element={<Reports />} />
                           <Route path="/settings" element={<Settings />} />
                           <Route path="/users" element={<Users />} />

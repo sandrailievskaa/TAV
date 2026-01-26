@@ -3,16 +3,10 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useNavigate } from 'react-router-dom';
 import { useRBAC } from '@/contexts/RBACContext';
 import StatCard from '@/components/dashboard/StatCard';
-import FlightTable from '@/components/dashboard/FlightTable';
 import ActivityFeed from '@/components/dashboard/ActivityFeed';
-import PassengerFlowChart from '@/components/dashboard/PassengerFlowChart';
-import FlightStatusChart from '@/components/dashboard/FlightStatusChart';
 import CalendarView from '@/components/dashboard/CalendarView';
 import {
-  Plane,
-  Users,
   UserCog,
-  Car,
   GraduationCap,
   Stethoscope,
   HardHat,
@@ -22,7 +16,7 @@ import {
   Calendar,
   TrendingDown,
 } from 'lucide-react';
-import { flights, recentActivities, dashboardStats, vehicles } from '@/data/mockData';
+import { recentActivities, dashboardStats } from '@/data/mockData';
 import { trainings } from '@/data/trainingData';
 import { medicalExaminations } from '@/data/medicalExamData';
 import { incidents } from '@/data/incidentData';
@@ -111,34 +105,7 @@ const Dashboard: React.FC = () => {
       });
     });
 
-    vehicles.forEach((vehicle) => {
-      if (vehicle.inspectionExpiry) {
-        const daysUntil = getDaysUntil(vehicle.inspectionExpiry);
-        if (daysUntil <= 30) {
-          alerts.push({
-            id: `equipment-${vehicle.id}-inspection`,
-            type: 'equipment',
-            name: `${vehicle.type} - Inspection`,
-            expiryDate: vehicle.inspectionExpiry,
-            daysUntil,
-            category: daysUntil < 0 ? 'expired' : daysUntil === 0 ? 'tomorrow' : '30days',
-          });
-        }
-      }
-      if (vehicle.insuranceExpiry) {
-        const daysUntil = getDaysUntil(vehicle.insuranceExpiry);
-        if (daysUntil <= 30) {
-          alerts.push({
-            id: `equipment-${vehicle.id}-insurance`,
-            type: 'equipment',
-            name: `${vehicle.type} - Insurance`,
-            expiryDate: vehicle.insuranceExpiry,
-            daysUntil,
-            category: daysUntil < 0 ? 'expired' : daysUntil === 0 ? 'tomorrow' : '30days',
-          });
-        }
-      }
-    });
+
 
     return alerts.sort((a, b) => a.daysUntil - b.daysUntil);
   }, []);
@@ -165,28 +132,16 @@ const Dashboard: React.FC = () => {
       0
     );
 
-    const expiredEquipment = vehicles.filter(
-      (v) =>
-        (v.inspectionExpiry && getDaysUntil(v.inspectionExpiry) < 0) ||
-        (v.insuranceExpiry && getDaysUntil(v.insuranceExpiry) < 0)
-    ).length;
-    const expiringSoonEquipment = vehicles.filter(
-      (v) =>
-        (v.inspectionExpiry &&
-          getDaysUntil(v.inspectionExpiry) >= 0 &&
-          getDaysUntil(v.inspectionExpiry) <= 30) ||
-        (v.insuranceExpiry &&
-          getDaysUntil(v.insuranceExpiry) >= 0 &&
-          getDaysUntil(v.insuranceExpiry) <= 30)
-    ).length;
+    const expiredEquipment = 0;
+    const expiringSoonEquipment = 0;
 
     return {
       trainings: { expired: expiredTrainings, expiringSoon: expiringSoonTrainings },
       medicalExams: { expired: expiredMedical, expiringSoon: expiringSoonMedical },
       ppe: { expired: expiredPPE, expiringSoon: expiringSoonPPE },
       equipment: { expired: expiredEquipment, expiringSoon: expiringSoonEquipment },
-      totalExpired: expiredTrainings + expiredMedical + expiredPPE + expiredEquipment,
-      totalExpiringSoon: expiringSoonTrainings + expiringSoonMedical + expiringSoonPPE + expiringSoonEquipment,
+      totalExpired: expiredTrainings + expiredMedical + expiredPPE,
+      totalExpiringSoon: expiringSoonTrainings + expiringSoonMedical + expiringSoonPPE,
     };
   }, []);
 
@@ -279,30 +234,6 @@ const Dashboard: React.FC = () => {
       });
     });
 
-    vehicles.forEach((vehicle) => {
-      if (vehicle.inspectionExpiry) {
-        const daysUntil = getDaysUntil(vehicle.inspectionExpiry);
-        events.push({
-          id: `inspection-${vehicle.id}`,
-          type: 'inspection',
-          title: `${vehicle.type} - ${language === 'mk' ? 'Инспекција истекува' : language === 'sq' ? 'Inspeksioni skadon' : 'Inspection expires'}`,
-          date: vehicle.inspectionExpiry,
-          priority: daysUntil < 0 ? 'high' : daysUntil <= 7 ? 'high' : daysUntil <= 30 ? 'medium' : 'low',
-          description: vehicle.licensePlate,
-        });
-      }
-      if (vehicle.insuranceExpiry) {
-        const daysUntil = getDaysUntil(vehicle.insuranceExpiry);
-        events.push({
-          id: `insurance-${vehicle.id}`,
-          type: 'inspection',
-          title: `${vehicle.type} - ${language === 'mk' ? 'Осигурување истекува' : language === 'sq' ? 'Sigurimi skadon' : 'Insurance expires'}`,
-          date: vehicle.insuranceExpiry,
-          priority: daysUntil < 0 ? 'high' : daysUntil <= 7 ? 'high' : daysUntil <= 30 ? 'medium' : 'low',
-          description: vehicle.licensePlate,
-        });
-      }
-    });
 
     return events;
   }, [language]);
@@ -314,30 +245,12 @@ const Dashboard: React.FC = () => {
         <p className="page-description">{t.dashboard.subtitle}</p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard
-          title={t.dashboard.totalFlights}
-          value={dashboardStats.totalFlights}
-          change={dashboardStats.flightsChange}
-          icon={Plane}
-        />
-        <StatCard
-          title={t.dashboard.activePassengers}
-          value={dashboardStats.activePassengers.toLocaleString()}
-          change={dashboardStats.passengersChange}
-          icon={Users}
-        />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
         <StatCard
           title={t.dashboard.staffOnDuty}
           value={dashboardStats.staffOnDuty}
           change={dashboardStats.staffChange}
           icon={UserCog}
-        />
-        <StatCard
-          title={t.dashboard.vehiclesActive}
-          value={dashboardStats.vehiclesActive}
-          change={dashboardStats.vehiclesChange}
-          icon={Car}
         />
       </div>
 
@@ -478,11 +391,6 @@ const Dashboard: React.FC = () => {
 
       <div className="w-full">
         <CalendarView events={calendarEvents} />
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <PassengerFlowChart />
-        <FlightStatusChart />
       </div>
 
       {expirationAlerts.length > 0 && (
@@ -626,13 +534,8 @@ const Dashboard: React.FC = () => {
       )}
 
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2">
-          <FlightTable flights={flights} limit={5} />
-        </div>
-        <div>
-          <ActivityFeed activities={recentActivities} />
-        </div>
+      <div className="grid grid-cols-1 gap-6">
+        <ActivityFeed activities={recentActivities} />
       </div>
     </div>
   );

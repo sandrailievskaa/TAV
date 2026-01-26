@@ -4,10 +4,7 @@ export const translations = {
   en: {
     nav: {
       dashboard: 'Dashboard',
-      flights: 'Flights',
-      passengers: 'Passengers',
       staff: 'Staff',
-      vehicles: 'Vehicles',
       reports: 'Reports',
       settings: 'Settings',
       users: 'User Management',
