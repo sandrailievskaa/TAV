@@ -34,6 +34,8 @@ using Volo.Abp.OpenIddict;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.Studio.Client.AspNetCore;
 using Volo.Abp.Security.Claims;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic;
 
 namespace Test;
 
@@ -46,7 +48,9 @@ namespace Test;
     typeof(TestEntityFrameworkCoreModule),
     typeof(AbpAccountApplicationModule),
     typeof(AbpSwashbuckleModule),
-    typeof(AbpAspNetCoreSerilogModule)
+    typeof(AbpAspNetCoreSerilogModule),
+    typeof(AbpAspNetCoreMvcUiThemeSharedModule),
+    typeof(AbpAspNetCoreMvcUiBasicThemeModule)
     )]
 public class TestHttpApiHostModule : AbpModule
 {
@@ -239,7 +243,11 @@ public class TestHttpApiHostModule : AbpModule
 
         app.UseUnitOfWork();
         app.UseDynamicClaims();
+      
+
         app.UseAuthorization();
+     
+
 
         app.UseSwagger();
         app.UseAbpSwaggerUI(options =>

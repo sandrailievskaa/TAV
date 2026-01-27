@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using TavSecuritySystem.Api.Models;
 using TavSecuritySystem.Api.Models.Dtos;
 using TavSecuritySystem.Api.Services;
@@ -8,10 +9,10 @@ namespace TavSecuritySystem.Api.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]
-[Microsoft.AspNetCore.Authorization.AllowAnonymous]
+[Authorize]
 public class ExampleEntityController : ControllerBase
 {
-    private readonly IExampleEntityService _service;
+    private readonly IExampleEntityService _service; 
 
     public ExampleEntityController(IExampleEntityService service)
     {

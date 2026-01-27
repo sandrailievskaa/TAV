@@ -118,3 +118,11 @@ C:\Users\Olgica\Desktop\tav-react\TAV\backend\TavSecuritySystem.Api\obj\Debug\ne
 C:\Users\Olgica\Desktop\tav-react\TAV\backend\TavSecuritySystem.Api\obj\Debug\net9.0\TavSecuritySystem.Api.pdb
 C:\Users\Olgica\Desktop\tav-react\TAV\backend\TavSecuritySystem.Api\obj\Debug\net9.0\TavSecuritySystem.Api.genruntimeconfig.cache
 C:\Users\Olgica\Desktop\tav-react\TAV\backend\TavSecuritySystem.Api\obj\Debug\net9.0\ref\TavSecuritySystem.Api.dll
+C:\Users\Olgica\Desktop\tav-react\TAV\backend\TavSecuritySystem.Api\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Olgica\Desktop\tav-react\TAV\backend\TavSecuritySystem.Api\bin\Debug\net9.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\Olgica\Desktop\tav-react\TAV\backend\TavSecuritySystem.Api\bin\Debug\net9.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\Olgica\Desktop\tav-react\TAV\backend\TavSecuritySystem.Api\bin\Debug\net9.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\Olgica\Desktop\tav-react\TAV\backend\TavSecuritySystem.Api\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\Olgica\Desktop\tav-react\TAV\backend\TavSecuritySystem.Api\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\Olgica\Desktop\tav-react\TAV\backend\TavSecuritySystem.Api\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\Olgica\Desktop\tav-react\TAV\backend\TavSecuritySystem.Api\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll

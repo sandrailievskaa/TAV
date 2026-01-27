@@ -703,6 +703,7 @@ export const translations = {
       medicalExams: 'Медицински прегледи',
       trainings: 'Управување со обуки',
       incidents: 'Повреди и инциденти',
+      companyAnalysis: 'Анализа на компанија (ДЕМО)',
     },
     common: {
       search: 'Пребарај...',
@@ -1232,6 +1233,10 @@ export const translations = {
       documentUploaded: 'Документот е прикачен',
       processing: 'Обработка...',
       recognitionComplete: 'Препознавањето е завршено',
+      generated: 'Генериран',
+      printed: 'Печатен',
+      sent: 'Пратен',
+      statusTracking: 'Следење на статус',
     },
     trainings: {
       title: 'Управување со обуки',
@@ -1912,6 +1917,10 @@ export const translations = {
       documentUploaded: 'Dokumenti u Ngarkua',
       processing: 'Duke u Përpunuar...',
       recognitionComplete: 'Njohja u Përfundua',
+      generated: 'Gjeneruar',
+      printed: 'Printuar',
+      sent: 'Dërguar',
+      statusTracking: 'Ndjekja e Statusit',
     },
     trainings: {
       title: 'Menaxhimi i Trajnimeve',

@@ -37,6 +37,12 @@
     "Unspecified": "System",
     "SeeAllUsers": "Alle Benutzer anzeigen",
     "TakePhoto": "Foto machen",
-    "ChoosePhoto": "Wähle ein Foto aus"
+    "ChoosePhoto": "Wähle ein Foto aus",
+    "Permission:BookStore": "Book Store",
+    "Permission:Books": "Test Management",
+    "Permission:Books.Create": "Test new tests",
+    "Permission:Books.Edit": "Edit the tests",
+    "Permission:Books.Delete": "Delete the tests"
+
   }
 }

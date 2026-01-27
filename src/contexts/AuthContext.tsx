@@ -15,57 +15,70 @@ interface AuthContextType {
   isAuthenticated: boolean;
   login: (username: string, password: string) => Promise<boolean>;
   logout: () => void;
+  token: string | null;
+  user: { username: string; role: UserRole } | null;
+}
+
+interface LoginResponse {
+  success: boolean;
+  message: string;
+  token?: string;
+  user?: {
+    username: string;
+    role: string;
+  };
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const getRoleFromUsername = (username: string): UserRole => {
-  const trimmedUsername = (username || '').trim().toLowerCase();
-  
-  const usernameToRole: Record<string, UserRole> = {
-    'admin.test': 'system-admin',
-    'hse.test': 'hse-admin',
-    'hr.test': 'hr-manager',
-    'medic.test': 'medical-officer',
-    'training.test': 'training-coordinator',
-    'safety.test': 'safety-officer',
-    'equipment.test': 'equipment-manager',
-    'manager.test': 'management',
-    'employee.test': 'employee',
-  };
-  
-  return usernameToRole[trimmedUsername] || 'management';
-};
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
-    const auth = localStorage.getItem('tav-auth') === 'true';
-    if (auth) {
-      const username = localStorage.getItem('currentUsername');
-      const role = localStorage.getItem('currentUserRole');
-      if (!username || !role) {
-        localStorage.removeItem('tav-auth');
-        return false;
-      }
-    }
-    return auth;
+    const token = localStorage.getItem('tav-token');
+    return !!token;
+  });
+  
+  const [token, setToken] = useState<string | null>(() => localStorage.getItem('tav-token'));
+  const [user, setUser] = useState<{ username: string; role: UserRole } | null>(() => {
+    const savedUser = localStorage.getItem('tav-user');
+    return savedUser ? JSON.parse(savedUser) : null;
   });
 
   const login = useCallback(async (username: string, password: string): Promise<boolean> => {
     try {
-      const trimmedUsername = (username || '').trim();
-      
-      if (trimmedUsername.length > 0) {
-        const role = getRoleFromUsername(trimmedUsername);
-        
-        localStorage.setItem('tav-auth', 'true');
-        localStorage.setItem('currentUsername', trimmedUsername);
-        localStorage.setItem('currentUserRole', role);
-        
+      const response = await fetch(`${API_BASE_URL}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        console.error('Login error:', error.message);
+        return false;
+      }
+
+      const data: LoginResponse = await response.json();
+
+      if (data.success && data.token && data.user) {
+        const userData = {
+          username: data.user.username,
+          role: data.user.role as UserRole,
+        };
+
+        localStorage.setItem('tav-token', data.token);
+        localStorage.setItem('tav-user', JSON.stringify(userData));
+
+        setToken(data.token);
+        setUser(userData);
         setIsAuthenticated(true);
-        
+
         return true;
       }
+
       return false;
     } catch (error) {
       console.error('Login error:', error);
@@ -75,13 +88,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const logout = useCallback(() => {
     setIsAuthenticated(false);
-    localStorage.removeItem('tav-auth');
-    localStorage.removeItem('currentUsername');
-    localStorage.removeItem('currentUserRole');
+    setToken(null);
+    setUser(null);
+    localStorage.removeItem('tav-token');
+    localStorage.removeItem('tav-user');
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, login, logout, token, user }}>
       {children}
     </AuthContext.Provider>
   );
