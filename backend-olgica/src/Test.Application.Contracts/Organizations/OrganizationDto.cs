@@ -42,3 +42,5 @@ public class GetOrganizationListDto : PagedAndSortedResultRequestDto
     public bool? IsActive { get; set; }
 }
 
+
+

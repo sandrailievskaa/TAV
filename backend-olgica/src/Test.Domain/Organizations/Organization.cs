@@ -25,3 +25,5 @@ public class Organization : AuditedAggregateRoot<Guid>
     }
 }
 
+
+

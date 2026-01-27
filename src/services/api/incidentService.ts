@@ -118,3 +118,5 @@ export const deleteIncident = async (id: string): Promise<void> => {
   return apiClient.delete<void>(`/app/incident/${id}`);
 };
 
+
+

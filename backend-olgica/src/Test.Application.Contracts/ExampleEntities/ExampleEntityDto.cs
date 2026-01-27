@@ -25,3 +25,5 @@ public class GetExampleEntityListDto : PagedAndSortedResultRequestDto
     public string? Filter { get; set; }
 }
 
+
+

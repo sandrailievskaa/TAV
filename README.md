@@ -1,196 +1,129 @@
-# TAV System – Интерен систем за безбедност, здравје и усогласеност
+# TAV System – Систем за безбедност, здравје и усогласеност
 
-## Live Demo
+## Стартување
 
-**Апликацијата е достапна за тестирање на GitHub Pages:**
-
-**[https://sandrailievskaa.github.io/TAV](https://sandrailievskaa.github.io/TAV)**
-
-## Инсталација и Deployment
-
-**За локален развој:**
+### Frontend
 ```bash
 npm install
 npm run dev
 ```
+Frontend работи на `http://localhost:5173`
 
-**За deploy на GitHub Pages:**
-```bash
-npm install
-npm run deploy
-```
+### Backend (ABP.NET)
 
-## ASP.NET Backend Интеграција
+**1. Конфигурирај база:**
+- Отвори `backend-olgica/src/Test.DbMigrator/appsettings.json`
+- Отвори `backend-olgica/src/Test.HttpApi.Host/appsettings.json`
+- Ажурирај `ConnectionStrings:Default` со твојата SQL Server инстанца
 
-**OpenAPI/Swagger schema** за автоматска генерација на TypeScript типови.
-
-Автоматска генерација на TypeScript типови од OpenAPI schema
-Централизиран API клиент со error handling
-React Query hooks за data fetching
-Глобално error handling со toast notifications
-Поддршка за errors и статус кодови
-
-### Setup Чекори
-
-#### 1. Стартување на ASP.NET Backend
-
+**2. Креирај база (само прв пат):**
 ```powershell
-cd backend\TavSecuritySystem.Api
-dotnet restore
+cd backend-olgica\src\Test.DbMigrator
 dotnet run
 ```
 
-Backend ќе стартува на `http://localhost:5001`
-- **Swagger UI:** `http://localhost:5001/swagger`
-- **Health Check:** `http://localhost:5001/`
-- **API Base:** `http://localhost:5001/api`
-
-#### 2. Генерирање на TypeScript Типови
-
-**Во нов терминал**:
-
+**3. Стартувај API:**
 ```powershell
-npm run generate:api-types:local
+cd backend-olgica\src\Test.HttpApi.Host
+dotnet run
 ```
 
-Ова ќе генерира `src/types/api/schema.d.ts` со типовите од ASP.NET OpenAPI schema.
+Backend работи на `http://localhost:5002` (или портата што ти ја покажува)
 
-#### 3. Стартување на Frontend
+**Swagger:** `http://localhost:5002/swagger`
 
-```powershell
-npm run dev
+## Автентикација
+
+**Default корисник:**
+- Username: `admin`
+- Password: `1q2w3E*`
+
+**Добиј токен:**
+```bash
+POST http://localhost:5002/connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=password&username=admin&password=1q2w3E*&scope=Test&client_id=Test_Swagger
 ```
 
-Frontend ќе стартува на `http://localhost:8080`
-
-#### 4. Тестирање
-
-1. **Backend API:** Отвори `http://localhost:5001/api/ExampleEntity?page=1&pageSize=10` во browser
-2. **Frontend Test Page:** Отвори `http://localhost:8080/#/example-test`
-
-### API Endpoints (POC Example)
-
-- `GET /api/ExampleEntity?page=1&pageSize=10` - Листа со pagination
-- `GET /api/ExampleEntity/{id}` - Единечен ентитет
-- `POST /api/ExampleEntity` - Креирање
-- `PUT /api/ExampleEntity/{id}` - Ажурирање
-- `DELETE /api/ExampleEntity/{id}` - Бришење
-
-### Структура на Проектот
-
-- **Backend:** `backend/TavSecuritySystem.Api/`
-- **Frontend API Client:** `src/services/api/client.ts`
-- **Example Service:** `src/services/api/exampleService.ts`
-- **Test Page:** `src/pages/ExampleEntityTest.tsx`
-
-### Решавање на Проблеми
-
-**403 Forbidden на Swagger/API:**
-- Проверка дали backend е стартуван
-- Проверка дали порта 5001 е слободна: `netstat -ano | findstr :5001`
-- Ако е зафатена, смени `backend/TavSecuritySystem.Api/Properties/launchSettings.json`
-
-**Frontend не може да се поврзе:**
-- Проверка `http://localhost:5001`
-
-**Тестирање на Backend директно:**
-```powershell
-# Health check
-Invoke-WebRequest -Uri http://localhost:5001/ -Method GET
-
-# API test
-Invoke-WebRequest -Uri http://localhost:5001/api/ExampleEntity?page=1&pageSize=10 -Method GET
+**Користи токен:**
+```
+Authorization: Bearer YOUR_TOKEN_HERE
 ```
 
-### Детални инструкции:
-Види: [`docs/API_INTEGRATION.md`](docs/API_INTEGRATION.md)
+## Тестирање
 
-## Краток опис
+**Postman:**
+- Импортирај `backend-olgica/TAV_Backend_Postman_Collection.json`
+- Environment: `base_url = http://localhost:5002`
 
-## Улоги и дозволи (RBAC – Role Based Access Control)
+**Swagger:**
+- Отвори `http://localhost:5002/swagger`
+- Кликни "Authorize" → внеси `admin` / `1q2w3E*`
 
-| УЛОГА | ОПИС | ВИДЛИВИ МОДУЛИ | ДОЗВОЛЕНИ АКЦИИ | ОГРАНИЧУВАЊА |
-|-------|------|----------------|-----------------|--------------|
-| **System Administrator** | Целосна контрола над системот | Сите модули | CREATE, READ, UPDATE, DELETE, CONFIGURE, EXPORT | Нема ограничувања |
-| **HSE Administrator** | Управување со БЗР, обуки, прегледи, повреди | Dashboard, Вработени (read), Медицински прегледи (read), Обуки (read), Повреди и инциденти (full), ЗО (read), Опрема (read), Извештаи | READ, CREATE/UPDATE/DELETE (само инциденти), ASSIGN PPE, GENERATE REPORTS | Не може да креира/уредува вработени, медицински прегледи, обуки |
-| **HR Manager** | Вработени, позиции, обуки, кандидати | Dashboard, Вработени (full), Медицински прегледи (read), Обуки (read), Извештаи | CREATE, READ, UPDATE, DELETE (вработени), READ (медицински, обуки), GENERATE REPORTS | Не може да управува со инциденти, ЗО, опрема |
-| **Medical Officer** | Прегледи, OCR, медицински документи | Dashboard, Вработени (read), Медицински прегледи (full) | CREATE, READ, UPDATE, DELETE (медицински прегледи), OCR, GENERATE REFERRALS | Не може да управува со вработени, обуки, инциденти |
-| **Training Coordinator** | Обуки, сертификати, read & sign | Dashboard, Вработени (read), Обуки (full) | CREATE, READ, UPDATE, DELETE (обуки), READ & SIGN, GENERATE CERTIFICATES | Не може да управува со медицински прегледи, инциденти |
-| **Safety Officer** | Повреди, инциденти, анализи | Dashboard, Вработени (read), Повреди и инциденти (full), Извештаи | CREATE, READ, UPDATE, DELETE (инциденти), ROOT CAUSE ANALYSIS, CORRECTIVE ACTIONS, GENERATE REPORTS | Не може да управува со вработени, обуки, медицински прегледи |
-| **Equipment Manager** | Машини, ЗО, инспекции | Dashboard, Вработени (read), ЗО (full), Опрема (full) | CREATE, READ, UPDATE, DELETE (ЗО, опрема), INSPECTIONS | Не може да управува со вработени, обуки, медицински прегледи, инциденти |
-| **Management / Viewer** | Read-only извештаи и dashboard | Dashboard, Вработени (read), Медицински прегледи (read), Обуки (read), Повреди и инциденти (read), Извештаи | READ (сите модули), GENERATE REPORTS | Не може да креира, уредува или брише записи |
-| **Employee (Self-service)** | Само сопствени податоци | Dashboard, Вработени (self), Медицински прегледи (self), Обуки (self), ЗО (assigned), Опрема (assigned) | READ (сопствени податоци), READ & SIGN (сопствени обуки), CREATE (инцидент извештаи) | Не може да гледа други вработени, не може да менува податоци |
+## Улоги
 
-## Тест корисници (за брзо тестирање)
+| Улога | Опис |
+|-------|------|
+| System Administrator | Целосен пристап |
+| HSE Administrator | Управување со инциденти, БЗР |
+| HR Manager | Управување со вработени |
+| Medical Officer | Медицински прегледи, OCR |
+| Training Coordinator | Обуки, сертификати |
+| Safety Officer | Повреди, инциденти, анализи |
+| Equipment Manager | ЗО, опрема |
+| Management | Read-only пристап |
+| Employee | Self-service |
 
-| username | улога | намена |
-|----------|-------|--------|
-| `admin.test` | System Administrator | Целосен пристап за тестирање на сите функционалности |
-| `hse.test` | HSE Administrator | Тестирање на управување со инциденти и БЗР модули |
-| `hr.test` | HR Manager | Тестирање на управување со вработени и HR процеси |
-| `medic.test` | Medical Officer | Тестирање на медицински прегледи и OCR функционалност |
-| `training.test` | Training Coordinator | Тестирање на обуки, сертификати и read & sign |
-| `safety.test` | Safety Officer | Тестирање на повреди, инциденти и анализи |
-| `equipment.test` | Equipment Manager | Тестирање на управување со ЗО и опрема |
-| `manager.test` | Management / Viewer | Тестирање на read-only пристап и извештаи |
-| `employee.test` | Employee | Тестирање на self-service функционалност |
+**Тест корисници (frontend mock):**
+- `admin.test`, `hse.test`, `hr.test`, `medic.test`, `training.test`, `safety.test`, `equipment.test`, `manager.test`, `employee.test`
+- Секоја лозинка е валидна (mock автентикација)
 
-**Како да тестирате:**
+## Модули
 
-1. Најавете се со различни тест корисници користејќи го username како корисничко име (секоја лозинка е валидна)
-2. Набљудувајте како се менува видливоста на менито во sidebar-от според улогата
-3. Обидете се да пристапите на ограничени акции (креирање, уредување, бришење) и проверете дека се скриени или оневозможени за недозволени улоги
+- **Административен:** Организации, позиции, опрема, ЗО, корисници, документи
+- **Вработени:** Регистар, квалификации, медицински прегледи, обуки, ЗО, документи
+- **Медицински прегледи:** Управување, валидност, OCR, упати
+- **Обуки:** Управување, сертификати, read & sign
+- **Повреди и инциденти:** Регистрација, анализа, корективни мерки, AFR/ASR
+- **Извештаи:** Обуки, прегледи, ЗО, опрема, инциденти
+- **Dashboard:** Аларми за истек, summary бројачи
 
-## Како најбрзо да се тестира системот
+## Структура
 
-1. **Најава:** Користете еден од тест корисниците (на пр. `admin.test`) со која било лозинка
-2. **Промена на јазик:** Користете го language selector-от во topbar-от за да префрлите помеѓу Македонски, English и Shqip
-3. **Dashboard:** Отворете го Dashboard-от и проверете ги алармите за истек (обуки, медицински прегледи, ЗО, опрема)
-4. **Вработени модул:** Влезете во модулот Вработени и проверете го role-based пристапот (на пр. со `employee.test` ќе видите само сопствени податоци)
-5. **Одјава и повторување:** Одјавете се и најавете се повторно со друга улога за да видите различни дозволи
+```
+backend-olgica/          # ABP.NET backend
+  src/
+    Test.HttpApi.Host/   # API host
+    Test.Application/    # Business logic
+    Test.Domain/         # Domain entities
+    Test.EntityFrameworkCore/  # Database
 
-## Модули (краток преглед)
+src/                     # React frontend
+  services/api/          # API клиент
+  pages/                 # Страници
+  components/            # Компоненти
+```
 
-- **Административен модул:** Управување со организациона структура, работни позиции, опрема, ЗО регистар, корисници и документи
-- **Вработени:** Целосен регистар на вработени со профили, квалификации, медицински прегледи, обуки, доделена ЗО и опрема, и документи
-- **Медицински прегледи:** Управување со медицински прегледи, следење на валидност, OCR обработка на документи, групно генерирање на упати
-- **Обуки:** Управување со обуки, сертификати, шаблони, read & sign инструкции, и следење на истек
-- **Повреди и инциденти:** Регистрација на повреди и инциденти, анализа на коренски причини, корективни мерки, и пресметка на AFR/ASR
-- **Извештаи и аналитика:** Извештаи за обуки, медицински прегледи, ЗО, опрема, и инциденти со филтри, групно печатење и извоз
-- **Dashboard и аларми:** Преглед на операции, аларми за истек, summary бројачи, и изгубени работни часови
+## Проблеми
 
-## Демонстрациски модул: Интелигентна анализа на компании
+**401 Unauthorized:**
+- Провери дали токенот е валиден
+- Добиј нов токен од `/connect/token`
 
-**Демонстрациски модул – Интелигентен систем за анализа и сегментација на македонски компании**
+**Connection error:**
+- Провери connection string
+- Провери дали SQL Server работи
 
-Овој модул е **ДЕМО / КОНЦЕПТ** модул логички одделен од основниот безбедносен систем. Тој демонстрира како платформата може да се прошири со AI-водени бизнис модули.
+**404 Not Found:**
+- Провери URL (треба `/api/app/...`)
 
-**Карактеристики:**
+**Certificate error (production):**
+```bash
+dotnet dev-certs https -v -ep openiddict.pfx -p 50091a78-5e96-470e-8a04-44da0d014132
+```
 
-- Централизиран регистар на компании базиран на отворени податоци
-- Преглед по сектор и локација со филтрирање и пребарување
-- Автоматско генерирање и испраќање понуди базирано на профилот на компанијата
-- AI сегментација и препораки за потенцијални клиенти
-- Контрола на податоци (идентификација на дупликати, невалидни контакти)
-- Dashboard со аналитика за активности и трендови
-- Индекс на активност на компании за приоритизација
-- Препорачувачки систем според трендови и историски податоци
+## Дополнително
 
-**Забелешка:** Овој модул е демонстрација и може подоцна да се реупотреби или интегрира (на пр. Laravel-базирана имплементација).
-
-## AI Асистент (ДЕМО)
-
-**AI Асистент (демонстрациски)**
-
-Асистентот е ограничен на внатрешни системски податоци и се користи за помош и навигација во системот. Асистентот може да одговори на прашања како:
-
-- „Како да креирам нов вработен?"
-- „Каде се извештаите за обуки?"
-- „Како да проверам истек на медицински прегледи?"
-- „Што е AFR и како се пресметува?"
-
-**UI однесување:**
-
-- Асистентот се појавува како мала avatar икона во долниот десен агол на екранот
-- Кликот на иконата отвора in-system chat прозорец
-- Асистентот нема пристап до надворешни податоци, само до внатрешни системски информации
+- **Postman тестирање:** Види `backend-olgica/POSTMAN_TESTING.md`
+- **API интеграција:** Види `docs/API_INTEGRATION.md`

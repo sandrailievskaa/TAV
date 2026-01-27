@@ -75,3 +75,5 @@ export const deleteMedicalExamination = async (id: string): Promise<void> => {
   return apiClient.delete<void>(`/app/medical-examination/${id}`);
 };
 
+
+

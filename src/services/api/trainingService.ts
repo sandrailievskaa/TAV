@@ -82,3 +82,5 @@ export const deleteTraining = async (id: string): Promise<void> => {
   return apiClient.delete<void>(`/app/training/${id}`);
 };
 
+
+
