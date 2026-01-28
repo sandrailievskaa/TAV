@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
+import { tokenService } from '../services/api/tokenService';
 
 export type UserRole =
   | 'system-admin'
@@ -34,16 +35,9 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
-    const token = localStorage.getItem('tav-token');
-    return !!token;
-  });
-  
-  const [token, setToken] = useState<string | null>(() => localStorage.getItem('tav-token'));
-  const [user, setUser] = useState<{ username: string; role: UserRole } | null>(() => {
-    const savedUser = localStorage.getItem('tav-user');
-    return savedUser ? JSON.parse(savedUser) : null;
-  });
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [token, setToken] = useState<string | null>(null);
+  const [user, setUser] = useState<{ username: string; role: UserRole } | null>(null);
 
   const login = useCallback(async (username: string, password: string): Promise<boolean> => {
     try {
@@ -69,9 +63,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           role: data.user.role as UserRole,
         };
 
-        localStorage.setItem('tav-token', data.token);
-        localStorage.setItem('tav-user', JSON.stringify(userData));
-
+        tokenService.setToken(data.token);
         setToken(data.token);
         setUser(userData);
         setIsAuthenticated(true);
@@ -90,8 +82,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setIsAuthenticated(false);
     setToken(null);
     setUser(null);
-    localStorage.removeItem('tav-token');
-    localStorage.removeItem('tav-user');
+    tokenService.clearToken();
   }, []);
 
   return (

@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosError, AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
 import { toast } from 'sonner';
+import { tokenService } from './tokenService';
 
 export interface ApiError {
   message: string;
@@ -38,7 +39,7 @@ class ApiClient {
   private setupInterceptors() {
     this.client.interceptors.request.use(
       (config: InternalAxiosRequestConfig) => {
-        const token = localStorage.getItem('auth_token');
+        const token = tokenService.getToken();
         if (token && config.headers) {
           config.headers.Authorization = `Bearer ${token}`;
         }
